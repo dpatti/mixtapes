@@ -1,0 +1,24 @@
+<h1>2013 Mixtapes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Creator</th>
+      <th>Length</th>
+      <th>Download</th>
+      <th>Listen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @mixtapes.each do |mixtape| %>
+      <tr>
+        <td><%= mixtape.name %></td>
+        <td><%= mixtape.creator || "???" %></td>
+        <td><%= mixtape.length %></td>
+        <td>download <%= mixtape.id %></td>
+        <td>listen <%= mixtape.id %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</ul>

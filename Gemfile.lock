@@ -29,6 +29,7 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.2)
+    bcrypt-ruby (3.0.1)
     builder (3.0.4)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -69,6 +70,8 @@ GEM
       activesupport (= 3.2.8)
       bundler (~> 1.0)
       railties (= 3.2.8)
+    rails_config (0.3.3)
+      activesupport (>= 3.0)
     railties (3.2.8)
       actionpack (= 3.2.8)
       activesupport (= 3.2.8)
@@ -103,9 +106,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt-ruby
   coffee-rails (~> 3.2.1)
   jquery-rails
   rails (= 3.2.8)
+  rails_config
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)
