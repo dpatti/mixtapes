@@ -21,17 +21,20 @@ class MixtapesController < ApplicationController
 
     @mixtape = Mixtape.new
 
-    render 'edit'
+    render 'new'
   end
 
   # POST: Create the actual mixtape
   def create
     refuse_access and return if during_contest
 
-    @mixtape = Mixtape.new(params[:id])
+    @mixtape = Mixtape.new(params[:mixtape])
 
     if @mixtape.save
+      flash[:info] = "Mixtape created successfully"
       redirect_to @mixtape
+    else
+      render 'new'
     end
   end
 
