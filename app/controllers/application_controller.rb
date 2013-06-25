@@ -12,4 +12,8 @@ class ApplicationController < ActionController::Base
   def during_contest
     Time.new.between?(Settings.contest.start, Settings.contest.end)
   end
+
+  def require_password
+    render "require_password"
+  end
 end

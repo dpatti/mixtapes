@@ -2,6 +2,7 @@ Mixtapes::Application.routes.draw do
 
   resources :mixtapes do
     resources :songs
+    post 'authenticate'
   end
 
   # The priority is based upon order of creation:

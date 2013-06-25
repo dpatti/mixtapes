@@ -11,8 +11,15 @@ class MixtapesController < ApplicationController
 
   # Show details about a single mixtape
   def show
+    if pre_contest
+      require_password and return unless params[:id] == session[:mixtape]
+    end
     @mixtape = Mixtape.find(params[:id])
-    @mixtape.require_password or return if pre_contest
+  end
+
+  # Authenticate a password
+  def authenticate
+    params[:password]
   end
 
   # Show the form to create a new mixtape
@@ -32,6 +39,7 @@ class MixtapesController < ApplicationController
 
     if @mixtape.save
       flash[:info] = "Mixtape created successfully"
+      session[:mixtape] = @mixtape.id
       redirect_to @mixtape
     else
       render 'new'

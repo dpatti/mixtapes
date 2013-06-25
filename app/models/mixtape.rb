@@ -1,3 +1,5 @@
+require 'bcrypt'
+
 class Mixtape < ActiveRecord::Base
   has_many :songs
 
@@ -7,10 +9,10 @@ class Mixtape < ActiveRecord::Base
                        :length => { :minimum => 1 }
 
   def duration
-    @songs.map(&:duration).reduce(:+)
+    songs.map(&:duration).reduce(:+)
   end
 
-  def require_password
-
+  def authenticate(given)
+    password == given
   end
 end
