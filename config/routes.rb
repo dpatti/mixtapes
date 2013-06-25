@@ -1,8 +1,12 @@
 Mixtapes::Application.routes.draw do
 
+  root :to => 'application#index'
+
+  match "/auth/:provider/callback" => "sessions#create"
+  match "/signout" => "sessions#destroy", :as => :signout
+
   resources :mixtapes do
     resources :songs
-    post 'authenticate'
   end
 
   # The priority is based upon order of creation:

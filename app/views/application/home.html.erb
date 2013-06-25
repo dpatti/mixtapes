@@ -1,0 +1,17 @@
+<% if current_user %>
+  <p>You are signed in as <%= current_user.name %>.</p>
+  <%= link_to "Sign Out", signout_path %>
+
+  <% if pre_contest %>
+    <% if current_user.mixtape %>
+      <%= link_to "Edit Mixtape", :controller => 'mixtapes', :action => 'show', :id => current_user.mixtape.id %>
+    <% else %>
+      <%= link_to "Create Mixtape", :controller => 'mixtapes', :action => 'new' %>
+    <% end %>
+  <% else %>
+    <p>The contest has started, check out the list of mixtapes.</p>
+    <%= link_to "List Mixtapes", :controller => 'mixtapes', :action => 'index' %>
+  <% end %>
+<% else %>
+  <%= link_to "Sign in with Google", "/auth/google_oauth2" %>
+<% end %>

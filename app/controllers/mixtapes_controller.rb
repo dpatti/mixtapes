@@ -11,24 +11,20 @@ class MixtapesController < ApplicationController
 
   # Show details about a single mixtape
   def show
-    if pre_contest
-      require_password and return unless params[:id] == session[:mixtape]
-    end
     @mixtape = Mixtape.find(params[:id])
+    @owner = current_user.owns? @mixtape
+
+    if pre_contest
+      refuse_access and return unless @owner
+    end
   end
 
-  # Authenticate a password
-  def authenticate
-    params[:password]
-  end
-
-  # Show the form to create a new mixtape
+  # Unused: Show the form to create a new mixtape
   def new
-    refuse_access and return if during_contest
+    # Debug: just do the create for now
+    redirect_to Mixtape.create_for(current_user)
 
-    @mixtape = Mixtape.new
-
-    render 'new'
+    # refuse_access
   end
 
   # POST: Create the actual mixtape
@@ -48,7 +44,7 @@ class MixtapesController < ApplicationController
 
   # Unused: Edit form will be on the show(?)
   def edit
-    @mixtape = Mixtape.find(params[:id])
+    refuse_access
   end
 
   # PUT: Modify mixtape

@@ -11,19 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130614034011) do
+ActiveRecord::Schema.define(:version => 20130625063229) do
 
   create_table "mixtapes", :force => true do |t|
     t.string   "name"
     t.binary   "cover"
     t.string   "owner"
-    t.string   "password"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_id"
   end
 
   create_table "songs", :force => true do |t|
-    t.string   "name"
+    t.string   "title"
     t.string   "artist"
     t.string   "album"
     t.integer  "track_number"
@@ -32,11 +32,14 @@ ActiveRecord::Schema.define(:version => 20130614034011) do
     t.binary   "cover_art"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.integer  "mixtape_id"
   end
 
   create_table "users", :force => true do |t|
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "name"
     t.string   "email"
-    t.string   "password"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
