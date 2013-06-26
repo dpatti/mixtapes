@@ -4,7 +4,8 @@
 
   <% if pre_contest %>
     <% if current_user.mixtape %>
-      <%= link_to "Edit Mixtape", :controller => 'mixtapes', :action => 'show', :id => current_user.mixtape.id %>
+      <p><%= link_to "Edit Mixtape", mixtape_path(current_user.mixtape.id) %></p>
+      <p style="display:none"><%= link_to "Delete Mixtape", mixtape_destroy_path(current_user.mixtape.id), :id => 'delete' %>
     <% else %>
       <%= link_to "Create Mixtape", :controller => 'mixtapes', :action => 'new' %>
     <% end %>

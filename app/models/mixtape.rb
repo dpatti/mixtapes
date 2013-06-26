@@ -2,7 +2,7 @@ class Mixtape < ActiveRecord::Base
   has_many :songs
   belongs_to :user
 
-  attr_accessible :name, :cover, :owner
+  attr_accessible :name, :cover
 
   def duration
     songs.map(&:duration).reduce(:+)

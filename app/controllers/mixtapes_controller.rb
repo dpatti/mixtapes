@@ -49,15 +49,29 @@ class MixtapesController < ApplicationController
 
   # PUT: Modify mixtape
   def update
-    refuse_access and return if during_contest
     @mixtape = Mixtape.find(params[:id])
-    @mixtape.require_password or return
+    if during_contest or not current_user.owns? @mixtape
+      refuse_access and return
+    end
+    @mixtape.update_attributes(params[:mixtape])
+    head :no_content
+  end
+
+  # Prompt for deletion
+  def destroy_confirm
+    @mixtape = Mixtape.find(params[:id])
+    if during_contest or not current_user.owns? @mixtape
+      refuse_access and return
+    end
   end
 
   # DELETE: Remove mixtape
   def destroy
-    refuse_access and return if during_contest
     @mixtape = Mixtape.find(params[:id])
-    @mixtape.require_password or return
+    if during_contest or not current_user.owns? @mixtape
+      refuse_access and return
+    end
+    @mixtape.destroy
+    redirect_to root_path
   end
 end
