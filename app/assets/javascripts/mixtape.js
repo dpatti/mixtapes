@@ -1,10 +1,10 @@
 $(function(){
   var refresh = function() {
-    document.location.href = document.location.href;
+    addStatus("Refresh to see your tapes because reasons");
   };
 
   var addStatus = function(txt) {
-    $('<p>').text(txt).appendTo('#status')
+    $('<p>').text(txt).appendTo('#status');
   };
 
   $("#name").change(function(){

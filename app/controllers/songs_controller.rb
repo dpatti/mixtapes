@@ -15,8 +15,8 @@ class SongsController < ApplicationController
     song = TagLib::MPEG::File.open(params[:song_file].tempfile.path) do |file|
       tag = file.id3v2_tag
 
-      { :title => tag.title,
-        :artist => tag.artist }
+      { :title => tag.title || params[:song_file].original_filename,
+        :artist => tag.artist || "Unknown" }
     end
 
     # Find max song
