@@ -9,7 +9,13 @@
 <body>
 
 <% flash.each do |type, message| %>
-  <div class="alert alert-<%= type %>"><%= message %></div>
+  <% if message.respond_to? :each %>
+    <% message.each do |m| %>
+      <div class="alert alert-<%= type %>"><%= m %></div>
+    <% end %>
+  <% else %>
+    <div class="alert alert-<%= type %>"><%= message %></div>
+  <% end %>
 <% end %>
 
 <%= yield %>

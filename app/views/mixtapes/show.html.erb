@@ -11,9 +11,10 @@
     <% @mixtape.ordered_songs.each do |song| %>
       <% if @owner %>
         <tr data-song-id="<%= song.id %>">
-          <td><div class="handle"></div></td>
+          <td><%= text_field_tag :song_track_number, song.track_number, :maxlength => 2, :class => 'input-mini' %></td>
           <td><%= text_field_tag :song_title, song.title, :placeholder => "Song Title" %></td>
           <td><%= text_field_tag :song_artist, song.artist, :placeholder => "Song Artist" %></td>
+          <td><button class="delete">Delete</button></td>
         </tr>
       <% else %>
         <tr>
@@ -29,3 +30,5 @@
 <% if @owner %>
   <p>Drag an audio file here to add it to the mixtape.</p>
 <% end %>
+
+<div id='status'></div>

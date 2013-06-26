@@ -6,13 +6,13 @@ class MixtapesController < ApplicationController
   def index
     refuse_access and return if during_contest
 
-    @mixtapes = Mixtape.all
+    @mixtapes = [] #Mixtape.all
   end
 
   # Show details about a single mixtape
   def show
     @mixtape = Mixtape.find(params[:id])
-    @owner = current_user.owns? @mixtape
+    @owner = current_user && current_user.owns?(@mixtape)
 
     if pre_contest
       refuse_access and return unless @owner

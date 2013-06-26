@@ -3,5 +3,5 @@ class Song < ActiveRecord::Base
 
   attr_accessible :title, :artist, :album, :track_number, :duration, :file, :cover_art
 
-  validates_presence_of :title, :artist
+  validates_presence_of :title, :artist, :file, :track_number
 end
