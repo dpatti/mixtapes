@@ -12,8 +12,19 @@ class SongsController < ApplicationController
       refuse_access and return 
     end
 
-    song = TagLib::MPEG::File.open(params[:song_file].tempfile.path) do |file|
+    case params[:song_file].original_filename.split('.').last
+    when 'mp3', 'm4a', 'mp4'
+      type = 'MPEG'
+    when 'm4a', 'mp4'
+      type = 'MP4'
+    else
+      head :bad_request and return
+    end
+
+    song = TagLib.const_get(type)::File.open(params[:song_file].tempfile.path) do |file|
       tag = file.id3v2_tag
+
+      next unless tag
 
       { :title => tag.title || params[:song_file].original_filename,
         :artist => tag.artist || "Unknown" }
