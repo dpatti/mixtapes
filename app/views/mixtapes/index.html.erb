@@ -14,8 +14,8 @@
         <td><%= link_to mixtape.name, mixtape_path(mixtape.id) %></td>
         <td><%= mixtape.creator %></td>
         <td><%= seconds_to_time mixtape.duration %></td>
-        <td><%= link_to "Download", mixtape_download_path(mixtape.id) %></td>
-        <td><%= link_to "Listen", mixtape_listen_path(mixtape.id) %></td>
+        <td><%= link_to "Download", download_mixtape_path(mixtape.id) %></td>
+        <td><%= link_to "Listen", listen_mixtape_path(mixtape.id) %></td>
       </tr>
     <% end %>
   </tbody>

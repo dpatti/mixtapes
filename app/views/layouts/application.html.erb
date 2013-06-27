@@ -16,7 +16,7 @@
           <% if current_user %>
             <% if current_user.mixtape %>
               <%= navbar_link_to "Edit My Mixtape", mixtape_path(current_user.mixtape.id) %>
-              <%= navbar_link_to "Delete My Mixtape", mixtape_destroy_path(current_user.mixtape.id) %>
+              <%= navbar_link_to "Delete My Mixtape", destroy_mixtape_path(current_user.mixtape.id) %>
             <% else %>
               <%= navbar_link_to "Create Mixtape", new_mixtape_path %>
             <% end %>

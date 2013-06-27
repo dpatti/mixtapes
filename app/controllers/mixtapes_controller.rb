@@ -62,7 +62,7 @@ class MixtapesController < ApplicationController
 
   # Prompt for deletion
   def destroy_confirm
-    @mixtape = Mixtape.find(params[:mixtape_id])
+    @mixtape = Mixtape.find(params[:id])
     if contest_started or not current_user.owns? @mixtape
       refuse_access and return
     end
