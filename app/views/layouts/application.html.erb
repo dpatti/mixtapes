@@ -9,7 +9,7 @@
 <body>
   <div class="navbar">
     <div class="navbar-inner">
-      <a class="brand" href="#">Fog Creek Mixtapes 2013</a>
+      <a class="brand" href="/">Fog Creek Mixtapes 2013</a>
       <ul class="nav pull-left">
         <%= navbar_link_to 'Home', root_path %>
         <% if before_contest %>
@@ -28,6 +28,11 @@
 
       <ul class="nav pull-right">
         <% if current_user %>
+          <%= content_tag 'li', :class => 'pull-right' do %>
+            <%= content_tag 'p', :class => 'navbar-text' do %>
+              <%= tag 'img', :src => current_user.gravatar %>
+            <% end %>
+          <% end %>
           <%= content_tag 'li', :class => 'pull-right' do %>
             <%= content_tag 'p', current_user.name, :class => 'navbar-text' %>
           <% end %>

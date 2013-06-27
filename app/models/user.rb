@@ -1,7 +1,17 @@
+require 'digest/md5'
+
 class User < ActiveRecord::Base
   attr_accessible :email, :name, :provider, :uid
 
   has_one :mixtape
+
+  def hash
+    Digest::MD5.hexdigest(email)
+  end
+
+  def gravatar
+    "https://secure.gravatar.com/avatar/#{ hash }?s=60"
+  end
 
   def self.create_with_omniauth(auth)
     create! do |user|
