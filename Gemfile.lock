@@ -83,6 +83,8 @@ GEM
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
     polyglot (0.3.3)
+    puma (2.1.1)
+      rack (>= 1.1, < 2.0)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -148,6 +150,7 @@ DEPENDENCIES
   jquery-rails
   less-rails
   omniauth-google-oauth2
+  puma
   rails (= 3.2.8)
   rails_config
   sass-rails (~> 3.2.3)
