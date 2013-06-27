@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :current_user, :pre_contest, :during_contest
+  helper_method :current_user, :before_contest, :contest_started, :contest_ended
 
   def index
     render "home"
@@ -19,11 +19,15 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 
-  def pre_contest
+  def before_contest
     Time.new < Settings.contest.start
   end
 
-  def during_contest
-    Time.new.between?(Settings.contest.start, Settings.contest.end)
+  def contest_started
+    not before_contest
+  end
+
+  def contest_ended
+    Time.new > Settings.contest.end
   end
 end

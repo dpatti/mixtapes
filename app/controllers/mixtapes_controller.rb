@@ -4,9 +4,9 @@ class MixtapesController < ApplicationController
 
   # Show all mixtapes
   def index
-    refuse_access and return if during_contest
+    refuse_access and return if before_contest
 
-    @mixtapes = [] #Mixtape.all
+    @mixtapes = Mixtape.all
   end
 
   # Show details about a single mixtape
@@ -14,7 +14,7 @@ class MixtapesController < ApplicationController
     @mixtape = Mixtape.find(params[:id])
     @owner = current_user && current_user.owns?(@mixtape)
 
-    if pre_contest
+    if before_contest
       refuse_access and return unless @owner
     end
   end
@@ -29,7 +29,7 @@ class MixtapesController < ApplicationController
 
   # POST: Create the actual mixtape
   def create
-    refuse_access and return if during_contest
+    refuse_access and return if contest_started
 
     @mixtape = Mixtape.new(params[:mixtape])
 
@@ -50,7 +50,7 @@ class MixtapesController < ApplicationController
   # PUT: Modify mixtape
   def update
     @mixtape = Mixtape.find(params[:id])
-    if during_contest or not current_user.owns? @mixtape
+    if contest_started or not current_user.owns? @mixtape
       refuse_access and return
     end
     @mixtape.update_attributes(params[:mixtape])
@@ -59,8 +59,8 @@ class MixtapesController < ApplicationController
 
   # Prompt for deletion
   def destroy_confirm
-    @mixtape = Mixtape.find(params[:id])
-    if during_contest or not current_user.owns? @mixtape
+    @mixtape = Mixtape.find(params[:mixtape_id])
+    if contest_started or not current_user.owns? @mixtape
       refuse_access and return
     end
   end
@@ -68,10 +68,18 @@ class MixtapesController < ApplicationController
   # DELETE: Remove mixtape
   def destroy
     @mixtape = Mixtape.find(params[:id])
-    if during_contest or not current_user.owns? @mixtape
+    if contest_started or not current_user.owns? @mixtape
       refuse_access and return
     end
     @mixtape.destroy
     redirect_to root_path
+  end
+
+  def download
+    render :text => "Not yet implemented"
+  end
+
+  def listen
+    render :text => "Not yet implemented"
   end
 end

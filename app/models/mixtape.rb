@@ -8,6 +8,14 @@ class Mixtape < ActiveRecord::Base
     songs.map(&:duration).reduce(:+)
   end
 
+  def creator
+    "anonymous" # user.name
+  end
+
+  def length
+    songs.map(&:length).reduce(:+)
+  end
+
   def ordered_songs
     songs.sort_by(&:track_number)
   end

@@ -14,10 +14,10 @@
     <% @mixtapes.each do |mixtape| %>
       <tr>
         <td><%= mixtape.name %></td>
-        <td><%= mixtape.creator || "???" %></td>
+        <td><%= mixtape.creator %></td>
         <td><%= mixtape.length %></td>
-        <td>download <%= mixtape.id %></td>
-        <td>listen <%= mixtape.id %></td>
+        <td><%= link_to "Download", mixtape_download_path(mixtape.id) %></td>
+        <td><%= link_to "Listen", mixtape_listen_path(mixtape.id) %></td>
       </tr>
     <% end %>
   </tbody>

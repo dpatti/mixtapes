@@ -8,6 +8,8 @@ Mixtapes::Application.routes.draw do
   resources :mixtapes do
     resources :songs
     match "/destroy" => "mixtapes#destroy_confirm"
+    match "/download" => "mixtapes#download"
+    match "/listen" => "mixtapes#listen"
   end
 
   # The priority is based upon order of creation:

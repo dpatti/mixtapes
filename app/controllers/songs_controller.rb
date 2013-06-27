@@ -8,7 +8,7 @@ class SongsController < ApplicationController
 
   def create
     @mixtape = Mixtape.find(params[:mixtape_id])
-    if during_contest or not current_user.owns? @mixtape
+    if contest_started or not current_user.owns? @mixtape
       refuse_access and return 
     end
 
@@ -57,7 +57,7 @@ class SongsController < ApplicationController
 
   def update
     @song = Song.find(params[:id])
-    if during_contest or not current_user.owns? @song.mixtape
+    if contest_started or not current_user.owns? @song.mixtape
       refuse_access and return
     end
 
@@ -67,7 +67,7 @@ class SongsController < ApplicationController
 
   def destroy
     @song = Song.find(params[:id])
-    if during_contest or not current_user.owns? @song.mixtape
+    if contest_started or not current_user.owns? @song.mixtape
       refuse_access and return
     end
 

@@ -2,10 +2,10 @@
   <p>You are signed in as <%= current_user.name %>.</p>
   <%= link_to "Sign Out", signout_path %>
 
-  <% if pre_contest %>
+  <% if before_contest %>
     <% if current_user.mixtape %>
       <p><%= link_to "Edit Mixtape", mixtape_path(current_user.mixtape.id) %></p>
-      <p style="display:none"><%= link_to "Delete Mixtape", mixtape_destroy_path(current_user.mixtape.id), :id => 'delete' %>
+      <p><%= link_to "Delete Mixtape", mixtape_destroy_path(current_user.mixtape.id), :id => 'delete' %>
     <% else %>
       <%= link_to "Create Mixtape", :controller => 'mixtapes', :action => 'new' %>
     <% end %>
