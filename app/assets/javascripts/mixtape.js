@@ -59,7 +59,10 @@ $(function(){
       $('<p>').text('Uploading ' + file.name + '...')
     );
 
-    $upload.find('.progress').addClass('active');
+    $upload.find('.progress')
+      .addClass('active progress-striped')
+      .find('.bar')
+      .removeClass('bar-success');
 
     return $.ajax({
       url: document.location.href + '/songs',
@@ -68,7 +71,6 @@ $(function(){
       cache: false,
       processData: false,
       contentType: false,
-      timeout: 30000,
       xhr: function() {
         // Use a custom XHR for progress
         var xhr = new XMLHttpRequest(),
@@ -88,7 +90,10 @@ $(function(){
     })
     .always(function(){
       $upload.find('p').show().filter(':last').remove();
-      $upload.find('.progress').removeClass('active');
+      $upload.find('.progress')
+        .removeClass('active progress-striped')
+        .find('.bar')
+        .addClass('bar-success');
     })
     .done(function(song){
       addFlash('info', file.name + ' succeeded');
@@ -96,10 +101,7 @@ $(function(){
       $("<tr>")
         .data('song-id', song.id)
         .append(
-          $("<td>").append(
-            $("<input>", { type: 'text', class: 'input-mini' })
-              .val(song.track_number)
-          )
+          $("<div>", { class: 'handle' })
         ).append(
           $("<td>").append(
             $("<input>", { type: 'text', placeholder: 'Song Title' })
@@ -122,10 +124,42 @@ $(function(){
           )
         ).appendTo('#mixtape tbody');
     })
-    .fail(function(res, err, body){
+    .fail(function(res){
       addFlash('error', file.name + ' failed: ' + res.responseText);
     });
   };
+
+  $.fn.songs = function(){
+    return $(this).find('tr').map(function(){ return $(this).data('song-id'); }).toArray();
+  };
+
+  $("#mixtape tbody").sortable({
+    handle: 'td:first',
+    placeholder: 'ui-state-highlight',
+    start: function(){
+      var originalOrder = $(this).songs();
+
+      $(this).one('sortstop', function(){
+        var finalOrder = $(this).songs();
+
+        finalOrder.forEach(function(idSong, index){
+          if (originalOrder[index] !== idSong) {
+            $.ajax(document.location.href + '/songs/' + idSong, {
+              type: 'put',
+              data: {
+                song: {
+                  track_number: index + 1,
+                },
+              },
+            })
+            .fail(function(res){
+              addFlash('error', res.responseText);
+            });
+          }
+        });
+      });
+    },
+  }).disableSelection();
 
   $(document).on('change', "table input", function(){
     var row = $(this).closest('tr'),
@@ -136,10 +170,9 @@ $(function(){
       type: 'put',
       data: {
         song: {
-          track_number: inputs[0],
-          title: inputs[1],
-          artist: inputs[2],
-          album: inputs[3],
+          title: inputs[0],
+          artist: inputs[1],
+          album: inputs[2],
         },
       },
     });

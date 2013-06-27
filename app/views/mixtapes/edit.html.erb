@@ -3,7 +3,7 @@
 <table id='mixtape' class='table'>
   <thead>
     <tr>
-      <th>Track</th>
+      <th></th>
       <th>Title</th>
       <th>Artist</th>
       <th>Original Album</th>
@@ -13,7 +13,7 @@
   <tbody>
     <% @mixtape.ordered_songs.each do |song| %>
       <tr data-song-id="<%= song.id %>">
-        <td><%= text_field_tag :song_track_number, song.track_number, :maxlength => 2, :class => 'input-mini' %></td>
+        <td><a class='handle'>&#9776;</div></td>
         <td><%= text_field_tag :song_title, song.title, :placeholder => "Song Title" %></td>
         <td><%= text_field_tag :song_artist, song.artist, :placeholder => "Song Artist" %></td>
         <td><%= text_field_tag :song_album, song.album, :placeholder => "Song Original Album" %></td>
