@@ -34,6 +34,18 @@ $(function(){
     });
   };
 
+  var updateSong = function(id, attrs) {
+    return $.ajax(document.location.href + '/songs/' + id, {
+      type: 'put',
+      data: {
+        song: attrs,
+      },
+    })
+    .fail(function(res){
+      addFlash('error', res.responseText);
+    });
+  };
+
   $(document).bind("drop", function(e) {
     e.preventDefault();
     if (e.originalEvent && e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files) {
@@ -101,7 +113,9 @@ $(function(){
       $("<tr>")
         .data('song-id', song.id)
         .append(
-          $("<div>", { class: 'handle' })
+          $("<td>").append(
+            $("<div>", { class: 'handle' }).html("&#9776;")
+          )
         ).append(
           $("<td>").append(
             $("<input>", { type: 'text', placeholder: 'Song Title' })
@@ -134,7 +148,7 @@ $(function(){
   };
 
   $("#mixtape tbody").sortable({
-    handle: 'td:first',
+    handle: '.handle',
     placeholder: 'ui-state-highlight',
     start: function(){
       var originalOrder = $(this).songs();
@@ -144,17 +158,7 @@ $(function(){
 
         finalOrder.forEach(function(idSong, index){
           if (originalOrder[index] !== idSong) {
-            $.ajax(document.location.href + '/songs/' + idSong, {
-              type: 'put',
-              data: {
-                song: {
-                  track_number: index + 1,
-                },
-              },
-            })
-            .fail(function(res){
-              addFlash('error', res.responseText);
-            });
+            updateSong(idSong, { track_number: index + 1 });
           }
         });
       });
@@ -166,15 +170,10 @@ $(function(){
         id = row.data('song-id'),
         inputs = row.find('input').map(function(){ return $(this).val(); });
 
-    $.ajax(document.location.href + '/songs/' + id, {
-      type: 'put',
-      data: {
-        song: {
-          title: inputs[0],
-          artist: inputs[1],
-          album: inputs[2],
-        },
-      },
+    updateSong(id, {
+      title: inputs[0],
+      artist: inputs[1],
+      album: inputs[2],
     });
   });
 
@@ -187,7 +186,12 @@ $(function(){
         type: 'delete',
       })
       .done(function(){
-        row.fadeOut(function(){ $(this).remove(); });
+        var base = row.index() + 1;
+        row
+        .fadeOut(function(){ $(this).remove(); })
+        .nextAll().each(function(index, row){
+          updateSong($(row).data('song-id'), { track_number: index + base });
+        });
       });
     }
   });
