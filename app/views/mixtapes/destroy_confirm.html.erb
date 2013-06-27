@@ -1,1 +1,7 @@
+<p>Are you sure you want to delete your mixtape? Unless you go back and create
+it again, no one will know about the awesome music you listen to. You will still
+be able to comment and participate, though.</p>
 
+<%= form_for @mixtape, :method => 'delete' do |f| %>
+  <%= f.submit "Delete it! I quit!", :class => 'btn btn-danger' %>
+<% end %>
