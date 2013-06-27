@@ -112,7 +112,7 @@ $(function(){
           )
         ).append(
           $("<td>").append(
-            $("<button>", { class: 'delete' })
+            $("<button>", { class: 'delete btn btn-danger' })
               .text('Delete')
           )
         ).appendTo('#mixtape tbody');

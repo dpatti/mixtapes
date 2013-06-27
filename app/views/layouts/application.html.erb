@@ -7,20 +7,53 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-  <div id="alerts">
-    <% flash.each do |type, message| %>
-      <% if message.respond_to? :each %>
-        <% message.each do |m| %>
-          <div class="alert alert-<%= type %>"><%= m %></div>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <a class="brand" href="#">Fog Creek Mixtapes 2013</a>
+      <ul class="nav pull-left">
+        <%= navbar_link_to 'Home', root_path %>
+        <% if before_contest %>
+          <% if current_user %>
+            <% if current_user.mixtape %>
+              <%= navbar_link_to "Edit My Mixtape", mixtape_path(current_user.mixtape.id) %>
+              <%= navbar_link_to "Delete My Mixtape", mixtape_destroy_path(current_user.mixtape.id) %>
+            <% else %>
+              <%= navbar_link_to "Create Mixtape", new_mixtape_path %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <%= navbar_link_to 'View Mixtapes', mixtapes_path %>
         <% end %>
-      <% else %>
-        <div class="alert alert-<%= type %>"><%= message %></div>
-      <% end %>
-    <% end %>
+      </ul>
+
+      <ul class="nav pull-right">
+        <% if current_user %>
+          <%= content_tag 'li', :class => 'pull-right' do %>
+            <%= content_tag 'p', current_user.name, :class => 'navbar-text' %>
+          <% end %>
+          <li class="divider-vertical"></li>
+          <%= navbar_link_to 'Logout', signout_path %>
+        <% else %>
+          <%= navbar_link_to "Sign in with Google", "/auth/google_oauth2" %>
+        <% end %>
+      </ul>
+    </div>
   </div>
 
-  <%= yield %>
+  <div class="container">
+    <div id="alerts">
+      <% flash.each do |type, message| %>
+        <% if message.respond_to? :each %>
+          <% message.each do |m| %>
+            <div class="alert alert-<%= type %>"><%= m %></div>
+          <% end %>
+        <% else %>
+          <div class="alert alert-<%= type %>"><%= message %></div>
+        <% end %>
+      <% end %>
+    </div>
 
+    <%= yield %>
+  </div>
 </body>
 </html>

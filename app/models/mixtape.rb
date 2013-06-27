@@ -4,16 +4,16 @@ class Mixtape < ActiveRecord::Base
 
   attr_accessible :name, :cover
 
-  def duration
-    songs.map(&:duration).reduce(:+)
+  def name
+    super || "Untitled Mix"
   end
 
   def creator
     "anonymous" # user.name
   end
 
-  def length
-    songs.map(&:length).reduce(:+)
+  def duration
+    songs.map(&:duration).reduce(:+) || 0
   end
 
   def ordered_songs

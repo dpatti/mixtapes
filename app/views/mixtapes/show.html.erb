@@ -6,7 +6,7 @@
   <% end %>
 </h1>
 
-<table id='mixtape'>
+<table id='mixtape' class='table'>
   <thead>
     <tr>
       <th>Track</th>
@@ -22,7 +22,7 @@
           <td><%= text_field_tag :song_track_number, song.track_number, :maxlength => 2, :class => 'input-mini' %></td>
           <td><%= text_field_tag :song_title, song.title, :placeholder => "Song Title" %></td>
           <td><%= text_field_tag :song_artist, song.artist, :placeholder => "Song Artist" %></td>
-          <td><button class="delete">Delete</button></td>
+          <td><button class="delete btn btn-danger">Delete</button></td>
         </tr>
       <% else %>
         <tr>

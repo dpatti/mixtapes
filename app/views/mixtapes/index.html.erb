@@ -1,6 +1,6 @@
 <h1>2013 Mixtapes</h1>
 
-<table>
+<table class='table'>
   <thead>
     <tr>
       <th>Name</th>
@@ -15,7 +15,7 @@
       <tr>
         <td><%= mixtape.name %></td>
         <td><%= mixtape.creator %></td>
-        <td><%= mixtape.length %></td>
+        <td><%= seconds_to_time mixtape.duration %></td>
         <td><%= link_to "Download", mixtape_download_path(mixtape.id) %></td>
         <td><%= link_to "Listen", mixtape_listen_path(mixtape.id) %></td>
       </tr>
