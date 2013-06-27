@@ -20,7 +20,11 @@ class Mixtape < ActiveRecord::Base
   end
 
   def ordered_songs
-    songs.sort_by(&:track_number)
+    # If for some reason we have items with the same track number (which is
+    # really just a positioning integer used for ordering), break the tie with
+    # the id. This way what you see in the edit panel is always what you will
+    # get on the real thing.
+    songs.sort_by {|song| [song.track_number, song.id]}
   end
 
   def self.create_for(user)

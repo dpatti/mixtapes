@@ -11,9 +11,9 @@
     </tr>
   </thead>
   <tbody>
-    <% @mixtape.ordered_songs.each do |song| %>
+    <% @mixtape.ordered_songs.each_with_index do |song, i| %>
       <tr>
-        <td><%= song.track_number %></td>
+        <td><%= i + 1 %></td>
         <td><%= song.title %>
         <td><%= song.artist %>
         <td><%= song.album %>
