@@ -4,6 +4,9 @@ class Mixtape < ActiveRecord::Base
 
   attr_accessible :name, :cover
 
+  # Only get Mixtapes that have at least one song
+  scope :with_songs, includes(:songs).where('songs.id is not null')
+
   def name
     super || "Untitled Mix"
   end

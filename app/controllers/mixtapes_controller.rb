@@ -6,7 +6,7 @@ class MixtapesController < ApplicationController
   def index
     refuse_access and return if before_contest
 
-    @mixtapes = Mixtape.all
+    @mixtapes = Mixtape.with_songs
   end
 
   # Show details about a single mixtape

@@ -1,5 +1,3 @@
-<h1>2013 Mixtapes</h1>
-
 <table class='table'>
   <thead>
     <tr>
@@ -13,7 +11,7 @@
   <tbody>
     <% @mixtapes.each do |mixtape| %>
       <tr>
-        <td><%= mixtape.name %></td>
+        <td><%= link_to mixtape.name, mixtape_path(mixtape.id) %></td>
         <td><%= mixtape.creator %></td>
         <td><%= seconds_to_time mixtape.duration %></td>
         <td><%= link_to "Download", mixtape_download_path(mixtape.id) %></td>
