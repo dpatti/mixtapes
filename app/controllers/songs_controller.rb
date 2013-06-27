@@ -47,7 +47,7 @@ class SongsController < ApplicationController
     song = @mixtape.songs.new(song)
 
     if song.save
-      head :no_content
+      render :json => song
     else
       flash[:error] = [flash[:error]].flatten.compact
       flash[:error] << "Could not detect properties of #{ params[:song_file].original_filename }"

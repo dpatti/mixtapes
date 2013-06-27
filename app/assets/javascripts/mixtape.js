@@ -1,8 +1,4 @@
 $(function(){
-  var refresh = function() {
-    addFlash('notice', "Refresh to see your tapes because reasons");
-  };
-
   var addFlash = function(type, txt, time) {
     if (time == undefined)
       time = 4000;
@@ -26,11 +22,28 @@ $(function(){
     });
   });
 
+  var uploadQueue = [];
+  var processQueue = function(){
+    var next = uploadQueue[0];
+    if (!next) return;
+
+    uploadSong(next)
+    .always(function(){
+      uploadQueue.shift();
+      processQueue();
+    });
+  };
+
   $(document).bind("drop", function(e) {
     e.preventDefault();
     if (e.originalEvent && e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files) {
-      $.when.apply($, [].map.call(e.originalEvent.dataTransfer.files, uploadSong))
-      .always(refresh);
+      var files = e.originalEvent.dataTransfer.files;
+      // Execute these in a queue
+      [].push.apply(uploadQueue, files);
+    }
+
+    if (uploadQueue.length == files.length) {
+      processQueue();
     }
   }).bind("dragover", function(e) {
     // If we don't do this, Firefox will load the dropped object
@@ -77,15 +90,39 @@ $(function(){
       $upload.find('p').show().filter(':last').remove();
       $upload.find('.progress').removeClass('active');
     })
-    .done(function(){
+    .done(function(song){
       addFlash('info', file.name + ' succeeded');
+
+      $("<tr>")
+        .data('song-id', song.id)
+        .append(
+          $("<td>").append(
+            $("<input>", { type: 'text', class: 'input-mini' })
+              .val(song.track_number)
+          )
+        ).append(
+          $("<td>").append(
+            $("<input>", { type: 'text', placeholder: 'Song Title' })
+              .val(song.title)
+          )
+        ).append(
+          $("<td>").append(
+            $("<input>", { type: 'text', placeholder: 'Song Artist' })
+              .val(song.artist)
+          )
+        ).append(
+          $("<td>").append(
+            $("<button>", { class: 'delete' })
+              .text('Delete')
+          )
+        ).appendTo('#mixtape tbody');
     })
     .fail(function(res, err, body){
       addFlash('error', file.name + ' failed: ' + res.responseText);
     });
   };
 
-  $("table input").change(function(){
+  $(document).on('change', "table input", function(){
     var row = $(this).closest('tr'),
         id = row.data('song-id'),
         inputs = row.find('input').map(function(){ return $(this).val(); });
@@ -102,7 +139,7 @@ $(function(){
     });
   });
 
-  $("table button.delete").click(function(){
+  $(document).on('click', "table button.delete", function(){
     var row = $(this).closest('tr'),
         id = row.data('song-id');
 
@@ -111,7 +148,7 @@ $(function(){
         type: 'delete',
       })
       .done(function(){
-        row.remove();
+        row.fadeOut(function(){ $(this).remove(); });
       });
     }
   });
