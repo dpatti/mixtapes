@@ -163,7 +163,7 @@ $(function(){
         });
       });
     },
-  }).disableSelection();
+  });
 
   $(document).on('change', "table input", function(){
     var row = $(this).closest('tr'),
