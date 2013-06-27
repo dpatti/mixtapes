@@ -36,7 +36,12 @@
 </table>
 
 <% if @owner %>
-  <p>Drag an audio file here to add it to the mixtape.</p>
+  <div id='current-upload'>
+    <p>Drag an audio file here to add it to the mixtape.</p>
+    <div class="progress progress-striped active">
+      <div class="bar" style="width: 0%;"></div>
+    </div>
+  </div>
 <% end %>
 
 <div id='status'></div>

@@ -12,17 +12,17 @@ class SongsController < ApplicationController
       refuse_access and return 
     end
 
-    case params[:song_file].original_filename.split('.').last
-    when 'mp3', 'm4a', 'mp4'
+    case (filetype = params[:song_file].original_filename.split('.').last)
+    when 'mp3'
       type = 'MPEG'
-    when 'm4a', 'mp4'
+    when 'm4a'
       type = 'MP4'
     else
-      head :bad_request and return
+      render :text => "Invalid file type: #{ filetype }", :status => :bad_request and return
     end
 
     song = TagLib.const_get(type)::File.open(params[:song_file].tempfile.path) do |file|
-      tag = file.id3v2_tag
+      tag = file.tag
 
       next unless tag
 
@@ -47,8 +47,6 @@ class SongsController < ApplicationController
     song = @mixtape.songs.new(song)
 
     if song.save
-      flash[:info] = [flash[:info]].flatten.compact
-      flash[:info] << "Uploaded '#{ song[:title] }' by '#{ song[:artist] }'"
       head :no_content
     else
       flash[:error] = [flash[:error]].flatten.compact

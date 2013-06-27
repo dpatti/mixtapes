@@ -1,10 +1,22 @@
 $(function(){
   var refresh = function() {
-    addStatus("Refresh to see your tapes because reasons");
+    addFlash('notice', "Refresh to see your tapes because reasons");
   };
 
-  var addStatus = function(txt) {
-    $('<p>').text(txt).appendTo('#status');
+  var addFlash = function(type, txt, time) {
+    if (time == undefined)
+      time = 4000;
+
+    var $alert = $('<div>')
+                  .addClass('alert alert-' + type)
+                  .text(txt)
+                  .hide()
+                  .appendTo('#alerts')
+                  .fadeIn();
+
+    setTimeout(function(){
+      $alert.fadeOut();
+    }, time);
   };
 
   $("#name").change(function(){
@@ -29,7 +41,12 @@ $(function(){
     var data = new FormData();
     data.append('song_file', file);
 
-    addStatus('Uploading ' + file.name);
+    var $upload = $('#current-upload');
+    $upload.find('p').hide().after(
+      $('<p>').text('Uploading ' + file.name + '...')
+    );
+
+    $upload.find('.progress').addClass('active');
 
     return $.ajax({
       url: document.location.href + '/songs',
@@ -39,12 +56,32 @@ $(function(){
       processData: false,
       contentType: false,
       timeout: 30000,
+      xhr: function() {
+        // Use a custom XHR for progress
+        var xhr = new XMLHttpRequest(),
+        upload = xhr.upload;
+
+        if (upload) {
+          upload.addEventListener('progress', function (e) {
+            if (e.lengthComputable) {
+              // Check if progress has changed
+              var percentage = Math.round(100 * e.loaded / e.total);
+              $upload.find('.bar').width(percentage + '%');
+            }
+          });
+        }
+        return xhr;
+      }
+    })
+    .always(function(){
+      $upload.find('p').show().filter(':last').remove();
+      $upload.find('.progress').removeClass('active');
     })
     .done(function(){
-      addStatus(file.name + ' succeeded');
+      addFlash('info', file.name + ' succeeded');
     })
     .fail(function(res, err, body){
-      addStatus(file.name + ' failed: ' + body);
+      addFlash('error', file.name + ' failed: ' + res.responseText);
     });
   };
 
