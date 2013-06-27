@@ -1,14 +1,31 @@
-<h1><%= text_field_tag :name, nil, :placeholder => "Your Mixtape Name" %></h1>
+<h1><%= text_field_tag :name, @mixtape.name, :placeholder => "Mixtape Name" %></h1>
 
-<table>
+<table id='mixtape' class='table'>
+  <thead>
+    <tr>
+      <th>Track</th>
+      <th>Title</th>
+      <th>Artist</th>
+      <th>Original Album</th>
+      <th></th>
+    </tr>
+  </thead>
   <tbody>
-    <% @mixtape.songs.each do |song| %>
+    <% @mixtape.ordered_songs.each do |song| %>
       <tr data-song-id="<%= song.id %>">
-        <td><div class="handle"></div></td>
-        <td><%= text_field_tag :song_title, nil, :placeholder => "Song Title" %></td>
-        <td><%= text_field_tag :song_artist, nil, :placeholder => "Song Artist" %></td>
+        <td><%= text_field_tag :song_track_number, song.track_number, :maxlength => 2, :class => 'input-mini' %></td>
+        <td><%= text_field_tag :song_title, song.title, :placeholder => "Song Title" %></td>
+        <td><%= text_field_tag :song_artist, song.artist, :placeholder => "Song Artist" %></td>
+        <td><%= text_field_tag :song_album, song.album, :placeholder => "Song Original Album" %></td>
+        <td><button class="delete btn btn-danger">Delete</button></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<button id='new-song'>Add a song</button> (or drag and drop an audio file to quickly add one)
+
+<div id='current-upload'>
+  <p>Drag an audio file here to add it to the mixtape.</p>
+  <div class="progress progress-striped active">
+    <div class="bar" style="width: 0%;"></div>
+  </div>
+</div>

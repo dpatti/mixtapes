@@ -112,6 +112,11 @@ $(function(){
           )
         ).append(
           $("<td>").append(
+            $("<input>", { type: 'text', placeholder: 'Song Original Album' })
+              .val(song.album)
+          )
+        ).append(
+          $("<td>").append(
             $("<button>", { class: 'delete btn btn-danger' })
               .text('Delete')
           )
@@ -134,6 +139,7 @@ $(function(){
           track_number: inputs[0],
           title: inputs[1],
           artist: inputs[2],
+          album: inputs[3],
         },
       },
     });
@@ -150,6 +156,12 @@ $(function(){
       .done(function(){
         row.fadeOut(function(){ $(this).remove(); });
       });
+    }
+  });
+
+  $(document).on('keyup', "input[type=text]", function(e){
+    if (e.keyCode == 13) {
+      $(this).change();
     }
   });
 });

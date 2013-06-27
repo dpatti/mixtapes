@@ -12,10 +12,13 @@ class MixtapesController < ApplicationController
   # Show details about a single mixtape
   def show
     @mixtape = Mixtape.find(params[:id])
-    @owner = current_user && current_user.owns?(@mixtape)
 
     if before_contest
-      refuse_access and return unless @owner
+      if current_user && current_user.owns?(@mixtape)
+        render 'edit'
+      else
+        refuse_access and return
+      end
     end
   end
 

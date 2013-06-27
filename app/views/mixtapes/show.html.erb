@@ -1,10 +1,4 @@
-<h1>
-  <% if @owner %>
-    <%= text_field_tag :name, @mixtape.name, :placeholder => "Mixtape Name" %>
-  <% else %>
-    <%= @mixtape.name %>
-  <% end %>
-</h1>
+<h1><%= @mixtape.name %></h1>
 
 <table id='mixtape' class='table'>
   <thead>
@@ -12,36 +6,19 @@
       <th>Track</th>
       <th>Title</th>
       <th>Artist</th>
-      <th></th>
+      <th>Original Album</th>
+      <th>Duration</th>
     </tr>
   </thead>
   <tbody>
     <% @mixtape.ordered_songs.each do |song| %>
-      <% if @owner %>
-        <tr data-song-id="<%= song.id %>">
-          <td><%= text_field_tag :song_track_number, song.track_number, :maxlength => 2, :class => 'input-mini' %></td>
-          <td><%= text_field_tag :song_title, song.title, :placeholder => "Song Title" %></td>
-          <td><%= text_field_tag :song_artist, song.artist, :placeholder => "Song Artist" %></td>
-          <td><button class="delete btn btn-danger">Delete</button></td>
-        </tr>
-      <% else %>
-        <tr>
-          <td><%= song.track_number %></td>
-          <td><%= song.title %>
-          <td><%= song.artist %>
-        </tr>
-      <% end %>
+      <tr>
+        <td><%= song.track_number %></td>
+        <td><%= song.title %>
+        <td><%= song.artist %>
+        <td><%= song.album %>
+        <td><%= seconds_to_time song.duration %>
+      </tr>
     <% end %>
   </tbody>
 </table>
-
-<% if @owner %>
-  <div id='current-upload'>
-    <p>Drag an audio file here to add it to the mixtape.</p>
-    <div class="progress progress-striped active">
-      <div class="bar" style="width: 0%;"></div>
-    </div>
-  </div>
-<% end %>
-
-<div id='status'></div>

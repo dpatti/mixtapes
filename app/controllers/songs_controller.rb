@@ -27,7 +27,8 @@ class SongsController < ApplicationController
       next unless tag
 
       { :title => tag.title || params[:song_file].original_filename,
-        :artist => tag.artist || "Unknown" }
+        :artist => tag.artist || "Unknown",
+        :album => tag.album }
     end
 
     # Find max song
