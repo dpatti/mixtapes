@@ -51,7 +51,7 @@ class Song < ActiveRecord::Base
 
   def similar_to(song)
     opts = { :pre_clean => true, :similarity_thresh => 90 }
-    title.similar_to(song.title, opts) && artist.similar_to(song.artist, opts)
+    title.similar_to(song.title, opts) || artist.similar_to(song.artist, opts)
   end
 
   def similar_songs
