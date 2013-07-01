@@ -60,7 +60,7 @@ class Song < ActiveRecord::Base
   end
 
   def warning
-    similar_songs.map do |song|
+    @warning ||= similar_songs.map do |song|
       '"%s" by %s on %smixtape "%s"' % [
         song.title, song.artist,
         song.new_record? ? 'previous ' : 'current ',

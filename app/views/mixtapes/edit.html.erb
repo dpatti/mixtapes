@@ -33,6 +33,19 @@
   </tbody>
 </table>
 
+<% @mixtape.songs.each do |song| %>
+  <% if song.warning.length > 0 %>
+    <div class="song-warning alert alert-warning">
+      <b><%= song.artist %></b> - <b><%= song.title %></b> might be a duplicate!
+      <ul>
+        <% song.warning.each do |warn| %>
+          <li><%=warn%></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% end %>
+
 <% if @mixtape.warning %>
   <div id="mixtape-warning" class="alert alert-error"><%= @mixtape.warning %></div>
 <% end %>
