@@ -78,6 +78,19 @@ class Song < ActiveRecord::Base
     self.duration = FFMPEG::Movie.new(file).duration.round
   end
 
+  def tag_file
+    TagLib.const_get(Song.taglib_type(filename))::File.open(file) do |file|
+      tag = file.tag
+
+      tag.title = title
+      tag.artist = artist
+      tag.album = mixtape.name
+      tag.track = track
+
+      file.save
+    end
+  end
+
   def self.taglib_type(filename)
     case (filetype = File.extname(filename))
     when '.mp3'

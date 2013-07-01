@@ -55,6 +55,7 @@ class Mixtape < ActiveRecord::Base
   def prepare_zip
     Zip::ZipFile.open(cache_path, Zip::ZipFile::CREATE) do |zip|
       songs.each do |song|
+        song.tag_file
         zip.add(song.filename, song.file)
       end
     end
