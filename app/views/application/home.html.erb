@@ -35,12 +35,13 @@ there.</p>
 <p>If you have any questions, comments, or suggestions, <a href="mailto:doug@fogcreek.com">let me know</a>.</p>
 
 <% if current_user %>
-  <p>You are signed in as <%= current_user.name %>.</p>
-  <% if current_user.mixtape %>
-    <%= link_to "Edit My Mixtape", mixtape_path(current_user.mixtape.id), :class => "btn" %>
-    <%= link_to "Delete My Mixtape", destroy_mixtape_path(current_user.mixtape.id), :class => "btn btn-danger" %>
-  <% else %>
-    <%= link_to "Create Mixtape", new_mixtape_path, :class => "btn btn-success" %>
+  <% if before_contest %>
+    <% if current_user.mixtape %>
+      <%= link_to "Edit My Mixtape", mixtape_path(current_user.mixtape.id), :class => "btn" %>
+      <%= link_to "Delete My Mixtape", destroy_mixtape_path(current_user.mixtape.id), :class => "btn btn-danger" %>
+    <% else %>
+      <%= link_to "Create Mixtape", new_mixtape_path, :class => "btn btn-success" %>
+    <% end %>
   <% end %>
 <% else %>
   <%= link_to "Sign in with Google", "/auth/google_oauth2", :class => "btn btn-primary" %>
