@@ -1,5 +1,6 @@
 class Song < ActiveRecord::Base
   belongs_to :mixtape
+  has_many :likes
 
   attr_accessible :title, :artist, :album, :track_number, :duration, :file, :cover_art
 

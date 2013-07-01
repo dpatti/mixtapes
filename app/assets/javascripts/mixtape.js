@@ -276,4 +276,21 @@ $(function(){
       });
     }
   });
+
+  // Likes
+  $('.like').click(function(e){
+    var $this = $(this),
+        like = $this.is('.btn-success'),
+        songId = $this.data('song-id'),
+        url = document.location.href + '/songs/' + songId + '/like';
+
+    $.ajax(url, {
+      type: 'put',
+      data: {
+        value: !like || undefined,
+      },
+    }).success(function(){
+      $this.toggleClass('btn-success');
+    });
+  });
 });

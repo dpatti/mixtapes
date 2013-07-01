@@ -71,4 +71,17 @@ class SongsController < ApplicationController
     @song.destroy
     head :no_content
   end
+
+  def like
+    if params[:value]
+      # This might fail because of uniqueness, but that's okay
+      Like.create do |like|
+        like.user_id = current_user.id
+        like.song_id = params[:id]
+      end
+    else
+      Like.destroy_all(:user_id => current_user.id, :song_id => params[:id])
+    end
+    head :no_content
+  end
 end

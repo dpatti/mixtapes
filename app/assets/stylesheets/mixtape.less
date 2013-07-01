@@ -15,38 +15,66 @@ h1 {
   }
 }
 
-#mixtape tr {
-  &.ui-state-highlight {
-    background-color: #fefefe;
-    height: 65px;
+#mixtape {
+  tr {
+    &.ui-state-highlight {
+      background-color: #fefefe;
+      height: 65px;
+    }
+    &.ui-sortable-helper {
+      background-color: #eee;
+    }
   }
-  &.ui-sortable-helper {
-    background-color: #eee;
-  }
-}
 
-#mixtape .handle {
-  width: 30px;
-  height: 30px;
-  font-size: 18px;
-  line-height: 30px;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  color: #999;
-  display: block;
+  .handle {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    color: #999;
+    display: block;
 
-  &:hover {
-    cursor: move;
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
+    &:hover {
+      cursor: move;
+      cursor: grab;
+      cursor: -moz-grab;
+      cursor: -webkit-grab;
+    }
+    &:active {
+      cursor: move;
+      cursor: grabbing;
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
+    }
   }
-  &:active {
-    cursor: move;
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
+
+  .like {
+    label {
+      display: inline;
+    }
+
+    label::after {
+      content: "?";
+    }
+
+    &.btn-success {
+      // Check mark
+      label::before {
+        content: "\f00c";
+        font-family: "FontAwesome";
+        font-weight: normal;
+        font-style: normal;
+        text-decoration: inherit;
+        margin-right: .3em;
+      }
+
+      label::after {
+        content: "!";
+      }
+    }
   }
 }
 

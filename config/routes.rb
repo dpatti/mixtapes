@@ -6,7 +6,11 @@ Mixtapes::Application.routes.draw do
   match "/signout" => "sessions#destroy", :as => :signout
 
   resources :mixtapes, :except => :edit do
-    resources :songs, :only => [:create, :update, :destroy]
+    resources :songs, :only => [:create, :update, :destroy] do
+      member do
+        put 'like'
+      end
+    end
     resources :comments, :only => [:create, :update, :destroy]
 
     member do

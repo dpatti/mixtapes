@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 
   has_one :mixtape
   has_many :comments
+  has_many :likes
 
   def hash
     Digest::MD5.hexdigest(email)
@@ -25,5 +26,9 @@ class User < ActiveRecord::Base
 
   def owns?(mixtape)
     mixtape.user_id == id
+  end
+
+  def likes?(song)
+    likes.any? {|l| l.song_id == song.id}
   end
 end

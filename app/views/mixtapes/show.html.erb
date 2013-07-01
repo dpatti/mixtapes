@@ -8,16 +8,24 @@
       <th>Artist</th>
       <th>Original Album</th>
       <th>Duration</th>
+      <% if current_user %>
+      <th></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
     <% @mixtape.songs.each_with_index do |song, i| %>
       <tr>
         <td><%= i + 1 %></td>
-        <td><%= song.title %>
-        <td><%= song.artist %>
-        <td><%= song.album %>
-        <td><%= seconds_to_time song.duration %>
+        <td><%= song.title %></td>
+        <td><%= song.artist %></td>
+        <td><%= song.album %></td>
+        <td><%= seconds_to_time song.duration %></td>
+        <% if current_user %>
+          <td>
+            <%= song_like_button(song) %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
