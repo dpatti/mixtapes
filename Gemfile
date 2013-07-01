@@ -11,6 +11,7 @@ gem 'rails_config'
 gem 'sqlite3'
 gem 'omniauth-google-oauth2'
 gem 'taglib-ruby'
+gem 'quiet_assets'
 
 gem "therubyracer"
 gem "less-rails"
