@@ -7,6 +7,7 @@
       <th>Title</th>
       <th>Artist</th>
       <th>Original Album</th>
+      <th>Duration</th>
       <th></th>
     </tr>
   </thead>
@@ -17,11 +18,24 @@
         <td><%= text_field_tag :song_title, song.title, :placeholder => "Song Title" %></td>
         <td><%= text_field_tag :song_artist, song.artist, :placeholder => "Song Artist" %></td>
         <td><%= text_field_tag :song_album, song.album, :placeholder => "Song Original Album" %></td>
+        <td><%= seconds_to_time song.duration %>
         <td><button class="delete btn btn-danger">Delete</button></td>
       </tr>
     <% end %>
+    <tr>
+      <td></td>
+      <td>Total time</td>
+      <td></td>
+      <td></td>
+      <td><%= seconds_to_time @mixtape.duration %></td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
+
+<% if @mixtape.warning %>
+  <div id="mixtape-warning" class="alert alert-error"><%= @mixtape.warning %></div>
+<% end %>
 
 <div id='current-upload'>
   <p>Drag an audio file here to add it to the mixtape.</p>

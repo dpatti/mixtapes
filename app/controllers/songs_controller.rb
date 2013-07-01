@@ -12,17 +12,18 @@ class SongsController < ApplicationController
     end
 
     # Create actual song record
-    song = @mixtape.songs.new
-    song.set_metadata(params[:song_file].original_filename, params[:song_file].tempfile.path)
+    song = @mixtape.songs.new do |s|
+      s.set_metadata(params[:song_file].original_filename, params[:song_file].tempfile.path)
 
-    # Find duration
-    song.set_duration(params[:song_file].tempfile.path)
+      # Find duration
+      s.set_duration(params[:song_file].tempfile.path)
 
-    # Find max song
-    song.track_number = (@mixtape.songs.map(&:track_number).max || 0) + 1
+      # Find max song
+      s.track_number = (@mixtape.songs.map(&:track_number).max || 0) + 1
 
-    # New name - 16 random characters
-    song.file = rand(36**16).to_s(36)
+      # New name - 16 random characters
+      s.file = rand(36**16).to_s(36)
+    end
 
     # Make directory for person
     target_path = File.join(Settings.upload_path, current_user.id.to_s)
@@ -32,7 +33,7 @@ class SongsController < ApplicationController
     FileUtils.mv(params[:song_file].tempfile, File.join(target_path, song.file))
 
     if song.save
-      render :json => song
+      render :json => { :song => song, :mixtape => @mixtape }, :methods => [:duration, :warning]
     else
       flash[:error] = [flash[:error]].flatten.compact
       flash[:error] << "Could not detect properties of #{ params[:song_file].original_filename }"
@@ -57,7 +58,7 @@ class SongsController < ApplicationController
     end
 
     @song.destroy
-    head :no_content
+    render :json => @song.mixtape, :methods => [:duration, :warning]
   end
 
   def like

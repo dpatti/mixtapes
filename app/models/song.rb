@@ -15,6 +15,10 @@ class Song < ActiveRecord::Base
     super || 0
   end
 
+  def warning(songs=nil)
+    # TODO: Song duplicates
+  end
+
   def set_metadata(filename, path)
     TagLib.const_get(Song.taglib_type(filename))::File.open(path) do |file|
       tag = file.tag

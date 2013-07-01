@@ -1,4 +1,8 @@
 $(function(){
+  var time = function(s) {
+    return ~~(s / 60) + ":" + ("0" + ~~(s % 60)).slice(-2);
+  };
+
   var addFlash = function(type, txt, time) {
     if (time == undefined)
       time = 4000;
@@ -35,6 +39,8 @@ $(function(){
   };
 
   var updateSong = function(id, attrs) {
+    if (!id) return;
+
     return $.ajax(document.location.href + '/songs/' + id, {
       type: 'put',
       data: {
@@ -44,6 +50,20 @@ $(function(){
     .fail(function(res){
       addFlash('error', res.responseText);
     });
+  };
+
+  var loadMixtapeAttributes = function(mixtape) {
+    $("#mixtape tr:last td").eq(4).text(time(parseInt(mixtape.duration)));
+
+    if (!mixtape.warning) {
+      $("#mixtape-warning").remove();
+    } else {
+      $warning = $("#mixtape-warning");
+      if (!$warning.length) {
+        $warning = $("<div>", { id: 'mixtape-warning', class: 'alert alert-error' }).insertAfter('#mixtape');
+      }
+      $warning.text(mixtape.warning);
+    }
   };
 
   $(document).bind("drop", function(e) {
@@ -107,7 +127,10 @@ $(function(){
         .find('.bar')
         .addClass('bar-success');
     })
-    .done(function(song){
+    .done(function(payload){
+      var song = payload.song,
+          mixtape = payload.mixtape;
+
       addFlash('info', file.name + ' succeeded');
 
       $("<tr>")
@@ -132,11 +155,15 @@ $(function(){
               .val(song.album)
           )
         ).append(
+          $("<td>").text(time(song.duration))
+        ).append(
           $("<td>").append(
             $("<button>", { class: 'delete btn btn-danger' })
               .text('Delete')
           )
-        ).appendTo('#mixtape tbody');
+        ).insertBefore('#mixtape tr:last');
+
+      loadMixtapeAttributes(mixtape);
     })
     .fail(function(res){
       addFlash('error', file.name + ' failed: ' + res.responseText);
@@ -148,6 +175,7 @@ $(function(){
   };
 
   $("#mixtape tbody").sortable({
+    items: 'tr:not(:last)',
     handle: '.handle',
     placeholder: 'ui-state-highlight',
     start: function(){
@@ -185,13 +213,15 @@ $(function(){
       $.ajax(document.location.href + '/songs/' + id, {
         type: 'delete',
       })
-      .done(function(){
+      .done(function(mixtape){
         var base = row.index() + 1;
         row
         .fadeOut(function(){ $(this).remove(); })
         .nextAll().each(function(index, row){
           updateSong($(row).data('song-id'), { track_number: index + base });
         });
+
+        loadMixtapeAttributes(mixtape);
       });
     }
   });
