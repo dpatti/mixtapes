@@ -76,7 +76,16 @@ class MixtapesController < ApplicationController
   end
 
   def download
-    render :text => "Not yet implemented"
+    @mixtape = Mixtape.find(params[:id])
+
+    if before_contest && (!current_user || !current_user.owns?(@mixtape))
+      refuse_access and return
+    end
+
+    @mixtape.cache_or_zip
+
+    # if config.use_xsendfile; end
+    send_file @mixtape.cache_path, :filename => @mixtape.filename, :disposition => 'attachment'
   end
 
   def listen

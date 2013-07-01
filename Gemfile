@@ -13,6 +13,8 @@ gem 'omniauth-google-oauth2'
 gem 'taglib-ruby'
 gem 'streamio-ffmpeg'
 gem 'quiet_assets'
+gem 'rubyzip'
+
 
 gem "therubyracer"
 gem "less-rails"

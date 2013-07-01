@@ -115,6 +115,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
+    rubyzip (0.9.9)
     sass (3.2.9)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -157,6 +158,7 @@ DEPENDENCIES
   quiet_assets
   rails (= 3.2.8)
   rails_config
+  rubyzip
   sass-rails (~> 3.2.3)
   sqlite3
   streamio-ffmpeg

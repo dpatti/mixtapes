@@ -34,4 +34,7 @@ Mixtapes::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Sending zip files
+  config.use_xsendfile = false
 end

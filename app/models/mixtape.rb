@@ -1,3 +1,5 @@
+require 'zip/zip'
+
 class Mixtape < ActiveRecord::Base
   has_many :songs, :order => 'track_number, id'
   has_many :comments, :order => 'created_at'
@@ -30,6 +32,31 @@ class Mixtape < ActiveRecord::Base
       "Getting a bit long there! Our limit on mixes is 40 minutes. Though you won't be instantly disqualified, the added minutes better be damn worth it!"
     else
       "Holy moly this mix is long. You should probably cut it down a bit!"
+    end
+  end
+
+  def filename
+    "#{ name }.zip"
+  end
+
+  def cache_or_zip
+    latest = [updated_at, *songs.map(&:updated_at)].max
+    cache = File.stat(cache_path) rescue nil
+
+    if !cache || cache.mtime < latest || cache.size < 100
+      prepare_zip
+    end
+  end
+
+  def cache_path
+    File.join(Settings.cache_path, "#{ id }.zip")
+  end
+
+  def prepare_zip
+    Zip::ZipFile.open(cache_path, Zip::ZipFile::CREATE) do |zip|
+      songs.each do |song|
+        zip.add(song.filename, song.file)
+      end
     end
   end
 

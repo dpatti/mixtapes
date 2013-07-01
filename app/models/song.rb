@@ -23,6 +23,23 @@ class Song < ActiveRecord::Base
     super || 0
   end
 
+  def filename
+    File.join(mixtape.name, "%02d - %s - %s.%s" % [track, title, artist, extension])
+  end
+
+  def file
+    File.join(Settings.upload_path, mixtape.user_id.to_s, super)
+  end
+
+  def track
+    mixtape.songs.index(self) + 1
+  end
+
+  def extension
+    # I forgot to save this anywhere. Ugh. TEMP FIX
+    ".mp3"
+  end
+
   def similar_to(song)
     opts = { :pre_clean => true, :similarity_thresh => 90 }
     title.similar_to(song.title, opts) && artist.similar_to(song.artist, opts)
