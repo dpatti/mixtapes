@@ -26,11 +26,10 @@ class SongsController < ApplicationController
     end
 
     # Make directory for person
-    target_path = File.join(Settings.upload_path, current_user.id.to_s)
-    FileUtils.mkdir_p(target_path)
+    FileUtils.mkdir_p(File.dirname(song.file))
 
     # Copy file to upload directory
-    FileUtils.mv(params[:song_file].tempfile, File.join(target_path, song.file))
+    FileUtils.mv(params[:song_file].tempfile, song.file)
 
     if song.save
       render :json => { :song => song, :mixtape => @mixtape }, :methods => [:duration, :warning]

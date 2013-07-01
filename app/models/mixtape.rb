@@ -44,6 +44,7 @@ class Mixtape < ActiveRecord::Base
     cache = File.stat(cache_path) rescue nil
 
     if !cache || cache.mtime < latest || cache.size < 100
+      File.delete(cache_path) rescue nil
       prepare_zip
     end
   end
@@ -56,6 +57,7 @@ class Mixtape < ActiveRecord::Base
     Zip::ZipFile.open(cache_path, Zip::ZipFile::CREATE) do |zip|
       songs.each do |song|
         song.tag_file
+        p "adding", song.filename
         zip.add(song.filename, song.file)
       end
     end

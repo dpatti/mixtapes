@@ -5,7 +5,7 @@ require 'string_similarity'
 require 'song_db'
 
 class Song < ActiveRecord::Base
-  belongs_to :mixtape
+  belongs_to :mixtape, :touch => true
   has_many :likes
 
   attr_accessible :title, :artist, :album, :track_number, :duration, :file, :cover_art
@@ -36,8 +36,17 @@ class Song < ActiveRecord::Base
   end
 
   def extension
+    return @extension if @extension
+
     # I forgot to save this anywhere. Ugh. TEMP FIX
-    ".mp3"
+
+    ["a.m4a", "b.mp3"].find do |type|
+      Song.taglib_type(type)::File.open(file) do |file|
+        if file.audio_properties != nil
+          return @extension = File.extname(type).slice(1..-1)
+        end
+      end
+    end
   end
 
   def similar_to(song)
@@ -61,7 +70,7 @@ class Song < ActiveRecord::Base
   end
 
   def set_metadata(filename, path)
-    TagLib.const_get(Song.taglib_type(filename))::File.open(path) do |file|
+    Song.taglib_type(filename)::File.open(path) do |file|
       tag = file.tag
 
       return unless tag
@@ -69,17 +78,18 @@ class Song < ActiveRecord::Base
       self.title = tag.title || filename
       self.artist = tag.artist || "Unknown"
       self.album = tag.album
+      self.duration = file.audio_properties.length
     end
   end
 
   def set_duration(file)
     # Yes, Movie. There is no explicit audio class, but it does exactly what
     # we'd want it to
-    self.duration = FFMPEG::Movie.new(file).duration.round
+    self.duration ||= FFMPEG::Movie.new(file).duration.round
   end
 
   def tag_file
-    TagLib.const_get(Song.taglib_type(filename))::File.open(file) do |file|
+    Song.taglib_type(filename)::File.open(file) do |file|
       tag = file.tag
 
       tag.title = title
@@ -94,9 +104,9 @@ class Song < ActiveRecord::Base
   def self.taglib_type(filename)
     case (filetype = File.extname(filename))
     when '.mp3'
-      type = 'MPEG'
+      TagLib::MPEG
     when '.m4a'
-      type = 'MP4'
+      TagLib::MP4
     else
       raise "Invalid file type: #{ filetype }"
     end
