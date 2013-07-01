@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @mixtape.ordered_songs.each_with_index do |song, i| %>
+    <% @mixtape.songs.each_with_index do |song, i| %>
       <tr>
         <td><%= i + 1 %></td>
         <td><%= song.title %>
@@ -22,3 +22,46 @@
     <% end %>
   </tbody>
 </table>
+
+<h2>Comments</h2>
+
+<% @mixtape.comments.each do |comment| %>
+  <div class="comment" data-comment-id="<%= comment.id %>">
+    <div class="author"><%= comment.author %></div>
+    <% if comment.by_owner? %>
+      <div class="label label-info">Mixtape Owner</div>
+    <% end %>
+    <%= content_tag 'div', :class => "time", :title => comment.created_at do %>
+      <%= time_ago_in_words comment.created_at %> ago
+    <% end %>
+    <div class="body"><%= comment.comment %></div>
+    <% if comment.updated_at != comment.created_at %>
+      <%= content_tag 'i', :class => "time", :title => comment.updated_at do %>
+        Last edited <%= time_ago_in_words comment.updated_at %> ago
+      <% end %>
+    <% end %>
+    <% if comment.user == current_user %>
+      <div class="controls">
+        <a href='#' class='edit-comment'>Edit</a> |
+        <a href='#' class='delete-comment'>Delete</a>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if current_user %>
+  <h3>Post Comment</h3>
+  <%= form_for [@mixtape, @comment], :action => 'create' do |f| %>
+    <p>
+      Remember, all comments are anonymous, but when the competition is over,
+      your name will be revealed.
+
+      <% if current_user.owns? @mixtape %>
+        Additionally, since you are the owner of this mixtape, your comments
+        on this mixtape will show up tagged as "mixtape owner".
+      <% end %>
+    </p>
+    <%= f.text_area :comment %>
+    <%= f.submit "Add comment", :class => 'btn btn-primary' %>
+  <% end %>
+<% end %>

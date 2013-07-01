@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @mixtape.ordered_songs.each do |song| %>
+    <% @mixtape.songs.each do |song| %>
       <tr data-song-id="<%= song.id %>">
         <td><div class='handle'>&#9776;</div></td>
         <td><%= text_field_tag :song_title, song.title, :placeholder => "Song Title" %></td>

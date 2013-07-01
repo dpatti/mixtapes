@@ -11,7 +11,8 @@ class MixtapesController < ApplicationController
 
   # Show details about a single mixtape
   def show
-    @mixtape = Mixtape.find(params[:id])
+    @mixtape = Mixtape.includes(:comments).find(params[:id])
+    @comment = Comment.new
 
     if before_contest
       if current_user && current_user.owns?(@mixtape)
@@ -43,11 +44,6 @@ class MixtapesController < ApplicationController
     else
       render 'new'
     end
-  end
-
-  # Unused: Edit form will be on the show(?)
-  def edit
-    refuse_access
   end
 
   # PUT: Modify mixtape

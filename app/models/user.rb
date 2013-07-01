@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :name, :provider, :uid
 
   has_one :mixtape
+  has_many :comments
 
   def hash
     Digest::MD5.hexdigest(email)

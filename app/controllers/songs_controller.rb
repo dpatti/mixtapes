@@ -2,10 +2,6 @@ require 'taglib'
 require 'fileutils'
 
 class SongsController < ApplicationController
-  def index
-    refuse_access
-  end
-
   def create
     @mixtape = Mixtape.find(params[:mixtape_id])
     if contest_started or not current_user.owns? @mixtape

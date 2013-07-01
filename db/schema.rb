@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130625063229) do
+ActiveRecord::Schema.define(:version => 20130630212423) do
+
+  create_table "comments", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "mixtape_id"
+    t.text     "comment"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.boolean  "deleted",    :default => false
+  end
 
   create_table "mixtapes", :force => true do |t|
     t.string   "name"

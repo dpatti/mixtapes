@@ -201,4 +201,79 @@ $(function(){
       $(this).change();
     }
   });
+
+  // Comments
+  $(document).on('keyup', "#comment_comment", function(e){
+    if (e.keyCode == 13 && (e.ctrlKey || e.metaKey)) {
+      $(this).closest('form').submit();
+    }
+  });
+
+  $('.edit-comment').click(function(e){
+    e.preventDefault();
+
+    var $this = $(this),
+        $body = $this.closest('.comment').find('.body'),
+        text = $body.text(),
+        $editForm = $('#new_comment').clone(),
+        commentId = $this.closest('.comment').data('comment-id');
+
+    var cancel = function(e) {
+      e.preventDefault();
+      $this.parent().show();
+      $body.text(text);
+    };
+
+    // Let the other elements know we're taking over edits
+    $(document).trigger('editComment');
+
+    // Hide edit/delete controls
+    $this.parent().hide();
+
+    // Remove text
+    $body.text('');
+
+    // Modify and append form
+    $editForm
+      .attr('id', 'edit_comment')
+      .removeClass()
+      .find('p').remove().end()
+      .find('input[type=submit]').val('Save Changes').end()
+      .find('textarea').text(text).end()
+      .append(
+        $('<button class="cancel btn">Cancel</button>')
+          .on('click', cancel)
+      )
+      .on('submit', function(e){
+        e.preventDefault();
+        $.ajax($(this).attr('action') + '/' + commentId, {
+          data: new FormData(this),
+          type: 'put',
+          cache: false,
+          contentType: false,
+          processData: false,
+        })
+        .always(function(){
+          document.location.reload(true);
+        });
+      })
+      .appendTo($body);
+
+      // Also listen to other edit openings
+      $(document).bind('editComment', cancel);
+  });
+
+  $('.delete-comment').click(function(e){
+    e.preventDefault();
+    if (confirm("Are you sure you want to delete this comment?")) {
+      var url = $('#new_comment').attr('action') + '/' + $(this).closest('.comment').data('comment-id');
+
+      $.ajax(url, {
+        type: 'delete'
+      })
+      .always(function(){
+        document.location.reload(true);
+      });
+    }
+  });
 });

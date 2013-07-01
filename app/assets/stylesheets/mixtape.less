@@ -49,3 +49,42 @@ h1 {
     cursor: -webkit-grabbing;
   }
 }
+
+.comment {
+  .author {
+    display: inline-block;
+    font-size: 18px;
+  }
+
+  .label {
+    display: inline-block;
+  }
+
+  .time {
+    display: inline-block;
+  }
+
+  .body {
+    padding: 10px;
+    white-space: pre-wrap;
+
+    form {
+      white-space: normal;
+    }
+  }
+
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+
+  .controls {
+    font-size: 10px;
+  }
+}
+
+#new_comment, #edit_comment {
+  textarea {
+    width: 450px;
+    height: 150px;
+    display: block;
+  }
+}
