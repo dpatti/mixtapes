@@ -70,6 +70,7 @@ class MixtapesController < ApplicationController
     if contest_started or not current_user.owns? @mixtape
       refuse_access and return
     end
+    @mixtape.songs.each(&:destroy)
     @mixtape.destroy
     redirect_to root_path
   end

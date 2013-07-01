@@ -6,6 +6,8 @@ class Song < ActiveRecord::Base
 
   validates_presence_of :title, :artist, :file, :track_number
 
+  scope :standout, includes(:mixtape).where(Mixtape.arel_table[:id].not_eq(nil)).includes(:likes)
+
   def duration
     super || 0
   end

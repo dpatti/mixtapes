@@ -2,8 +2,10 @@ Mixtapes::Application.routes.draw do
 
   root :to => 'application#index'
 
-  match "/auth/:provider/callback" => "sessions#create"
-  match "/signout" => "sessions#destroy", :as => :signout
+  match '/auth/:provider/callback' => 'sessions#create'
+  match '/signout' => 'sessions#destroy', :as => :signout
+
+  match '/songs' => 'songs#index'
 
   resources :mixtapes, :except => :edit do
     resources :songs, :only => [:create, :update, :destroy] do
