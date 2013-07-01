@@ -1,4 +1,3 @@
-require 'taglib'
 require 'fileutils'
 
 class SongsController < ApplicationController
@@ -12,40 +11,25 @@ class SongsController < ApplicationController
       refuse_access and return 
     end
 
-    case (filetype = params[:song_file].original_filename.split('.').last)
-    when 'mp3'
-      type = 'MPEG'
-    when 'm4a'
-      type = 'MP4'
-    else
-      render :text => "Invalid file type: #{ filetype }", :status => :bad_request and return
-    end
+    # Create actual song record
+    song = @mixtape.songs.new
+    song.set_metadata(params[:song_file].original_filename, params[:song_file].tempfile.path)
 
-    song = TagLib.const_get(type)::File.open(params[:song_file].tempfile.path) do |file|
-      tag = file.tag
-
-      next unless tag
-
-      { :title => tag.title || params[:song_file].original_filename,
-        :artist => tag.artist || "Unknown",
-        :album => tag.album }
-    end
+    # Find duration
+    song.set_duration(params[:song_file].tempfile.path)
 
     # Find max song
-    song[:track_number] = (@mixtape.songs.map(&:track_number).max || 0) + 1
+    song.track_number = (@mixtape.songs.map(&:track_number).max || 0) + 1
 
     # New name - 16 random characters
-    song[:file] = rand(36**16).to_s(36)
+    song.file = rand(36**16).to_s(36)
 
     # Make directory for person
     target_path = File.join(Settings.upload_path, current_user.id.to_s)
     FileUtils.mkdir_p(target_path)
 
     # Copy file to upload directory
-    FileUtils.mv(params[:song_file].tempfile, File.join(target_path, song[:file]))
-
-    # Create actual song record
-    song = @mixtape.songs.new(song)
+    FileUtils.mv(params[:song_file].tempfile, File.join(target_path, song.file))
 
     if song.save
       render :json => song
