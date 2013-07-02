@@ -1,0 +1,24 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+  config.vm.define :mixtapes do |config|
+    config.vm.synced_folder "../mixtapes", "/mixtapes"
+
+    # HTTP.
+    config.vm.network :forwarded_port, guest: 9000, host: 9000
+
+    config.vm.provision :shell, inline: "apt-get update"
+    config.vm.provision :shell, inline: "apt-get -y install emacs curl"
+    config.vm.provision :shell, inline: "curl -L https://get.rvm.io | bash -s stable --ruby"
+    config.vm.provision :shell, inline: "sudo gem install rails"
+
+    config.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "2048"]
+      vb.customize ["modifyvm", :id, "--cpus", "2"]
+    end
+  end
+end
