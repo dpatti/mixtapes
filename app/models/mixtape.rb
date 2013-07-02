@@ -24,6 +24,10 @@ class Mixtape < ActiveRecord::Base
     songs.map(&:duration).reduce(:+) || 0
   end
 
+  def voteable_by?(user)
+    user && user.id != user_id
+  end
+
   def warning
     case duration
     when 0..40*60

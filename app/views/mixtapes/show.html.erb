@@ -8,9 +8,7 @@
       <th>Artist</th>
       <th>Original Album</th>
       <th>Duration</th>
-      <% if current_user %>
       <th></th>
-      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -21,11 +19,13 @@
         <td><%= song.artist %></td>
         <td><%= song.album %></td>
         <td><%= seconds_to_time song.duration %></td>
-        <% if current_user %>
-          <td>
-            <%= song_like_button(song) %>
-          </td>
-        <% end %>
+        <td>
+          <% if @mixtape.voteable_by?(current_user) %>
+            <%= song_like_button song %>
+          <% else %>
+            <%= song_like_button song, :dummy => true %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -62,12 +62,9 @@
   <%= form_for [@mixtape, @comment], :action => 'create' do |f| %>
     <p>
       Remember, all comments are anonymous, but when the competition is over,
-      your name will be revealed.
-
-      <% if current_user.owns? @mixtape %>
-        Additionally, since you are the owner of this mixtape, your comments
-        on this mixtape will show up tagged as <span class="label label-info">Mixtape Owner</span>.
-      <% end %>
+      your name will be revealed. Additionally, if you are the owner of this
+      mixtape, your comments on this mixtape will show up tagged as
+      <span class="label label-info">Mixtape Owner</span>.
     </p>
     <%= f.text_area :comment %>
     <%= f.submit "Add comment", :class => 'btn btn-primary' %>

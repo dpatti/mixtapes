@@ -1,7 +1,8 @@
 module MixtapeHelper
-  def song_like_button(song)
+  def song_like_button(song, opts={})
     liked = current_user.likes?(song)
-    classes = ['btn', 'like']
+    classes = ['btn btn-like']
+    classes << 'like' unless opts[:dummy]
     classes << 'btn-success' if liked
 
     content_tag 'button', :"data-song-id" => song.id,
