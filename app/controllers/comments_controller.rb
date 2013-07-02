@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
 
   def update
     @comment = Comment.find(params[:id])
-    refuse_access and return unless @comment.belongs_to? current_user
+    refuse_access and return unless @comment.editable_by? current_user
 
     @comment.update_attributes(params[:comment])
     head :no_content
@@ -20,7 +20,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
-    refuse_access and return unless @comment.belongs_to? current_user
+    refuse_access and return unless @comment.editable_by? current_user
 
     @comment.destroy
     head :no_content
