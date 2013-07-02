@@ -15,6 +15,10 @@ Mixtapes::Application.routes.draw do
     end
     resources :comments, :only => [:create, :update, :destroy]
 
+    collection do
+      get 'download', :action => 'download_all'
+    end
+
     member do
       get 'destroy', :as => 'destroy', :path => 'destroy', :action => 'destroy_confirm'
       get 'download'

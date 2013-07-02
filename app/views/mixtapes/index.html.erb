@@ -4,8 +4,7 @@
       <th>Name</th>
       <th>Creator</th>
       <th>Length</th>
-      <th>Download</th>
-      <th>Listen</th>
+      <th>Options</th>
     </tr>
   </thead>
   <tbody>
@@ -14,9 +13,13 @@
         <td><%= link_to mixtape.name, mixtape_path(mixtape.id) %></td>
         <td><%= mixtape.creator %></td>
         <td><%= seconds_to_time mixtape.duration %></td>
-        <td><%= link_to "Download", download_mixtape_path(mixtape.id) %></td>
-        <td><%= link_to "Listen", listen_mixtape_path(mixtape.id) %></td>
+        <td>
+          <%= link_to "Download", download_mixtape_path(mixtape.id), :class => 'btn btn-primary' %>
+          <%= link_to "Listen", listen_mixtape_path(mixtape.id), :class => 'btn', :disabled => true, :title => 'Not available yet' %>
+        </td>
       </tr>
     <% end %>
   </tbody>
-</ul>
+</table>
+
+<%= link_to "Download All", download_mixtapes_path, :class => 'btn btn-success' %>

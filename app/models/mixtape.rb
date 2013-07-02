@@ -44,10 +44,9 @@ class Mixtape < ActiveRecord::Base
   end
 
   def cache_or_zip
-    latest = [updated_at, *songs.map(&:updated_at)].max
     cache = File.stat(cache_path) rescue nil
 
-    if !cache || cache.mtime < latest || cache.size < 100
+    if !cache || cache.mtime < updated_at || cache.size < 100
       File.delete(cache_path) rescue nil
       prepare_zip
     end
@@ -59,11 +58,14 @@ class Mixtape < ActiveRecord::Base
 
   def prepare_zip
     Zip::ZipFile.open(cache_path, Zip::ZipFile::CREATE) do |zip|
-      songs.each do |song|
-        song.tag_file
-        p "adding", song.filename
-        zip.add(song.filename, song.file)
-      end
+      add_songs(zip)
+    end
+  end
+
+  def add_songs(zip)
+    songs.each do |song|
+      song.tag_file
+      zip.add(song.filename, song.file)
     end
   end
 

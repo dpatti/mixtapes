@@ -1,3 +1,5 @@
+require 'zip/zip'
+
 class MixtapesController < ApplicationController
   # All modifications must be done *before* the due date. That includes any
   # POST, PUT, or DELETE.
@@ -86,6 +88,23 @@ class MixtapesController < ApplicationController
 
     # if config.use_xsendfile; end
     send_file @mixtape.cache_path, :filename => @mixtape.filename, :disposition => 'attachment'
+  end
+
+  def download_all
+    mixtapes = Mixtape.with_songs
+    cache_path = File.join(Settings.cache_path, "all.zip")
+    cache = File.stat(cache_path) rescue nil
+
+    if !cache || cache.mtime < mixtapes.map(&:updated_at).max || cache.size < 100
+      File.delete(cache_path) rescue nil
+      Zip::ZipFile.open(cache_path, Zip::ZipFile::CREATE) do |zip|
+        mixtapes.each do |m|
+          m.add_songs(zip)
+        end
+      end
+    end
+
+    send_file cache_path, :filename => "FogCreek2013Mixes.zip", :disposition => 'attachment'
   end
 
   def listen
