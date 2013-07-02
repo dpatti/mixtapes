@@ -24,7 +24,7 @@ class Song < ActiveRecord::Base
   end
 
   def filename
-    File.join(mixtape.name, "%02d - %s - %s.%s" % [track, title, artist, extension])
+    File.join(mixtape.name, ("%02d - %s - %s.%s" % [track, artist, title, extension]).gsub('/', ''))
   end
 
   def file
