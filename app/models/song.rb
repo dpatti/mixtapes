@@ -19,6 +19,10 @@ class Song < ActiveRecord::Base
     where('mixtape_id != ?', mixtape_id)
   end
 
+  def hearts
+    (likes.count / 5).to_i
+  end
+
   def duration
     super || 0
   end

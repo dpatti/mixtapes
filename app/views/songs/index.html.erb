@@ -1,22 +1,26 @@
-<table class="table">
+<table id="songs" class="table">
   <thead>
     <tr>
       <th>Title</th>
       <th>Artist</th>
       <th>Album</th>
       <th>Found on</th>
-      <th>Likes</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <% @songs.each do |song| %>
-      <% if song.likes.count > 0 %>
+      <% if song.hearts > 0 %>
         <tr>
           <td><%= song.title %></td>
           <td><%= song.artist %></td>
           <td><%= song.album %></td>
           <td><%= song.mixtape.name %></td>
-          <td><%= song.likes.count %></td>
+          <td class="hearts">
+            <% song.hearts.times do %>
+              <i class="icon-heart"></i>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     <% end %>
