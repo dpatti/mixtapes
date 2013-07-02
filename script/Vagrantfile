@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
     config.vm.provision :shell, inline: "apt-get update"
     config.vm.provision :shell, inline: "apt-get -y install emacs curl libtag1-dev"
     config.vm.provision :shell, inline: "curl -L https://get.rvm.io | bash -s stable --ruby"
-    config.vm.provision :shell, inline: "sudo /usr/local/rvm/bin/rvm default do gem install rails bundler"
+    config.vm.provision :shell, inline: "sudo /usr/local/rvm/bin/rvm default do gem install bundler"
     config.vm.provision :shell, inline: "cd /mixtapes && sudo /usr/local/rvm/bin/rvm default do bundle install"
 
     config.vm.provider :virtualbox do |vb|
