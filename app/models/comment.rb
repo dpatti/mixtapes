@@ -13,6 +13,10 @@ class Comment < ActiveRecord::Base
     save
   end
 
+  def link_id
+    "##{ id }"
+  end
+
   def author
     "anonymous"
   end

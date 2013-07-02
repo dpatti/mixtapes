@@ -307,6 +307,20 @@ $(function(){
     }
   });
 
+  // Load in link
+  var highlightComment = function(id){
+    $("[data-comment-id=" + id +"]")
+      .addClass('highlighted')
+      .siblings()
+      .removeClass('highlighted');
+  };
+  if (document.location.hash) {
+    highlightComment(document.location.hash.slice(1));
+  }
+  $("a.anchor").click(function(e){
+    highlightComment($(this).attr('name'));
+  });
+
   // Likes
   $('.like').click(function(e){
     var $this = $(this),
