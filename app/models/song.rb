@@ -118,6 +118,9 @@ class Song < ActiveRecord::Base
             id3v2_tag.add_frame(frame)
           end
         end
+
+        # Remove TPOS -- disc number
+        id3v2_tag.remove_frames('TPOS')
       else
         puts "#{ filename } has mp4 tag"
         item_list_map = tag.item_list_map
@@ -125,6 +128,9 @@ class Song < ActiveRecord::Base
           item_list_map.erase(frame_id)
           item_list_map.insert(frame_id, TagLib::MP4::Item.from_string_list([ALBUM_ARTIST]))
         end
+
+        # Remove disk -- disc number
+        item_list_map.erase('disk')
       end
 
       file.save
