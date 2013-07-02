@@ -5,6 +5,8 @@ require 'string_similarity'
 require 'song_db'
 
 class Song < ActiveRecord::Base
+  ALBUM_ARTIST = "Fog Creek Mixes"
+
   belongs_to :mixtape, :touch => true
   has_many :likes
 
@@ -100,6 +102,30 @@ class Song < ActiveRecord::Base
       tag.artist = artist
       tag.album = mixtape.name
       tag.track = track
+      tag.year = 2013
+
+      # Okay, do the stupid "Album Artist" so that all media players feel included
+      if file.respond_to? :id3v2_tag
+        id3v2_tag = file.id3v2_tag
+
+        %w{TPE2 TSOP TSO2}.each do |frame_id|
+          # Remove all
+          id3v2_tag.remove_frames(frame_id)
+
+          # Re-add it
+          TagLib::ID3v2::TextIdentificationFrame.new(frame_id, TagLib::String::UTF8).tap do |frame|
+            frame.text = ALBUM_ARTIST
+            id3v2_tag.add_frame(frame)
+          end
+        end
+      else
+        puts "#{ filename } has mp4 tag"
+        item_list_map = tag.item_list_map
+        %w{aART soaa soar}.each do |frame_id|
+          item_list_map.erase(frame_id)
+          item_list_map.insert(frame_id, TagLib::MP4::Item.from_string_list([ALBUM_ARTIST]))
+        end
+      end
 
       file.save
     end
