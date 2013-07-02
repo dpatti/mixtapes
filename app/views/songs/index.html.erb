@@ -10,7 +10,7 @@
   </thead>
   <tbody>
     <% @songs.each do |song| %>
-      <% if song.hearts > 0 %>
+      <% if song.likes.count > 0 %>
         <tr>
           <td><%= song.title %></td>
           <td><%= song.artist %></td>
