@@ -6,15 +6,19 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :mixtape
 
-  default_scope where(:deleted => false)
+  scope :undeleted, where(:deleted => false)
 
   def destroy
     self.deleted = true
     save
   end
 
+  def link_hash
+    "##{ link_id }"
+  end
+
   def link_id
-    "##{ id }"
+    mixtape.comments.index(self) + 1
   end
 
   def author

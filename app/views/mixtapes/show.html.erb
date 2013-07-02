@@ -37,9 +37,9 @@
 
 <h2>Comments</h2>
 
-<% @mixtape.comments.each do |comment| %>
+<% @mixtape.comments.undeleted.each do |comment| %>
   <div class="comment" data-comment-id="<%= comment.id %>">
-    <%= link_to comment.link_id, comment.link_id, :name => comment.id, :class => 'anchor' %>
+    <%= link_to comment.link_hash, comment.link_hash, :name => comment.link_id, :class => 'anchor' %>
     <div class="author"><%= comment.author %></div>
     <% if comment.by_owner? %>
       <div class="label label-info">Mixtape Owner</div>

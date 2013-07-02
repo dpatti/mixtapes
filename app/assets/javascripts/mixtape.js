@@ -309,7 +309,8 @@ $(function(){
 
   // Load in link
   var highlightComment = function(id){
-    $("[data-comment-id=" + id +"]")
+    $("a[name=" + id +"]")
+      .closest('.comment')
       .addClass('highlighted')
       .siblings()
       .removeClass('highlighted');

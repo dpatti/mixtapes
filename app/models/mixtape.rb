@@ -35,7 +35,7 @@ class Mixtape < ActiveRecord::Base
     when 40*60..45*60
       "Getting a bit long there! Our limit on mixes is 40 minutes. Though you won't be instantly disqualified, the added minutes better be damn worth it!"
     else
-      "Holy moly this mix is long. You should probably cut it down a bit!"
+      "Holy moly this mix is long. You should probably cut it down a bit! We only want 40 minutes."
     end
   end
 
