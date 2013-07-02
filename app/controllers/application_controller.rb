@@ -30,4 +30,14 @@ class ApplicationController < ActionController::Base
   def contest_ended
     Time.new > Settings.contest.end
   end
+
+  def send_file(path, opts={})
+    if Settings.use_xsendfile
+      head :x_accel_redirect => "/#{ path }",
+           :content_type => "application/octet-stream",
+           :content_disposition => "attachment; filename=\"#{opts[:filename]}\""
+    else
+      super
+    end
+  end
 end

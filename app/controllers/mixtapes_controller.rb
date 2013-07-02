@@ -86,7 +86,6 @@ class MixtapesController < ApplicationController
 
     @mixtape.cache_or_zip
 
-    # if config.use_xsendfile; end
     send_file @mixtape.cache_path, :filename => @mixtape.filename, :disposition => 'attachment'
   end
 
