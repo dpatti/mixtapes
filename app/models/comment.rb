@@ -30,7 +30,7 @@ class Comment < ActiveRecord::Base
   end
 
   def belongs_to?(user)
-    self.user_id == user.id
+    user && self.user_id == user.id
   end
 
   def editable_by?(user)
