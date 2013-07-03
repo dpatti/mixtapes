@@ -12,6 +12,8 @@ class Comment < ActiveRecord::Base
     where('created_at > ?', time)
   }
 
+  validate :has_comment
+
   def destroy
     self.deleted = true
     save
@@ -39,5 +41,13 @@ class Comment < ActiveRecord::Base
 
   def editable_by?(user)
     belongs_to?(user) && Time.new - created_at < EDIT_CUTOFF
+  end
+
+  private
+
+  def has_comment
+    if comment.strip.length <= 0
+      errors.add(:base, 'Message missing')
+    end
   end
 end
