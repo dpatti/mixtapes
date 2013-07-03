@@ -28,8 +28,9 @@ class SongsController < ApplicationController
     # Make directory for person
     FileUtils.mkdir_p(File.dirname(song.file))
 
-    # Copy file to upload directory
+    # Copy file to upload directory and set to 0664
     FileUtils.mv(params[:song_file].tempfile, song.file)
+    FileUtils.chmod(0664, song.file)
 
     if song.save
       render :json => { :song => song, :mixtape => @mixtape }, :methods => [:duration, :warning]

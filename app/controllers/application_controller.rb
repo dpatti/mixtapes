@@ -32,6 +32,10 @@ class ApplicationController < ActionController::Base
   end
 
   def send_file(path, opts={})
+    # Make sure file is readable; rubyzip creates as 0600. This should be
+    # somewhere else but Zip is in two places.
+    FileUtils.chmod(0664, path)
+
     if Settings.use_xsendfile
       head :x_accel_redirect => "/#{ path }",
            :content_type => "application/octet-stream",
