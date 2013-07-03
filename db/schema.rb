@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130701005841) do
+ActiveRecord::Schema.define(:version => 20130703010952) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
@@ -21,6 +21,14 @@ ActiveRecord::Schema.define(:version => 20130701005841) do
     t.datetime "updated_at",                    :null => false
     t.boolean  "deleted",    :default => false
   end
+
+  create_table "last_reads", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "mixtape_id"
+    t.datetime "time"
+  end
+
+  add_index "last_reads", ["user_id", "mixtape_id"], :name => "index_last_reads_on_user_id_and_mixtape_id", :unique => true
 
   create_table "likes", :force => true do |t|
     t.integer  "user_id"

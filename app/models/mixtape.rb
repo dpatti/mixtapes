@@ -3,6 +3,7 @@ require 'zip/zip'
 class Mixtape < ActiveRecord::Base
   has_many :songs, :order => 'track_number, id'
   has_many :comments, :order => 'created_at'
+  has_many :last_reads
   belongs_to :user
 
   attr_accessible :name, :cover
@@ -11,6 +12,24 @@ class Mixtape < ActiveRecord::Base
 
   # Only get Mixtapes that have at least one song
   scope :with_songs, includes(:songs).where('songs.id is not null')
+
+  scope :with_unread_count_for, lambda {|user|
+    includes(:last_reads).where('last_reads.user_id is null or last_reads.user_id = ?', user.id)
+  }
+
+  def unread_count
+    @unread_count ||= comments.after(last_unread_time).count.tap do |n|
+      return nil if n <= 0
+    end
+  end
+
+  def last_unread
+    @last_unread ||= comments.after(last_unread_time).first
+  end
+
+  def last_unread_time
+    @last_unread_time ||= last_reads.first ? last_reads.first.time : 0
+  end
 
   def name
     super || "Untitled Mix"

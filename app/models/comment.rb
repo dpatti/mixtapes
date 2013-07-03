@@ -8,6 +8,10 @@ class Comment < ActiveRecord::Base
 
   scope :undeleted, where(:deleted => false)
 
+  scope :after, lambda {|time|
+    where('created_at > ?', time)
+  }
+
   def destroy
     self.deleted = true
     save

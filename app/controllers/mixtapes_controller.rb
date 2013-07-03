@@ -8,7 +8,7 @@ class MixtapesController < ApplicationController
   def index
     refuse_access and return if before_contest
 
-    @mixtapes = Mixtape.with_songs
+    @mixtapes = Mixtape.with_songs.with_unread_count_for(current_user)
   end
 
   # Show details about a single mixtape
@@ -22,6 +22,11 @@ class MixtapesController < ApplicationController
       else
         refuse_access and return
       end
+    end
+
+    # Update last read
+    if current_user
+      LastRead.update_pair(current_user.id, @mixtape.id)
     end
   end
 
