@@ -156,7 +156,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   puma
   quiet_assets
-  rails (= 3.2.8)
+  rails (~> 3.2.8)
   rails_config
   rubyzip
   sass-rails (~> 3.2.3)
