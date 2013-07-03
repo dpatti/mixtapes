@@ -1,4 +1,7 @@
 class LastRead < ActiveRecord::Base
+  belongs_to :user
+  belongs_to :mixtape
+
   validates_uniqueness_of :user_id, :scope => :mixtape_id
   validates_presence_of :user_id, :mixtape_id
 

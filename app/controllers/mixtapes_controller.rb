@@ -8,7 +8,11 @@ class MixtapesController < ApplicationController
   def index
     refuse_access and return if before_contest
 
-    @mixtapes = Mixtape.with_songs.with_unread_count_for(current_user)
+    @mixtapes = Mixtape.with_songs.all.each do |mixtape|
+      if current_user
+        mixtape.with_last_read_time_for(current_user)
+      end
+    end
   end
 
   # Show details about a single mixtape
