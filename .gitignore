@@ -14,6 +14,9 @@
 /log/*.log
 /tmp
 
+# Ignore Gemfile's lock.
+/Gemfile.lock
+
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
