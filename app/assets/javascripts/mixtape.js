@@ -338,4 +338,33 @@ $(function(){
       $this.toggleClass('btn-success');
     });
   });
+
+  // Unread
+  $('.unread').closest('td').on('click', 'a', function(){
+    if (history) {
+      var row = $(this).closest('tr'),
+          index = row.index(),
+          last = row.find('.unread').attr('href'),
+          state = history.state || {};
+
+      state[index] = last;
+      history.replaceState(state, 'visited', '');
+    }
+  });
+
+  var handleState = function(){
+    if (history && history.state) {
+      for (var index in history.state) {
+        var unread = $('#mixes tbody tr:eq('+index+') .unread');
+        if (unread.attr('href') == history.state[index]) {
+          unread.hide();
+        }
+      }
+    }
+  };
+
+  // Firefox does not fire popstate when you load a page, so we call it
+  // immediately too.
+  handleState();
+  $(window).on('popstate', handleState);
 });
