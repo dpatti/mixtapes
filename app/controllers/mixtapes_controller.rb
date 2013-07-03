@@ -13,6 +13,8 @@ class MixtapesController < ApplicationController
         mixtape.with_last_read_time_for(current_user)
       end
     end
+
+    @comments = Comment.latest
   end
 
   # Show details about a single mixtape

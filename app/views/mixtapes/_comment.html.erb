@@ -1,0 +1,25 @@
+<div class="comment" data-comment-id="<%= comment.id %>">
+  <% if mixtape %>
+    <h5><%= comment.mixtape.name %></h5>
+  <% end %>
+  <%= link_to comment.link_hash, mixtape_path(comment.mixtape.id) + comment.link_hash, :name => comment.link_id, :class => 'anchor' %>
+  <div class="author"><%= comment.author %></div>
+  <% if comment.by_owner? %>
+    <div class="label label-info">Mixtape Owner</div>
+  <% end %>
+  <%= content_tag 'div', :class => "time", :title => comment.created_at do %>
+    <%= time_ago_in_words comment.created_at %> ago
+  <% end %>
+  <div class="body"><%= comment.comment %></div>
+  <% if comment.updated_at != comment.created_at %>
+    <%= content_tag 'i', :class => "time", :title => comment.updated_at do %>
+      Last edited <%= time_ago_in_words comment.updated_at %> ago
+    <% end %>
+  <% end %>
+  <% if editable && comment.editable_by?(current_user) %>
+    <div class="controls">
+      <a href='#' class='edit-comment'>Edit</a> |
+      <a href='#' class='delete-comment'>Delete</a>
+    </div>
+  <% end %>
+</div>

@@ -8,6 +8,8 @@ class Comment < ActiveRecord::Base
 
   scope :undeleted, where(:deleted => false)
 
+  scope :latest, undeleted.order('created_at desc').limit(5)
+
   scope :after, lambda {|time|
     where('created_at > ?', time)
   }
