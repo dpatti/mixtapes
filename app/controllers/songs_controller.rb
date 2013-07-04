@@ -3,6 +3,8 @@ require 'fileutils'
 class SongsController < ApplicationController
   def index
     @songs = Song.standout
+              .select{|s| s.likes.count > 0}
+              .sort_by{|s| [-s.likes.count, s.mixtape.name]}
   end
 
   def create

@@ -10,19 +10,17 @@
   </thead>
   <tbody>
     <% @songs.each do |song| %>
-      <% if song.likes.count > 0 %>
-        <tr>
-          <td><%= song.title %></td>
-          <td><%= song.artist %></td>
-          <td><%= song.album %></td>
-          <td><%= song.mixtape.name %></td>
-          <td class="hearts">
-            <% song.hearts.times do %>
-              <i class="icon-heart"></i>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
+      <tr>
+        <td><%= song.title %></td>
+        <td><%= song.artist %></td>
+        <td><%= song.album %></td>
+        <td><%= song.mixtape.name %></td>
+        <td class="hearts">
+          <% song.hearts.times do %>
+            <i class="icon-heart"></i>
+          <% end %>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>
