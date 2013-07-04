@@ -15,14 +15,25 @@ class Song < ActiveRecord::Base
   validates_presence_of :title, :artist, :file, :track_number
 
   scope :on_mixtape, includes(:mixtape).where(Mixtape.arel_table[:id].not_eq(nil))
-  scope :standout, on_mixtape.includes(:likes)
+  scope :standout, on_mixtape.includes(:likes).where('duration < ?', 30.minutes.to_i)
 
   def on_mixtapes_other_than(mixtape_id)
     where('mixtape_id != ?', mixtape_id)
   end
 
+  def mixtape
+    # Some songs had no mixtape if they were uploaded and then the tape got
+    # deleted. This isn't the best solution, but it is a temporary fix.
+    super || Mixtape.new
+  end
+
   def hearts
     (likes.count / 5).to_i
+  end
+
+  def vote_eligible
+    # Songs over 30 minutes are compilations by our definition
+    duration < 30.minutes
   end
 
   def duration

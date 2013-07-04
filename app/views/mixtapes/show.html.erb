@@ -27,10 +27,12 @@
         <td><%= seconds_to_time song.duration %></td>
         <% if current_user %>
         <td>
-          <% if @mixtape.voteable_by?(current_user) %>
-            <%= song_like_button song %>
-          <% else %>
-            <%= song_like_button song, :dummy => true %>
+          <% if song.vote_eligible %>
+            <% if @mixtape.voteable_by?(current_user) %>
+              <%= song_like_button song %>
+            <% else %>
+              <%= song_like_button song, :dummy => true %>
+            <% end %>
           <% end %>
         </td>
         <% end %>
