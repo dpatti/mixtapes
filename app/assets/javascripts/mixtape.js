@@ -20,7 +20,7 @@ $(function(){
   };
 
   $("#name").change(function(){
-    $.ajax(document.location.href, {
+    $.ajax(document.location.pathname, {
       type: 'put',
       data: { mixtape: { name: $(this).val() }},
     });
@@ -41,7 +41,7 @@ $(function(){
   var updateSong = function(id, attrs) {
     if (!id) return;
 
-    return $.ajax(document.location.href + '/songs/' + id, {
+    return $.ajax(document.location.pathname + '/songs/' + id, {
       type: 'put',
       data: {
         song: attrs,
@@ -97,7 +97,7 @@ $(function(){
       .removeClass('bar-success');
 
     return $.ajax({
-      url: document.location.href + '/songs',
+      url: document.location.pathname + '/songs',
       type: 'POST',
       data: data,
       cache: false,
@@ -210,7 +210,7 @@ $(function(){
         id = row.data('song-id');
 
     if (confirm("Are you sure you want to remove this song from your mixtape?")) {
-      $.ajax(document.location.href + '/songs/' + id, {
+      $.ajax(document.location.pathname + '/songs/' + id, {
         type: 'delete',
       })
       .done(function(mixtape){
@@ -327,7 +327,7 @@ $(function(){
     var $this = $(this),
         like = $this.is('.btn-success'),
         songId = $this.data('song-id'),
-        url = document.location.href + '/songs/' + songId + '/like';
+        url = document.location.pathname + '/songs/' + songId + '/like';
 
     $.ajax(url, {
       type: 'put',
