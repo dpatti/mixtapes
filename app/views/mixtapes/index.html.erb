@@ -15,7 +15,7 @@
             <td>
               <%= link_to mixtape.name, mixtape_path(mixtape.id) %>
               <% if current_user && mixtape.unread_count %>
-                <%= link_to mixtape_path(mixtape.id) + mixtape.last_unread.link_hash, :class => 'unread badge badge-info', :title => "%d unread comments" % mixtape.unread_count do %>
+                <%= link_to mixtape_comments(mixtape, mixtape.last_unread.link_id), :class => 'unread badge badge-info', :title => "%d unread comments" % mixtape.unread_count do %>
                   <%= mixtape.unread_count %>
                 <% end %>
               <% end %>

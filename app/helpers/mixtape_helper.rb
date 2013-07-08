@@ -10,4 +10,8 @@ module MixtapeHelper
       content_tag('label'){ "Stand out song" }
     end
   end
+
+  def mixtape_comments(tape, comment='comments')
+    "%s#%s" % [mixtape_path(tape), comment]
+  end
 end

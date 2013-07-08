@@ -21,10 +21,6 @@ class Comment < ActiveRecord::Base
     save
   end
 
-  def link_hash
-    "##{ link_id }"
-  end
-
   def link_id
     mixtape.comments.index(self) + 1
   end
