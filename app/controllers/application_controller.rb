@@ -44,4 +44,12 @@ class ApplicationController < ActionController::Base
       super
     end
   end
+
+  def rotation_seed
+    Random.new(Settings.contest.rotation.to_i)
+  end
+
+  def rotation_day
+    (Time.now - Settings.contest.rotation).to_i / 1.day
+  end
 end

@@ -1,5 +1,8 @@
 <div class="row-fluid">
   <div class="span8">
+    <% if @highlight %>
+      <%= render partial: 'highlight' %>
+    <% end %>
     <table id="mixes" class='table'>
       <thead>
         <tr>
@@ -11,7 +14,7 @@
       </thead>
       <tbody>
         <% @mixtapes.each do |mixtape| %>
-          <tr>
+          <%= content_tag 'tr', :class => (mixtape == @highlight ? 'highlight' : '') do %>
             <td>
               <%= link_to mixtape.name, mixtape_path(mixtape.id) %>
               <% if current_user && mixtape.unread_count %>
@@ -26,7 +29,7 @@
               <%= link_to "Download", download_mixtape_path(mixtape.id), :class => 'btn btn-primary' %>
               <%= link_to "Listen", listen_mixtape_path(mixtape.id), :class => 'btn', :disabled => true, :title => 'Not available yet' %>
             </td>
-          </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>

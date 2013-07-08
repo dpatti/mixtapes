@@ -1,4 +1,5 @@
 contest:
   start: 2013-01-01T00:00:00.0
+  rotation: 2013-01-01T00:00:00.0
   end: 2023-01-01T00:00:00.0
 use_xsendfile: false

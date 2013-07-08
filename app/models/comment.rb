@@ -14,6 +14,8 @@ class Comment < ActiveRecord::Base
     where('created_at > ?', time)
   }
 
+  scope :today, lambda { after(Date.today.to_time) }
+
   validate :has_comment
 
   def destroy

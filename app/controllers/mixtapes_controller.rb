@@ -15,6 +15,11 @@ class MixtapesController < ApplicationController
     end
 
     @comments = Comment.latest
+
+    if Settings.contest.rotation < Time.now && !contest_ended
+      # Build list of mixtapes, randomize and pick one.
+      @highlight = Mixtape.with_songs.shuffle(random: rotation_seed).cycle.take(rotation_day + 1).last
+    end
   end
 
   # Show details about a single mixtape
