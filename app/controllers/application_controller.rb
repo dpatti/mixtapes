@@ -50,6 +50,18 @@ class ApplicationController < ActionController::Base
   end
 
   def rotation_day
-    (Time.now - Settings.contest.rotation).to_i / 1.day
+    # We align this day with the monday of the first week, and then we fit it to
+    # a 5-day week where the weekends are not counted.
+    offset = Settings.contest.rotation.wday - 1
+    days = (Time.now - Settings.contest.rotation).to_i / 1.day + offset
+
+    (days / 7) * 5 + (days % 7) - offset
+  end
+
+  def daily_mix_day?
+    Settings.contest.rotation < Time.now \
+      && !contest_ended \
+      && !Time.now.saturday? \
+      && !Time.now.sunday?
   end
 end
