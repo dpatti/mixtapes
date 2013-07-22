@@ -7,7 +7,7 @@ class GuessesController < ApplicationController
       guesses[mixtape] ||= [current_user.guesses.new(:mixtape_id => mixtape.id)]
     end
     @guesses = guesses.values.map(&:first).sort_by {|g| g.mixtape.name}
-    @options = User.all
+    @options = User.all.sort_by(&:name)
   end
 
   def update
