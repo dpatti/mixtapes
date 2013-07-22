@@ -367,4 +367,17 @@ $(function(){
   // immediately too.
   handleState();
   $(window).on('popstate', handleState);
+
+  // Guesses
+  $('select.guess').change(function(e){
+    $.ajax('/guesses', {
+      method: 'put',
+      data: {
+        guess: {
+          mixtape_id: $(this).data('mixtape'),
+          user_guessed_id: $(this).val(),
+        }
+      }
+    });
+  });
 });

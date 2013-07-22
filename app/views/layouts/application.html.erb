@@ -25,6 +25,9 @@
         <% else %>
           <%= navbar_link_to 'View mixtapes', mixtapes_path %>
           <%= navbar_link_to 'Stand out songs', songs_path %>
+          <% if current_user %>
+            <%= navbar_link_to 'My Guesses', guesses_path %>
+          <% end %>
         <% end %>
       </ul>
 

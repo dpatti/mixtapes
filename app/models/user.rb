@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_one :mixtape
   has_many :comments
   has_many :likes
+  has_many :guesses
 
   def hash
     Digest::MD5.hexdigest(email)

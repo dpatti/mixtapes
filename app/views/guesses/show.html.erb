@@ -1,0 +1,32 @@
+<p>These are your guesses as to who made which mix. If you submitted a mix, your
+mix will still be listed here; however, any selection you make will be ignored.
+Thus, you do not have to select yourself, so as not to give your mix away.</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Mixtape</th>
+      <th>Creator</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @guesses.each do |guess| %>
+      <tr>
+        <td><%= guess.mixtape.name %></td>
+        <td>
+          <%= collection_select :guess, :user_guessed_id, @options, :id, :name,
+            {
+              :include_blank => true,
+              :selected => guess.user_guessed_id,
+            },
+            {
+              :class => 'guess',
+              :'data-mixtape' => guess.mixtape.id,
+            }
+          %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
