@@ -18,7 +18,9 @@ class MixtapesController < ApplicationController
 
     if daily_mix_day?
       # Build list of mixtapes, randomize and pick one.
-      @highlight = Mixtape.with_songs.shuffle(random: rotation_seed).cycle.take(rotation_day + 1).last
+      highlights = Mixtape.with_songs.shuffle(random: rotation_seed).cycle.take(rotation_day + 1)
+      *@previous, @highlight = highlights
+      @previous.uniq!
     end
   end
 

@@ -1,4 +1,20 @@
 <div id="highlight" class="well">
+  <% if @previous.length > 0 %>
+    <div class="previous btn-group">
+      <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+        Previously Featured
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <% @previous.each do |mix| %>
+          <li>
+          <%= link_to mix.name, mixtape_path(mix), :tabindex => -1 %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <b>Mix of the Day: <%= @highlight.name %></b> (<%= seconds_to_time @highlight.duration %>)
   <div>
     <%= link_to 'View mixtape', mixtape_path(@highlight) %>
