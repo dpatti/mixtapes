@@ -1,9 +1,13 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :current_user, :before_contest, :contest_started, :contest_ended
+  helper_method :current_user, :before_contest, :contest_started, :contest_ended, :voting_warning
 
   def index
     render "home"
+  end
+
+  def voting
+    render "voting"
   end
 
   def refuse_access
@@ -15,6 +19,12 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def voting_warning
+    left = Settings.contest.end - Time.new
+    left.between?(0, 14.days) ? (left / 1.day).to_i : nil
+  end
+
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end

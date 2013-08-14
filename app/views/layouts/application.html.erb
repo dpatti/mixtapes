@@ -50,6 +50,12 @@
     </div>
   </div>
 
+  <% if voting_warning && !current_page?(voting_path) %>
+    <%= link_to voting_path, :class => 'full-flash' do %>
+      <%= pluralize voting_warning, 'day' %> left to vote. Click to learn more.
+    <% end %>
+  <% end %>
+
   <div class="container">
     <div id="alerts">
       <% flash.each do |type, message| %>

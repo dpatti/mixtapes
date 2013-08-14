@@ -2,6 +2,8 @@ Mixtapes::Application.routes.draw do
 
   root :to => 'application#index'
 
+  match '/voting' => 'application#voting'
+
   match '/auth/:provider/callback' => 'sessions#create'
   match '/signout' => 'sessions#destroy', :as => :signout
 
