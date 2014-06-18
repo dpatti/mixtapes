@@ -121,7 +121,7 @@ class MixtapesController < ApplicationController
       end
     end
 
-    send_file cache_path, :filename => "FogCreek2013Mixes.zip", :disposition => 'attachment'
+    send_file cache_path, :filename => "FogCreek2014Mixes.zip", :disposition => 'attachment'
   end
 
   def listen

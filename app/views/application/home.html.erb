@@ -1,53 +1,31 @@
-<h1>Fog Creek's 6th Annual Summer Mixtape Competition</h1>
+<h1>Fog Creek's 7th Annual Summer Mixtape Competition</h1>
 
-<p>Coming up in the next few weeks will be the start of our sixth annual mixtape
-competition. It's an awesome chance to showcase some really cool music and more
-importantly listen to a lot of great music you likely haven't heard before. It's
-a ton of fun, even if you don't have anything to contribute.</p>
+<p>Coming up in the next few weeks will be the start of our seventh annual
+mixtape competition. It's an awesome chance to showcase some really cool music
+and more importantly listen to a lot of great music you likely haven't heard
+before. It's a ton of fun, even if you don't have anything to contribute.</p>
 
-<p><b>The deadline for entries is Monday, July 1, by the end of the day.</b> If
-this does not work for you for some reason, talk to Doug and we'll figure
+<p><b>The deadline for entries is Tuesday, June 24, by the end of the day.</b>
+If this does not work for you for some reason, talk to Doug and we'll figure
 something out.</p>
 
-<p>We are using files again this year, but they will be submitted to this web
-server so that it can automatically tag them appropriately for you. Remember:
-everything is anonymous! That's half of the fun. This year, we're going to
-experiment with allowing you to post comments on the mixtape server anonymously
-for each mix, but your identity will be revealed at the end of the competition
-when all the mix authors are too.</p>
+<p>Here's a quick run-down on how the competition works:</p>
 
-<p>The server is really easy to use. First, log in with your Google account (you
-can use your personal one or your @fogcreek.com address). Then, click "Create
-Mix" if you are participating, pick a name for the mix, and then drag some files
-from your desktop to the browser and it will upload them all. You can make sure
-that the titles and artists are all correct, and be sure to drag them around so
-that they are in the same order you want everyone to listen to them in!</p>
-
-<p>Mixtapes can be as many songs as you'd like, but no longer than 40 minutes.
-It's not a strict limit (i.e., you aren't disqualified at 40:01), but if you go
-over 40 minutes, it better be worth it. Much more than that and it drags on
-a bit too much.</p>
-
-<p>The competition will officially start Tuesday (July 2) at the beginning of
-the day, at which point the mixes will be available for download or copies will
-also be placed in \\filefc1\share\media\Mixes\. Each day, the server will select
-one mix to be the "mix of the day". That's our chance to listen and comment
-together. For those of you not familiar with the process, near the end of the
-summer we will all vote on which mixes we liked the best, and the top 3 will be
-announced at the end-of-summer party. More details on that when we get
-there.</p>
+<ul>
+  <li>All mixtape submissions and comments are anonymous until the end of the
+  competition.</li>
+  <li>Making a mix is as easy as dragging audio files from your computer to the
+  browser and re-arranging them as you want. The server will make sure
+  everything is tagged properly!</li>
+  <li>Your mix can have as many songs as you'd like but should be no longer than
+  40 minutes. It's not a strict limit (i.e., you aren't disqualified at 40:01),
+  but if you go over 40 minutes, it better be worth it.</li>
+  <li>Some people like to mix songs into a single track. If you do this, be sure
+  to upload each song individually too and place the single track mix
+  first.</li>
+  <li>The old mixtapes will be available in an archive soon, but you can find
+  them on \\filefc1\share\media\Mixes\.</li>
+  <li>Voting details to come later in the summer!</li>
+</ul>
 
 <p>If you have any questions, comments, or suggestions, <a href="mailto:doug@fogcreek.com">let me know</a>.</p>
-
-<% if current_user %>
-  <% if before_contest %>
-    <% if current_user.mixtape %>
-      <%= link_to "Edit My Mixtape", mixtape_path(current_user.mixtape.id), :class => "btn" %>
-      <%= link_to "Delete My Mixtape", destroy_mixtape_path(current_user.mixtape.id), :class => "btn btn-danger" %>
-    <% else %>
-      <%= link_to "Create Mixtape", new_mixtape_path, :class => "btn btn-success" %>
-    <% end %>
-  <% end %>
-<% else %>
-  <%= link_to "Sign in with Google", "/auth/google_oauth2", :class => "btn btn-primary" %>
-<% end %>

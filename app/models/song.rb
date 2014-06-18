@@ -113,7 +113,7 @@ class Song < ActiveRecord::Base
       tag.artist = artist
       tag.album = mixtape.name
       tag.track = track
-      tag.year = 2013
+      tag.year = 2014
 
       # Okay, do the stupid "Album Artist" so that all media players feel included
       if file.respond_to? :id3v2_tag
