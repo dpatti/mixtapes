@@ -17,9 +17,10 @@ class MixtapesController < ApplicationController
     @comments = Comment.latest
 
     if daily_mix_day?
-      # Build list of mixtapes, randomize and pick one.
-      highlights = Mixtape.with_songs.shuffle(random: rotation_seed).cycle.take(rotation_day + 1)
-      *@previous, @highlight = highlights
+      # Build list of mixtapes, randomize and pick one. We concat nil at the end
+      # so that when all mixtapes have had a day, we stop showing a current mix.
+      seeded_order = Mixtape.with_songs.shuffle(random: rotation_seed).push(nil)
+      *@previous, @highlight = seeded_order.take(rotation_day + 1)
       @previous.uniq!
     end
   end
