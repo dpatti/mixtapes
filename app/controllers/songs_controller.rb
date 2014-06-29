@@ -78,4 +78,9 @@ class SongsController < ApplicationController
     end
     head :no_content
   end
+
+  def listen
+    song = Song.find(params[:id])
+    send_file song.file, :filename => song.filename
+  end
 end

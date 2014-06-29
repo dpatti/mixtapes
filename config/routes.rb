@@ -15,6 +15,7 @@ Mixtapes::Application.routes.draw do
     resources :songs, :only => [:create, :update, :destroy] do
       member do
         put 'like'
+        get 'listen'
       end
     end
     resources :comments, :only => [:create, :update, :destroy]
