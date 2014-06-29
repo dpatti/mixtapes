@@ -44,7 +44,7 @@
 <a name="comments"></a>
 <h2>Comments</h2>
 
-<% @mixtape.comments.undeleted.each do |comment| %>
+<% @mixtape.comments.each do |comment| %>
   <%= render partial: 'comment', locals: { comment: comment, mixtape: false, editable: true } %>
 <% end %>
 

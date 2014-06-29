@@ -6,15 +6,15 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :mixtape
 
-  scope :undeleted, where(:deleted => false)
-
-  scope :latest, undeleted.order('created_at desc').limit(5)
+  scope :latest, order('created_at desc').limit(5)
 
   scope :after, lambda {|time|
     where('created_at > ?', time)
   }
 
   scope :today, lambda { after(Date.today.to_time) }
+
+  default_scope where(:deleted => false)
 
   validate :has_comment
 
