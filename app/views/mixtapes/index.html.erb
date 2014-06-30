@@ -27,7 +27,7 @@
             <td><%= seconds_to_time mixtape.duration %></td>
             <td>
               <%= link_to "Download", download_mixtape_path(mixtape.id), :class => 'btn btn-primary' %>
-              <%= link_to "Listen", listen_mixtape_path(mixtape.id), :class => 'btn', :disabled => true, :title => 'Not available yet' %>
+              <%= link_to "Listen", listen_mixtape_path(mixtape.id), :class => 'btn', :target => '_blank' %>
             </td>
           <% end %>
         <% end %>

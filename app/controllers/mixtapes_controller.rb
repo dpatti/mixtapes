@@ -126,6 +126,7 @@ class MixtapesController < ApplicationController
   end
 
   def listen
-    render :text => "Not yet implemented"
+    @mixtape = Mixtape.includes(:songs).find(params[:id])
+    render :layout => false
   end
 end

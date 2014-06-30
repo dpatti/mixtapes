@@ -13,5 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery_ui
+//= require jquery.jplayer
+//= require jplayer.playlist
 //= require twitter/bootstrap
 //= require_tree .
