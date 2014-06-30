@@ -28,7 +28,7 @@ class Song < ActiveRecord::Base
   end
 
   def hearts
-    (likes.count / 3).to_i
+    (likes.size / 3).to_i
   end
 
   def vote_eligible
