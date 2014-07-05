@@ -8,12 +8,12 @@ class User < ActiveRecord::Base
   has_many :likes
   has_many :guesses
 
-  def hash
+  def email_hash
     Digest::MD5.hexdigest(email)
   end
 
   def gravatar
-    "https://secure.gravatar.com/avatar/#{ hash }?s=60"
+    "https://secure.gravatar.com/avatar/#{ email_hash }?s=60"
   end
 
   def self.create_with_omniauth(auth)
