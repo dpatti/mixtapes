@@ -32,4 +32,9 @@ class User < ActiveRecord::Base
   def likes?(song)
     likes.any? {|l| l.song_id == song.id}
   end
+
+  def accessed_at
+    # Backfill
+    super || created_at
+  end
 end

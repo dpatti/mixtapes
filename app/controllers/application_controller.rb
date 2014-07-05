@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user, :before_contest, :contest_started, :contest_ended, :voting_warning
 
+  before_filter :record_user_activity
+
   def index
     render "home"
   end
@@ -73,5 +75,11 @@ class ApplicationController < ActionController::Base
       && !contest_ended \
       && !Time.now.saturday? \
       && !Time.now.sunday?
+  end
+
+  def record_user_activity
+    if current_user
+      current_user.touch :accessed_at
+    end
   end
 end
