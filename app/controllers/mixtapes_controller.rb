@@ -126,6 +126,10 @@ class MixtapesController < ApplicationController
   end
 
   def listen
+    if before_contest
+      refuse_access and return
+    end
+
     if params[:id] == "random"
       id = Mixtape.with_songs.map(&:id).sample
       return redirect_to listen_mixtape_path(id)
