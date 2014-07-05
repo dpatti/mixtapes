@@ -65,7 +65,9 @@ class SongsController < ApplicationController
 
   def like
     @song = Song.includes(:mixtape).find(params[:id])
-    refuse_access and return unless @song.mixtape.voteable_by? current_user
+    if @song.compilation || !@song.mixtape.voteable_by?(current_user)
+      return head :forbidden
+    end
 
     if params[:value]
       # This might fail because of uniqueness, but that's okay
