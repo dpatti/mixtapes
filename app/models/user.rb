@@ -37,4 +37,12 @@ class User < ActiveRecord::Base
     # Backfill
     super || created_at
   end
+
+  def active?
+    if mixtape && !mixtape.songs.empty?
+      return true
+    end
+
+    return accessed_at > Settings.contest.start
+  end
 end
