@@ -35,9 +35,10 @@
     </table>
   </div>
   <div class="span4">
+    <%= link_to "Listen to random mix", listen_mixtape_path("random"), :class => 'btn' %>
+    <%= link_to "Download all", download_mixtapes_path, :class => 'btn btn-success' %>
     <% @comments.each do |comment| %>
       <%= render partial: 'comment', locals: { comment: comment, mixtape: true, editable: false } %>
     <% end %>
   </div>
 </div>
-<%= link_to "Download All", download_mixtapes_path, :class => 'btn btn-success' %>

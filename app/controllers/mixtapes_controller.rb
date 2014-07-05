@@ -126,6 +126,11 @@ class MixtapesController < ApplicationController
   end
 
   def listen
+    if params[:id] == "random"
+      id = Mixtape.with_songs.map(&:id).sample
+      return redirect_to listen_mixtape_path(id)
+    end
+
     @mixtape = Mixtape.includes(:songs).find(params[:id])
     render :layout => false
   end
