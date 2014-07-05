@@ -1,2 +1,4 @@
 upload_path: uploads
 cache_path: cache
+daily_exclusions:
+  - 2014-07-04

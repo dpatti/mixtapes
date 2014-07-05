@@ -67,14 +67,27 @@ class ApplicationController < ActionController::Base
     offset = Settings.contest.rotation.wday - 1
     days = (Time.now - Settings.contest.rotation).to_i / 1.day + offset
 
-    (days / 7) * 5 + (days % 7) - offset
+    index = (days / 7) * 5 + (days % 7) - offset
+
+    # We also have to take into account the exclusions defined in the settings.
+    # If any of them fall between the contest time period and have passed, we
+    # should decrement.
+    index -= Settings.daily_exclusions.select do |date|
+      date.to_time.between?(Settings.contest.start, Settings.contest.end) \
+        && date < Date.today
+    end.count
+
+    return index
   end
 
   def daily_mix_day?
-    Settings.contest.rotation < Time.now \
-      && !contest_ended \
-      && !Time.now.saturday? \
-      && !Time.now.sunday?
+    [
+      Settings.contest.rotation < Time.now,
+      !contest_ended,
+      !Time.now.saturday?,
+      !Time.now.sunday?,
+      !Settings.daily_exclusions.include?(Date.today),
+    ].all?
   end
 
   def record_user_activity
