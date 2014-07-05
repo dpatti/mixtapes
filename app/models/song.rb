@@ -31,9 +31,9 @@ class Song < ActiveRecord::Base
     (likes.size / 3).to_i
   end
 
-  def vote_eligible
+  def compilation
     # Songs over 30 minutes are compilations by our definition
-    duration < 30.minutes
+    duration > 30.minutes
   end
 
   def duration

@@ -136,6 +136,10 @@ class MixtapesController < ApplicationController
     end
 
     @mixtape = Mixtape.includes(:songs).find(params[:id])
+    # Do smart detection if it is a compilation so we only create a playlist
+    # with that track.
+    compilation = @mixtape.songs.find(&:compilation)
+    @songs = compilation ? [compilation] : @mixtape.songs
     render :layout => false
   end
 end

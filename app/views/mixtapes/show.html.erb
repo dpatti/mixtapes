@@ -28,7 +28,7 @@
         <td><%= seconds_to_time song.duration %></td>
         <% if current_user %>
         <td>
-          <% if song.vote_eligible %>
+          <% if not song.compilation %>
             <% if @mixtape.voteable_by?(current_user) %>
               <%= song_like_button song %>
             <% else %>
