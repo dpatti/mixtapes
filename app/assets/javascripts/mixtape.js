@@ -339,6 +339,24 @@ $(function(){
     });
   });
 
+  // Quickplay
+  var player = new Audio();
+  $('.play').click(function(e){
+    var songId = $(this).data('song-id'),
+        url = document.location.pathname + '/songs/' + songId + '/listen';
+
+    if (!player.paused) {
+      player.pause();
+
+      // If we press the same play button twice, just stop
+      if (player.src.indexOf(url) >= 0)
+        return;
+    }
+
+    player.src = url;
+    player.play();
+  });
+
   // Unread
   $('.unread').closest('td').on('click', 'a', function(){
     if (history) {
