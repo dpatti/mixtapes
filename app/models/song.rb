@@ -27,6 +27,12 @@ class Song < ActiveRecord::Base
     super || Mixtape.new
   end
 
+  def liked_by?(user)
+    return false unless user
+
+    likes.any? {|l| l.user_id == user.id }
+  end
+
   def hearts
     (likes.size / 3).to_i
   end

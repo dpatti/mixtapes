@@ -10,7 +10,7 @@
   </thead>
   <tbody>
     <% @songs.each do |song| %>
-      <tr>
+      <%= content_tag 'tr', :class => (song.liked_by?(current_user) ? 'highlight' : '') do %>
         <td><%= song.title %></td>
         <td><%= song.artist %></td>
         <td><%= song.album %></td>
@@ -20,7 +20,7 @@
             <i class="icon-heart"></i>
           <% end %>
         </td>
-      </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
