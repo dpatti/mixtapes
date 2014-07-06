@@ -1,3 +1,7 @@
+<% if @show_favorites %>
+  <%= link_to "Shuffle my favorites", songs_favorites_path, :class => 'btn', :target => '_blank' %>
+<% end %>
+
 <table id="songs" class="table">
   <thead>
     <tr>

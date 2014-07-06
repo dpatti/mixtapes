@@ -135,11 +135,12 @@ class MixtapesController < ApplicationController
       return redirect_to listen_mixtape_path(id)
     end
 
-    @mixtape = Mixtape.includes(:songs).find(params[:id])
+    mixtape = Mixtape.includes(:songs).find(params[:id])
+    @title = mixtape.name
     # Do smart detection if it is a compilation so we only create a playlist
     # with that track.
-    compilation = @mixtape.songs.find(&:compilation)
-    @songs = compilation ? [compilation] : @mixtape.songs
-    render :layout => false
+    compilation = mixtape.songs.find(&:compilation)
+    @songs = compilation ? [compilation] : mixtape.songs
+    render :layout => false, :template => "listen"
   end
 end

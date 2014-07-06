@@ -39,6 +39,10 @@ class ApplicationController < ActionController::Base
     not before_contest
   end
 
+  def contest_in_progress
+    Time.new.between?(Settings.contest.start, Settings.contest.end)
+  end
+
   def contest_ended
     Time.new > Settings.contest.end
   end

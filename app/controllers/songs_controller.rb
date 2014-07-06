@@ -5,6 +5,7 @@ class SongsController < ApplicationController
     @songs = Song.standout
               .select{|s| s.likes.size > 0}
               .sort_by{|s| [-s.likes.size, s.likes.last.created_at]}
+    @show_favorites = !contest_in_progress
   end
 
   def create
@@ -84,5 +85,15 @@ class SongsController < ApplicationController
   def listen
     song = Song.find(params[:id])
     send_file song.file, :filename => song.filename
+  end
+
+  def favorites
+    return head :not_found unless current_user
+    refuse_access and return if contest_in_progress
+
+    @title = "My Favorites"
+    @songs = Song.standout.select{|s| s.liked_by?(current_user) }.shuffle
+
+    render :layout => false, :template => "listen"
   end
 end

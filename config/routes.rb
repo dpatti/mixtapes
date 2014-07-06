@@ -9,6 +9,8 @@ Mixtapes::Application.routes.draw do
 
   match '/songs' => 'songs#index'
 
+  match '/songs/favorites' => 'songs#favorites'
+
   resource :guesses, :only => [:show, :update]
 
   resources :mixtapes, :except => :edit do

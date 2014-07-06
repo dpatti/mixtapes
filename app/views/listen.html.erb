@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="container">
-  <h2><%= @mixtape.name %></h2>
+  <h2><%= @title %></h2>
   <div id="jquery_jplayer_1" class="jp-jplayer"></div>
   <div id="jp_container_1" class="jp-audio">
     <div class="jp-type-playlist">
@@ -52,7 +52,7 @@
         {
           title: "<%= song.title %>",
           artist: "<%= song.artist %>",
-          mp3: "<%= listen_mixtape_song_path(@mixtape, song) %>",
+          mp3: "<%= listen_mixtape_song_path(song.mixtape, song) %>",
         },
         <% end %>
       ], {
