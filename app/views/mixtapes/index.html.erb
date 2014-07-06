@@ -25,7 +25,7 @@
             </td>
             <td><%= mixtape.creator %></td>
             <td><%= seconds_to_time mixtape.duration %></td>
-            <td>
+            <td class="buttons-container">
               <%= link_to "Download", download_mixtape_path(mixtape.id), :class => 'btn btn-primary' %>
               <%= link_to "Listen", listen_mixtape_path(mixtape.id), :class => 'btn', :target => '_blank' %>
             </td>
@@ -35,8 +35,10 @@
     </table>
   </div>
   <div class="span4">
-    <%= link_to "Listen to random mix", listen_mixtape_path("random"), :class => 'btn' %>
-    <%= link_to "Download all", download_mixtapes_path, :class => 'btn btn-success' %>
+    <div class="buttons-container">
+      <%= link_to "Listen to random mix", listen_mixtape_path("random"), :class => 'btn' %>
+      <%= link_to "Download all", download_mixtapes_path, :class => 'btn btn-success' %>
+    </div>
     <% @comments.each do |comment| %>
       <%= render partial: 'comment', locals: { comment: comment, mixtape: true, editable: false } %>
     <% end %>
