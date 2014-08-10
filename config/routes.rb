@@ -2,6 +2,8 @@ Mixtapes::Application.routes.draw do
 
   root :to => 'application#index'
 
+  match '/home' => 'application#home'
+
   match '/voting' => 'application#voting'
 
   match '/auth/:provider/callback' => 'sessions#create'

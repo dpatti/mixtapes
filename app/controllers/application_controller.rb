@@ -5,11 +5,11 @@ class ApplicationController < ActionController::Base
   before_filter :record_user_activity
 
   def index
-    render "home"
-  end
-
-  def voting
-    render "voting"
+    if current_user
+      redirect_to mixtapes_path
+    else
+      render "home"
+    end
   end
 
   def refuse_access
