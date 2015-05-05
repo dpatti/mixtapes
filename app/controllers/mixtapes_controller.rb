@@ -2,7 +2,7 @@ require 'zip/zip'
 
 class MixtapesController < ApplicationController
   # All modifications must be done *before* the due date. That includes any
-  # POST, PUT, or DELETE.
+  # POST, PATCH, or DELETE.
 
   # Show all mixtapes
   def index
@@ -67,7 +67,7 @@ class MixtapesController < ApplicationController
     end
   end
 
-  # PUT: Modify mixtape
+  # PATCH: Modify mixtape
   def update
     @mixtape = Mixtape.find(params[:id])
     if contest_started or not current_user.owns? @mixtape

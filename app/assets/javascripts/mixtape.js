@@ -21,7 +21,7 @@ $(function(){
 
   $("#name").change(function(){
     $.ajax(document.location.pathname, {
-      type: 'put',
+      type: 'patch',
       data: { mixtape: { name: $(this).val() }},
     });
   });
@@ -42,7 +42,7 @@ $(function(){
     if (!id) return;
 
     return $.ajax(document.location.pathname + '/songs/' + id, {
-      type: 'put',
+      type: 'patch',
       data: {
         song: attrs,
       },
@@ -278,7 +278,7 @@ $(function(){
         e.preventDefault();
         $.ajax($(this).attr('action') + '/' + commentId, {
           data: new FormData(this),
-          type: 'put',
+          type: 'patch',
           cache: false,
           contentType: false,
           processData: false,
@@ -330,7 +330,7 @@ $(function(){
         url = document.location.pathname + '/songs/' + songId + '/like';
 
     $.ajax(url, {
-      type: 'put',
+      type: 'patch',
       data: {
         value: !like || undefined,
       },
@@ -389,7 +389,7 @@ $(function(){
   // Guesses
   $('select.guess').change(function(e){
     $.ajax('/guesses', {
-      method: 'put',
+      method: 'patch',
       data: {
         guess: {
           mixtape_id: $(this).data('mixtape'),
