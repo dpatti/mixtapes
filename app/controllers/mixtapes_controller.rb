@@ -1,4 +1,4 @@
-require 'zip/zip'
+require 'zip'
 
 class MixtapesController < ApplicationController
   # All modifications must be done *before* the due date. That includes any
@@ -115,7 +115,7 @@ class MixtapesController < ApplicationController
 
     if !cache || cache.mtime < mixtapes.map(&:updated_at).max || cache.size < 100
       File.delete(cache_path) rescue nil
-      Zip::ZipFile.open(cache_path, Zip::ZipFile::CREATE) do |zip|
+      Zip::File.open(cache_path, Zip::File::CREATE) do |zip|
         mixtapes.each do |m|
           m.add_songs(zip)
         end

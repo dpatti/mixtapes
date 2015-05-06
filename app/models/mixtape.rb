@@ -1,4 +1,4 @@
-require 'zip/zip'
+require 'zip'
 
 class Mixtape < ActiveRecord::Base
   has_many :songs, :order => 'track_number, id'
@@ -71,7 +71,7 @@ class Mixtape < ActiveRecord::Base
   end
 
   def prepare_zip
-    Zip::ZipFile.open(cache_path, Zip::ZipFile::CREATE) do |zip|
+    Zip::File.open(cache_path, Zip::File::CREATE) do |zip|
       add_songs(zip)
     end
   end
