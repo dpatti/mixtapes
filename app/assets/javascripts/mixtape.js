@@ -330,7 +330,7 @@ $(function(){
         url = document.location.pathname + '/songs/' + songId + '/like';
 
     $.ajax(url, {
-      type: 'patch',
+      type: 'put',
       data: {
         value: !like || undefined,
       },
