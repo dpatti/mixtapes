@@ -12,10 +12,10 @@ class Song < ActiveRecord::Base
 
   validates_presence_of :title, :artist, :file, :track_number
 
-  scope :on_mixtape, lambda {
+  scope :on_mixtape, -> {
     includes(:mixtape).where(Mixtape.arel_table[:id].not_eq(nil))
   }
-  scope :standout, lambda {
+  scope :standout, -> {
     on_mixtape.includes(:likes).where('duration < ?', 30.minutes.to_i)
   }
 
