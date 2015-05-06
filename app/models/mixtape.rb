@@ -9,7 +9,9 @@ class Mixtape < ActiveRecord::Base
   default_scope -> { order('name') }
 
   # Only get Mixtapes that have at least one song
-  scope :with_songs, -> { includes(:songs).where('songs.id is not null') }
+  scope :with_songs, -> {
+    includes(:songs).where('songs.id is not null').references(:songs)
+  }
 
   def with_last_read_time_for(user)
     last = last_reads.where(:user_id => user.id).first
