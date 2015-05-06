@@ -50,7 +50,7 @@ class SongsController < ApplicationController
       refuse_access and return
     end
 
-    @song.update_attributes(params[:song])
+    @song.update_attributes(song_params)
     head :no_content
   end
 
@@ -95,5 +95,12 @@ class SongsController < ApplicationController
     @songs = Song.standout.select{|s| s.liked_by?(current_user) }.shuffle
 
     render :layout => false, :template => "listen"
+  end
+
+  private
+
+  def song_params
+    params.require(:song).permit(:title, :artist, :album, :track_number,
+                                 :duration, :file, :cover_art)
   end
 end

@@ -1,8 +1,6 @@
 class Comment < ActiveRecord::Base
   EDIT_CUTOFF = 1.hour
 
-  attr_accessible :comment, :deleted
-
   belongs_to :user
   belongs_to :mixtape
 

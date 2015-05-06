@@ -56,7 +56,7 @@ class MixtapesController < ApplicationController
   def create
     refuse_access and return if contest_started
 
-    @mixtape = Mixtape.new(params[:mixtape])
+    @mixtape = Mixtape.new(mixtape_params)
 
     if @mixtape.save
       flash[:info] = "Mixtape created successfully"
@@ -73,7 +73,7 @@ class MixtapesController < ApplicationController
     if contest_started or not current_user.owns? @mixtape
       refuse_access and return
     end
-    @mixtape.update_attributes(params[:mixtape])
+    @mixtape.update_attributes(mixtape_params)
     head :no_content
   end
 
@@ -142,5 +142,11 @@ class MixtapesController < ApplicationController
     compilation = mixtape.songs.find(&:compilation)
     @songs = compilation ? [compilation] : mixtape.songs
     render :layout => false, :template => "listen"
+  end
+
+  private
+
+  def mixtape_params
+    params.require(:mixtape).permit(:name, :cover)
   end
 end

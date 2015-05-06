@@ -1,6 +1,4 @@
 class Guess < ActiveRecord::Base
-  attr_accessible :mixtape_id, :user_guessed_id
-
   validates_uniqueness_of :mixtape_id, :scope => :user_id
 
   belongs_to :mixtape

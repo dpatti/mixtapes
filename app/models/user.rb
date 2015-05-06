@@ -1,8 +1,6 @@
 require 'digest/md5'
 
 class User < ActiveRecord::Base
-  attr_accessible :email, :name, :provider, :uid
-
   has_one :mixtape
   has_many :comments
   has_many :likes

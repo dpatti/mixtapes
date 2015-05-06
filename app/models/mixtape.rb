@@ -6,8 +6,6 @@ class Mixtape < ActiveRecord::Base
   has_many :last_reads
   belongs_to :user
 
-  attr_accessible :name, :cover
-
   default_scope order('name')
 
   # Only get Mixtapes that have at least one song
