@@ -38,8 +38,8 @@ class SongsController < ApplicationController
     if song.save
       render :json => { :song => song, :mixtape => @mixtape }, :methods => [:duration, :warning]
     else
-      flash[:error] = [flash[:error]].flatten.compact
-      flash[:error] << "Could not detect properties of #{ params[:song_file].original_filename }"
+      flash[:danger] = [flash[:danger]].flatten.compact
+      flash[:danger] << "Could not detect properties of #{ params[:song_file].original_filename }"
       head :bad_request
     end
   end
