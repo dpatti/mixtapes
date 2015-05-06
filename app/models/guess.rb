@@ -5,5 +5,5 @@ class Guess < ActiveRecord::Base
   belongs_to :user
   belongs_to :user, :foreign_key => :user_guessed_id
 
-  default_scope includes(:mixtape)
+  default_scope -> { includes(:mixtape) }
 end
