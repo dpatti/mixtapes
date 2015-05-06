@@ -1,5 +1,5 @@
 <% if @show_favorites %>
-  <%= link_to "Shuffle my favorites", songs_favorites_path, :class => 'btn', :target => '_blank' %>
+  <%= link_to "Shuffle my favorites", songs_favorites_path, :class => 'btn btn-default', :target => '_blank' %>
 <% end %>
 
 <table id="songs" class="table">
@@ -21,7 +21,7 @@
         <td><%= song.mixtape.name %></td>
         <td class="hearts">
           <% song.hearts.times do %>
-            <i class="icon-heart"></i>
+            <i class="fa fa-heart"></i>
           <% end %>
         </td>
       <% end %>

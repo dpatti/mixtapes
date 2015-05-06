@@ -60,7 +60,7 @@ $(function(){
     } else {
       $warning = $("#mixtape-warning");
       if (!$warning.length) {
-        $warning = $("<div>", { id: 'mixtape-warning', class: 'alert alert-error' }).insertAfter('#mixtape');
+        $warning = $("<div>", { id: 'mixtape-warning', class: 'alert alert-danger' }).insertAfter('#mixtape');
       }
       $warning.text(mixtape.warning);
     }
@@ -93,8 +93,8 @@ $(function(){
 
     $upload.find('.progress')
       .addClass('active progress-striped')
-      .find('.bar')
-      .removeClass('bar-success');
+      .find('.progress-bar')
+      .removeClass('progress-bar-success');
 
     return $.ajax({
       url: document.location.pathname + '/songs',
@@ -113,7 +113,7 @@ $(function(){
             if (e.lengthComputable) {
               // Check if progress has changed
               var percentage = Math.round(100 * e.loaded / e.total);
-              $upload.find('.bar').width(percentage + '%');
+              $upload.find('.progress-bar').width(percentage + '%');
             }
           });
         }
@@ -124,8 +124,8 @@ $(function(){
       $upload.find('p').show().filter(':last').remove();
       $upload.find('.progress')
         .removeClass('active progress-striped')
-        .find('.bar')
-        .addClass('bar-success');
+        .find('.progress-bar')
+        .addClass('progress-bar-success');
     })
     .done(function(payload){
       var song = payload.song,
