@@ -47,12 +47,12 @@
 <% end %>
 
 <% if @mixtape.warning %>
-  <div id="mixtape-warning" class="alert alert-error"><%= @mixtape.warning %></div>
+  <div id="mixtape-warning" class="alert alert-danger"><%= @mixtape.warning %></div>
 <% end %>
 
 <div id='current-upload'>
   <p>Drag one or more audio files here to add it to the mixtape. Drag them around with the handles to reorder them.</p>
   <div class="progress progress-striped active">
-    <div class="bar" style="width: 0%;"></div>
+    <div class="progress-bar" style="width: 0%;"></div>
   </div>
 </div>

@@ -16,14 +16,20 @@ class GuessesController < ApplicationController
     # Everything is a put, because a missing guess is implied NULL for
     # user_guessed_id
     current_guess = current_user.guesses.where(:mixtape_id => params[:guess][:mixtape_id]).first
-    current_guess ||= current_user.guesses.new(params[:guess])
+    current_guess ||= current_user.guesses.new(guess_params)
 
-    current_guess.update_attributes(params[:guess])
+    current_guess.update_attributes(guess_params)
 
     if current_guess.save
       head :no_content
     else
       head :bad_request
     end
+  end
+
+  private
+
+  def guess_params
+    params.require(:guess).permit(:mixtape_id, :user_guessed_id)
   end
 end

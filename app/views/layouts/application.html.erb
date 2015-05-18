@@ -7,10 +7,10 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="navbar">
+  <nav class="navbar navbar-default">
     <div class="navbar-inner">
-      <a class="brand" href="/">Fog Creek Mixtapes 2014</a>
-      <ul class="nav pull-left">
+      <a class="navbar-brand" href="/">Fog Creek Mixtapes 2014</a>
+      <ul class="nav navbar-nav pull-left">
         <%= navbar_link_to 'Home', home_path %>
         <% if before_contest %>
           <% if current_user %>
@@ -31,24 +31,21 @@
         <% end %>
       </ul>
 
-      <ul class="nav pull-right">
+      <ul class="nav navbar-nav pull-right">
         <% if current_user %>
-          <%= content_tag 'li', :class => 'pull-right' do %>
+          <%= content_tag 'li' do %>
             <%= content_tag 'p', :class => 'navbar-text' do %>
               <%= tag 'img', :src => current_user.gravatar %>
+              <%= current_user.name %>
             <% end %>
           <% end %>
-          <%= content_tag 'li', :class => 'pull-right' do %>
-            <%= content_tag 'p', current_user.name, :class => 'navbar-text' %>
-          <% end %>
-          <li class="divider-vertical"></li>
           <%= navbar_link_to 'Logout', signout_path %>
         <% else %>
           <%= navbar_link_to "Sign in with Google", "/auth/google_oauth2" %>
         <% end %>
       </ul>
     </div>
-  </div>
+  </nav>
 
   <% if voting_warning && !current_page?(voting_path) %>
     <%= link_to voting_path, :class => 'full-flash' do %>

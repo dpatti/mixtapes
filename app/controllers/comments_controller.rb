@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     refuse_access and return unless @comment.editable_by? current_user
 
-    @comment.update_attributes(params[:comment])
+    @comment.update_attributes(comment_params)
     head :no_content
   end
 
@@ -24,5 +24,11 @@ class CommentsController < ApplicationController
 
     @comment.destroy
     head :no_content
+  end
+
+  private
+
+  def comment_params
+    params.require(:comment).permit(:comment, :deleted)
   end
 end

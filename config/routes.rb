@@ -2,16 +2,16 @@ Mixtapes::Application.routes.draw do
 
   root :to => 'application#index'
 
-  match '/home' => 'application#home'
+  get '/home' => 'application#home'
 
-  match '/voting' => 'application#voting'
+  get '/voting' => 'application#voting'
 
-  match '/auth/:provider/callback' => 'sessions#create'
-  match '/signout' => 'sessions#destroy', :as => :signout
+  get '/auth/:provider/callback' => 'sessions#create'
+  get '/signout' => 'sessions#destroy', :as => :signout
 
-  match '/songs' => 'songs#index'
+  get '/songs' => 'songs#index'
 
-  match '/songs/favorites' => 'songs#favorites'
+  get '/songs/favorites' => 'songs#favorites'
 
   resource :guesses, :only => [:show, :update]
 

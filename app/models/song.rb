@@ -10,12 +10,16 @@ class Song < ActiveRecord::Base
   belongs_to :mixtape, :touch => true
   has_many :likes
 
-  attr_accessible :title, :artist, :album, :track_number, :duration, :file, :cover_art
-
   validates_presence_of :title, :artist, :file, :track_number
 
-  scope :on_mixtape, includes(:mixtape).where(Mixtape.arel_table[:id].not_eq(nil))
-  scope :standout, on_mixtape.includes(:likes).where('duration < ?', 30.minutes.to_i)
+  scope :on_mixtape, -> {
+    includes(:mixtape).
+    where(Mixtape.arel_table[:id].not_eq(nil)).
+    references(:mixtapes)
+  }
+  scope :standout, -> {
+    on_mixtape.includes(:likes).where('duration < ?', 30.minutes.to_i)
+  }
 
   def on_mixtapes_other_than(mixtape_id)
     where('mixtape_id != ?', mixtape_id)

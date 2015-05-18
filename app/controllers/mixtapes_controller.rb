@@ -1,8 +1,8 @@
-require 'zip/zip'
+require 'zip'
 
 class MixtapesController < ApplicationController
   # All modifications must be done *before* the due date. That includes any
-  # POST, PUT, or DELETE.
+  # POST, PATCH, or DELETE.
 
   # Show all mixtapes
   def index
@@ -56,7 +56,7 @@ class MixtapesController < ApplicationController
   def create
     refuse_access and return if contest_started
 
-    @mixtape = Mixtape.new(params[:mixtape])
+    @mixtape = Mixtape.new(mixtape_params)
 
     if @mixtape.save
       flash[:info] = "Mixtape created successfully"
@@ -67,13 +67,13 @@ class MixtapesController < ApplicationController
     end
   end
 
-  # PUT: Modify mixtape
+  # PATCH: Modify mixtape
   def update
     @mixtape = Mixtape.find(params[:id])
     if contest_started or not current_user.owns? @mixtape
       refuse_access and return
     end
-    @mixtape.update_attributes(params[:mixtape])
+    @mixtape.update_attributes(mixtape_params)
     head :no_content
   end
 
@@ -115,7 +115,7 @@ class MixtapesController < ApplicationController
 
     if !cache || cache.mtime < mixtapes.map(&:updated_at).max || cache.size < 100
       File.delete(cache_path) rescue nil
-      Zip::ZipFile.open(cache_path, Zip::ZipFile::CREATE) do |zip|
+      Zip::File.open(cache_path, Zip::File::CREATE) do |zip|
         mixtapes.each do |m|
           m.add_songs(zip)
         end
@@ -142,5 +142,11 @@ class MixtapesController < ApplicationController
     compilation = mixtape.songs.find(&:compilation)
     @songs = compilation ? [compilation] : mixtape.songs
     render :layout => false, :template => "listen"
+  end
+
+  private
+
+  def mixtape_params
+    params.require(:mixtape).permit(:name, :cover)
   end
 end
