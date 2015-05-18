@@ -33,15 +33,12 @@
 
       <ul class="nav navbar-nav pull-right">
         <% if current_user %>
-          <%= content_tag 'li', :class => 'pull-right' do %>
+          <%= content_tag 'li' do %>
             <%= content_tag 'p', :class => 'navbar-text' do %>
               <%= tag 'img', :src => current_user.gravatar %>
+              <%= current_user.name %>
             <% end %>
           <% end %>
-          <%= content_tag 'li', :class => 'pull-right' do %>
-            <%= content_tag 'p', current_user.name, :class => 'navbar-text' %>
-          <% end %>
-          <li class="divider-vertical"></li>
           <%= navbar_link_to 'Logout', signout_path %>
         <% else %>
           <%= navbar_link_to "Sign in with Google", "/auth/google_oauth2" %>
