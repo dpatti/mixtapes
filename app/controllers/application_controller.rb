@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :record_user_activity
 
   def index
-    if current_user
+    if current_user && contest_started
       redirect_to mixtapes_path
     else
       render "home"
