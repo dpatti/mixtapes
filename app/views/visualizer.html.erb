@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mixtapes</title>
+  <%= stylesheet_link_tag    "glvis", :media => "all" %>
+  <%= javascript_include_tag "visualizer" %>
+</head>
+<body>
+<div class="container">
+  <div id="visualizer">
+  <h2 id="playlist-title"><%= @title %></h2>
+  </div>
+  <script type="text/javascript">
+    $(function(){
+      var vis = new GLVis.FileInput([
+        <% @songs.each do |song| %>
+        {
+          title: "<%= song.title %>",
+          artist: "<%= song.artist %>",
+          url: "<%= listen_mixtape_song_path(song.mixtape, song) %>",
+        },
+        <% end %>
+      ], [
+        {
+          name: "Circular",
+          url: "circular_fft"
+        },
+        {
+          name: "Square squared",
+          url: "fft_matrix_product"
+        },
+        {
+          name: "Just bars",
+          url: "simple"
+        },
+        {
+          name: "Trippy!",
+          url: "vertical_wav"
+        }
+      ], '/shaders/');
+
+      vis.render($("#visualizer"));
+    });
+  </script>
+</div>
+</body>
+</html>

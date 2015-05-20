@@ -16,4 +16,4 @@
 //= require jquery.jplayer
 //= require jplayer.playlist
 //= require twitter/bootstrap
-//= require_tree .
+//= require mixtape

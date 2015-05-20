@@ -126,6 +126,20 @@ class MixtapesController < ApplicationController
   end
 
   def listen
+    consume('listen')
+  end
+
+  def visualize
+    consume('visualizer')
+  end
+
+  private
+
+  def mixtape_params
+    params.require(:mixtape).permit(:name, :cover)
+  end
+
+  def consume(template)
     if before_contest
       refuse_access and return
     end
@@ -141,12 +155,6 @@ class MixtapesController < ApplicationController
     # with that track.
     compilation = mixtape.songs.find(&:compilation)
     @songs = compilation ? [compilation] : mixtape.songs
-    render :layout => false, :template => "listen"
-  end
-
-  private
-
-  def mixtape_params
-    params.require(:mixtape).permit(:name, :cover)
+    render :layout => false, :template => template
   end
 end
