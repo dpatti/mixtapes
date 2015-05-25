@@ -1,0 +1,33 @@
+<div id="new-user">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <%= tag 'img', :src => @user.gravatar, :class => "gravatar" %>
+      <div class="name"><%= @user.name %></div>
+      <div class="email"><%= @user.email %></div>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <p class="content">
+        We don't recognize this Google account. Maybe you've never been here
+        before, and that's cool. You should create an account in that case. But
+        maybe you have multiple Google accounts, and you forgot which one you
+        used to log in with. You wouldn't want two accounts, now, would you?
+        That'd be insane.
+      </p>
+
+      <%= form_for @user do |f| %>
+        <%= link_to "Let me try again",
+          "/auth/google_oauth2",
+          :class => 'btn btn-default' %>
+        <%= f.submit "Create a new account for me",
+          :class => 'btn btn-primary' %>
+      <% end %>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>

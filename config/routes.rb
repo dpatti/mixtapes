@@ -13,6 +13,8 @@ Mixtapes::Application.routes.draw do
 
   get '/songs/favorites' => 'songs#favorites'
 
+  resources :users, :only => [:new, :create]
+
   resource :guesses, :only => [:show, :update]
 
   resources :mixtapes, :except => :edit do

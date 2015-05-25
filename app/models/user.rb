@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
     Gravatar.new(email).url
   end
 
-  def self.create_with_omniauth(auth)
-    create! do |user|
+  def self.new_from_omniauth(auth)
+    new do |user|
       user.provider = auth["provider"]
       user.uid = auth["uid"]
       user.name = auth["info"]["name"]

@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :current_user, :before_contest, :contest_started, :contest_ended, :voting_warning
+  helper_method :current_user, :before_contest, :contest_started, :contest_ended, :voting_warning, :log_in
 
   before_filter :record_user_activity
 
@@ -98,5 +98,10 @@ class ApplicationController < ActionController::Base
     if current_user
       current_user.touch :accessed_at
     end
+  end
+
+  def log_in(user)
+    session[:user_id] = user.id
+    redirect_to root_url, flash: { success: "Signed in!" }
   end
 end
