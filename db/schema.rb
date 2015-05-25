@@ -9,72 +9,82 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140705203042) do
+ActiveRecord::Schema.define(version: 20150525185452) do
 
-  create_table "comments", :force => true do |t|
+  create_table "comments", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "mixtape_id"
     t.text     "comment"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
-    t.boolean  "deleted",    :default => false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "deleted",    default: false
   end
 
-  create_table "guesses", :force => true do |t|
+  create_table "contests", force: :cascade do |t|
+    t.integer "year"
+    t.string  "season", limit: 255
+  end
+
+  add_index "contests", ["year", "season"], name: "index_contests_on_year_and_season", unique: true
+
+  create_table "guesses", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "mixtape_id"
     t.integer  "user_guessed_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
-  create_table "last_reads", :force => true do |t|
+  create_table "last_reads", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "mixtape_id"
     t.datetime "time"
   end
 
-  add_index "last_reads", ["user_id", "mixtape_id"], :name => "index_last_reads_on_user_id_and_mixtape_id", :unique => true
+  add_index "last_reads", ["user_id", "mixtape_id"], name: "index_last_reads_on_user_id_and_mixtape_id", unique: true
 
-  create_table "likes", :force => true do |t|
+  create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "song_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "mixtapes", :force => true do |t|
-    t.string   "name"
+  create_table "mixtapes", force: :cascade do |t|
+    t.string   "name",       limit: 255
     t.binary   "cover"
-    t.string   "owner"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "owner",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.integer  "user_id"
+    t.integer  "contest_id"
   end
 
-  create_table "songs", :force => true do |t|
-    t.string   "title"
-    t.string   "artist"
-    t.string   "album"
+  create_table "songs", force: :cascade do |t|
+    t.string   "title",        limit: 255
+    t.string   "artist",       limit: 255
+    t.string   "album",        limit: 255
     t.integer  "track_number"
     t.integer  "duration"
-    t.string   "file"
+    t.string   "file",         limit: 255
     t.binary   "cover_art"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.integer  "mixtape_id"
   end
 
-  create_table "users", :force => true do |t|
-    t.string   "provider"
-    t.string   "uid"
-    t.string   "name"
-    t.string   "email"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+  create_table "users", force: :cascade do |t|
+    t.string   "provider",    limit: 255
+    t.string   "uid",         limit: 255
+    t.string   "name",        limit: 255
+    t.string   "email",       limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.datetime "accessed_at"
   end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
 
 end
