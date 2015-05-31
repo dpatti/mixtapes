@@ -1,0 +1,118 @@
+body {
+  font-family: Monospace;
+  background-color: #000000;
+  margin: 0px;
+  overflow: hidden;
+}
+
+.fullscreen {
+  width:100%;
+  height: 100%;
+}
+
+#playlist-title {
+  position:absolute;
+  top:0px;
+  color: white;
+  left: 20px;
+}
+
+.controls {
+  position: absolute;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  width: 350px;
+}
+
+.audio-controls {
+  float: left;
+  left:0;
+  height: 40px;
+}
+
+.shader-controls {
+  float:right;
+  right:0;
+}
+
+.audio-player {
+  display: block;
+}
+
+.playlist {
+  float:left;
+  left: 0;
+  bottom: 40px;
+}
+
+.playlist li {
+  cursor: pointer;
+  padding: 4px;
+}
+
+.soundcloud {
+  position: relative;
+  left: 12px;
+  color: white;
+  display: inline;
+}
+
+.soundcloud-input {
+  display: block;
+}
+
+.mic-icon {
+  float: right;
+}
+
+.icon {
+  height: 40px;
+}
+
+.shaders {
+  position: absolute;
+  top: 16px;
+  right: 268px;
+}
+
+.queue-container {
+  position: absolute;
+  float: left;
+  width: 200px;
+  top: 0px;
+  color: white;
+}
+
+.queue-list {
+  background-color: rgba(0,0,0,0.5);
+}
+
+.next-button {
+  position:absolute;
+  float: left;
+  left: 200px;
+  top: 0px;
+  background-color: black;
+}
+
+.next-button:link, .next-button:visited {
+  color: white;
+}
+
+.viewer-button{
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+.viewer-button:link, .viewer-button:visited {
+  color:white;
+}
+
+.camera {
+  display: none;
+  position: absolute;
+  top:0px;
+  left:0px;
+}

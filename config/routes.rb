@@ -34,6 +34,7 @@ Mixtapes::Application.routes.draw do
       get 'destroy', :as => 'destroy', :path => 'destroy', :action => 'destroy_confirm'
       get 'download'
       get 'listen'
+      get 'visualize'
     end
   end
 end
