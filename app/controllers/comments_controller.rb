@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   def create
     refuse_access and return unless current_user
-    @comment = Comment.new(params[:comment]) do |c|
+    @comment = Comment.new(comment_params) do |c|
       c.user_id = current_user.id
       c.mixtape_id = params[:mixtape_id]
     end
