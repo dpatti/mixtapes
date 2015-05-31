@@ -15,7 +15,7 @@ class Mixtape < ActiveRecord::Base
 
   def with_last_read_time_for(user)
     last = last_reads.where(:user_id => user.id).first
-    @last_read_time = last ? last.time : 0
+    @last_read_time = last ? last.time : user.created_at
   end
 
   def unread_count
