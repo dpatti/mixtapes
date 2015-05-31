@@ -1,5 +1,12 @@
+# This is an isolated dev project limited to localhost and localhost:3000.
+oauth:
+  app_id: 410565637968-mudlpurvon0tbqni7s3bkm8fe7gsr2qs.apps.googleusercontent.com
+  app_secret: ZWNM3AWyjJ41jE9Kh2gTwOd5
+# This controls the start and end of the competition as well as when the mix of
+# the day rotation should start.
 contest:
   start: 2013-01-01T00:00:00.0
   rotation: 2013-01-01T00:00:00.0
   end: 2023-01-01T00:00:00.0
+# This enables files to be sent with nginx.
 use_xsendfile: false
