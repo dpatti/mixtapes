@@ -2,6 +2,10 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
+if defined?(Bundler)
+  Bundler.require(*Rails.groups)
+end
+
 module Mixtapes
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
