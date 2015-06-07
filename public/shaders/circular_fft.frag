@@ -12,9 +12,9 @@ vec4 fromPos(vec2 uv, vec3 te) {
 
 void main(void)
 {
-    vec2 uv = gl_FragCoord.xy / resolution.xy;
+    vec2 uv = (gl_FragCoord.xy / resolution.xy - vec2(0.5)) * vec2(resolution.x/resolution.y, 1.0);
 
-    vec4 color = vec4(fromPos(uv, vec3(0.5)).rbg, 1.0);
+    vec4 color = vec4(fromPos(uv, vec3(0.0)).rbg, 1.0);
 
     gl_FragColor = applyHueShift(color);
 }
