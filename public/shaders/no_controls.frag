@@ -3,5 +3,5 @@ float getVolume() {
 }
 
 float getHue() {
-  return 0.0;
+  return 0.5 + 0.5 * sin(time * 0.5);
 }
