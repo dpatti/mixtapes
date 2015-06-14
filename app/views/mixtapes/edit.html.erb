@@ -1,3 +1,9 @@
+<div class="alert alert-info" role="alert">
+  This mixtape will be automatically submitted as soon as the contest begins in
+  <%= distance_of_time_in_words(Settings.contest.start, Time.now) %>. If you do
+  not want to submit it, be sure to click "Delete my mixtape" above.
+</div>
+
 <h1><%= text_field_tag :name, @mixtape.name, :placeholder => "Mixtape Name" %></h1>
 
 <table id='mixtape' class='table'>
