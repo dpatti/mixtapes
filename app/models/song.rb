@@ -5,7 +5,7 @@ require 'string_similarity'
 require 'song_db'
 
 class Song < ActiveRecord::Base
-  ALBUM_ARTIST = "Fog Creek Mixes"
+  ALBUM_ARTIST = "Fog Creek & Trello Mixes"
 
   belongs_to :mixtape, :touch => true
   has_many :likes
