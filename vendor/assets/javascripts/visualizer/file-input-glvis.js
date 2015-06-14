@@ -62,6 +62,7 @@ var AudioAnalyser = (function () {
     function AudioAnalyser(context, fftSize) {
         this._analyser = context.createAnalyser();
         this.fftSize = fftSize;
+        this.segmentSize = fftSize / 8.0;
         this.frequencyBuffer = new Uint8Array(this.fftSize);
         this.timeDomainBuffer = new Uint8Array(this.fftSize);
     }
@@ -77,6 +78,17 @@ var AudioAnalyser = (function () {
             this._analyser.getByteFrequencyData(this.frequencyBuffer);
         }
         return this.frequencyBuffer;
+    };
+    AudioAnalyser.prototype.getEQSegments = function () {
+        if (this.frequencyBuffer != undefined) {
+            var vec = [0.0, 0.0, 0.0, 0.0];
+            for (var i = 0; i < this.segmentSize * 4; i++) {
+                var val = this.frequencyBuffer[i];
+                vec[Math.floor(i / this.segmentSize)] += val * val / (255 - ((255 - val) * i / (this.segmentSize * 4.0)));
+            }
+            return new THREE.Vector4(vec[0] / (256.0 * this.segmentSize), vec[1] / (256.0 * this.segmentSize), vec[2] / (256.0 * this.segmentSize), vec[3] / (256.0 * this.segmentSize));
+        }
+        return new THREE.Vector4(0.0, 0.0, 0.0, 0.0);
     };
     AudioAnalyser.prototype.getTimeDomainData = function () {
         if (this._connected) {
@@ -118,9 +130,11 @@ var AudioManager = (function () {
         }
         var frequencyBuffer = this._audioAnalyser.getFrequencyData();
         var timeDomainBuffer = this._audioAnalyser.getTimeDomainData();
+        var eqSegments = this._audioAnalyser.getEQSegments();
         this._audioEventSubject.onNext({
             frequencyBuffer: frequencyBuffer,
-            timeDomainBuffer: timeDomainBuffer
+            timeDomainBuffer: timeDomainBuffer,
+            eqSegments: eqSegments
         });
     };
     AudioManager.FFT_SIZE = 1024;
@@ -348,9 +362,14 @@ var PropertiesShaderPlane = (function () {
                     case "v2":
                         uniformType = "vec2";
                         break;
+                    case "v4":
+                        uniformType = "vec4";
+                        break;
                     case "t":
                         uniformType = "sampler2D";
                         break;
+                    default:
+                        console.log("Unknown shader");
                 }
                 fragText = "uniform " + uniformType + " " + uniform.name + ";\n" + fragText;
             });
@@ -464,10 +483,15 @@ var AudioUniformProvider = (function () {
             type: "t",
             value: dataTexture
         };
+        this._eqSegments = {
+            name: "eqSegments",
+            type: "v4",
+            value: new THREE.Vector4(0.0, 0.0, 0.0, 0.0)
+        };
         this._audioManager.AudioEventObservable.subscribe(function (ae) { return _this.onAudioEvent(ae); });
     }
     AudioUniformProvider.prototype.glProperties = function () {
-        return Rx.Observable.just([this._audioTexture]);
+        return Rx.Observable.just([this._audioTexture, this._eqSegments]);
     };
     AudioUniformProvider.prototype.onAudioEvent = function (audioEvent) {
         for (var i = 0; i < audioEvent.frequencyBuffer.length; i++) {
@@ -477,6 +501,7 @@ var AudioUniformProvider = (function () {
             this._audioTextureBuffer[i * 4 + 1] = audioEvent.frequencyBuffer[i];
         }
         this._audioTexture.value.needsUpdate = true;
+        this._eqSegments.value = audioEvent.eqSegments;
     };
     return AudioUniformProvider;
 })();

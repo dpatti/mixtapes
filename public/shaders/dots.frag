@@ -1,22 +1,25 @@
 float iDot(float section, vec2 uv) {
 
   float l = 0.0;
-  float sectionWidth = 128.0;
-  float validArea = section * 4.0;
-
-  for(float i=0.0;i < 128.0;i++) {
-    float absI = i + section * sectionWidth;
-    float val = texture2D(audioTexture, vec2(absI / 1024.0, 0.25)).r;
-    l += val * val / (1.0 - ((1.0 - val) * absI / (sectionWidth * 4.0)));
+  if (section == 0.0) {
+    l = eqSegments.x;
+  }
+  else if (section == 1.0) {
+    l = eqSegments.y;
+  }
+  else if (section == 2.0) {
+    l = eqSegments.z;
+  }
+  else if (section == 3.0){
+    l = eqSegments.w;
+  }
+  else {
+    l = 0.0;
   }
 
-  vec2 cuv = vec2(accumulatedLoudness / (10.0 / (section * 0.5 + 1.0)) , cos(time + section * 0.75) / 3.0);
+  vec2 cuv = vec2(accumulatedLoudness / (20.0 / (section * 0.5 + 1.0)) , cos(time + section * 0.75) / 3.0);
   vec2 center = toCartesian(cuv);
   float dist = length((center + vec2(0.5)) - uv);
-
-  // if(dist > 0.5) return 0.0;
-
-  l = l / sectionWidth;
 
   return smoothstep(l * 0.1, 0.0, dist);
 }
