@@ -25,8 +25,7 @@ float iDot(float section, vec2 uv) {
 }
 
 void main() {
-  vec2 scale = vec2(resolution.x/resolution.y, 1.0);
-  vec2 uv = (gl_FragCoord.xy / resolution.xy) * scale - vec2((scale.x - 1.0)/2.0, 0.0);
+  vec2 uv = (gl_FragCoord.xy / resolution.xy - vec2(0.5)) * vec2(resolution.x/resolution.y, 1.0);
 
   vec3 col = vec3(0.0);
   for(float i = 0.0; i < 4.0; i++) {
