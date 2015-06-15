@@ -19,13 +19,13 @@ float iDot(float section, vec2 uv) {
 
   vec2 cuv = vec2(accumulatedLoudness / (20.0 / (section * 0.5 + 1.0)) , cos(time + section * 0.75) / 3.0);
   vec2 center = toCartesian(cuv);
-  float dist = length((center + vec2(0.5)) - uv);
+  float dist = length(center - uv);
 
   return smoothstep(l * 0.1, 0.0, dist);
 }
 
 void main() {
-  vec2 uv = (gl_FragCoord.xy / resolution.xy - vec2(0.5)) * vec2(resolution.x/resolution.y, 1.0);
+  vec2 uv = ((2.0 * gl_FragCoord.xy) / resolution.xy - vec2(1.0)) * vec2(resolution.x/resolution.y, 1.0);
 
   vec3 col = vec3(0.0);
   for(float i = 0.0; i < 4.0; i++) {
