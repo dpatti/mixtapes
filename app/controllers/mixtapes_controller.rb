@@ -31,7 +31,7 @@ class MixtapesController < ApplicationController
     @comment = Comment.new
 
     if before_contest
-      if current_user && current_user.owns?(@mixtape)
+      if has_private_access_to(@mixtape)
         render 'edit'
       else
         refuse_access and return
@@ -70,7 +70,7 @@ class MixtapesController < ApplicationController
   # PATCH: Modify mixtape
   def update
     @mixtape = Mixtape.find(params[:id])
-    if contest_started or not current_user.owns? @mixtape
+    if contest_started or !has_private_access_to(@mixtape)
       refuse_access and return
     end
     @mixtape.update_attributes(mixtape_params)
@@ -80,7 +80,7 @@ class MixtapesController < ApplicationController
   # Prompt for deletion
   def destroy_confirm
     @mixtape = Mixtape.find(params[:id])
-    if contest_started or not current_user.owns? @mixtape
+    if contest_started or !has_private_access_to(@mixtape)
       refuse_access and return
     end
   end
@@ -88,7 +88,7 @@ class MixtapesController < ApplicationController
   # DELETE: Remove mixtape
   def destroy
     @mixtape = Mixtape.find(params[:id])
-    if contest_started or not current_user.owns? @mixtape
+    if contest_started or !has_private_access_to(@mixtape)
       refuse_access and return
     end
     @mixtape.songs.each(&:destroy)
@@ -99,7 +99,7 @@ class MixtapesController < ApplicationController
   def download
     @mixtape = Mixtape.find(params[:id])
 
-    if before_contest && (!current_user || !current_user.owns?(@mixtape))
+    if before_contest && !has_private_access_to(@mixtape)
       refuse_access and return
     end
 
@@ -140,21 +140,26 @@ class MixtapesController < ApplicationController
   end
 
   def consume(template)
-    if before_contest
-      refuse_access and return
-    end
-
     if params[:id] == "random"
       id = Mixtape.with_songs.map(&:id).sample
       return redirect_to listen_mixtape_path(id)
     end
 
     mixtape = Mixtape.includes(:songs).find(params[:id])
+
+    if before_contest && !has_private_access_to(mixtape)
+      refuse_access and return
+    end
+
     @title = mixtape.name
     # Do smart detection if it is a compilation so we only create a playlist
     # with that track.
     compilation = mixtape.songs.find(&:compilation)
     @songs = compilation ? [compilation] : mixtape.songs
     render :layout => false, :template => template
+  end
+
+  def has_private_access_to(mixtape)
+    current_user && current_user.owns?(mixtape)
   end
 end
