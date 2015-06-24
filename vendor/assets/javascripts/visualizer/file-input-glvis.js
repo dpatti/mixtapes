@@ -906,7 +906,7 @@ var EqPointCloud = (function (_super) {
     };
     EqPointCloud.ID = "eqPointCloud";
     EqPointCloud.POINT_COUNT = 80000;
-    EqPointCloud.CUBE_SIZE = 86;
+    EqPointCloud.CUBE_SIZE = 64;
     return EqPointCloud;
 })(PointCloudVisualization);
 /// <reference path="./BaseVisualization"/>
