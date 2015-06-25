@@ -24,7 +24,7 @@ class Comment < ActiveRecord::Base
   end
 
   def author
-    user.name
+    "anonymous"
   end
 
   def by_owner?
