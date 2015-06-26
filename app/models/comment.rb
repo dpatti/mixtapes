@@ -4,7 +4,7 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :mixtape
 
-  scope :latest, -> { order('created_at desc').limit(5) }
+  scope :latest, -> n { order('created_at desc').limit(n) }
 
   scope :after, -> time { where('created_at > ?', time) }
 

@@ -14,7 +14,7 @@ class MixtapesController < ApplicationController
       end
     end
 
-    @comments = Comment.latest
+    @comments = Comment.latest(10)
 
     if daily_mix_day?
       # Build list of mixtapes, randomize and pick one. We concat nil at the end
