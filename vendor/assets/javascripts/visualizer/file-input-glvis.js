@@ -885,8 +885,8 @@ var EqPointCloud = (function (_super) {
             this._material.attributes.color.needsUpdate = true;
         }
         if (this._pc) {
-            this._pc.rotateY(this._loudness / 128.0);
-            this._pc.rotateX(this._loudness / 256.0);
+            this._pc.rotateY(0.5 / 128.0);
+            this._pc.rotateX(0.5 / 256.0);
             this.updateEqWithVelocity(this._eq1, this._eq1Vel, this._eqs.value.x);
             this.updateEqWithVelocity(this._eq2, this._eq2Vel, this._eqs.value.y);
             this.updateEqWithVelocity(this._eq3, this._eq3Vel, this._eqs.value.z);
