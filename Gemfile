@@ -15,7 +15,7 @@ gem 'rubyzip'
 gem 'therubyracer'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
-gem 'rails_autolink'
+gem 'redcarpet'
 gem 'pry'
 
 gem 'sass-rails'
