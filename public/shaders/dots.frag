@@ -17,11 +17,11 @@ float iDot(float section, vec2 uv) {
     l = 0.0;
   }
 
-  vec2 cuv = vec2(accumulatedLoudness / (20.0 / (section * 0.5 + 1.0)) , cos(time + section * 0.75) / 3.0);
+  vec2 cuv = vec2(accumulatedLoudness / (64.0 / (section * 0.5 + 1.0)) , cos(time + section * 0.75));
   vec2 center = toCartesian(cuv);
   float dist = length(center - uv);
 
-  return smoothstep(l * 0.1, 0.0, dist);
+  return smoothstep(l * 4.0, 0.0, dist * dist);
 }
 
 void main() {
