@@ -33,7 +33,7 @@ class Mixtape < ActiveRecord::Base
   end
 
   def creator
-    "anonymous" # user.name
+    user.name
   end
 
   def duration
