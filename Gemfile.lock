@@ -154,7 +154,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
     sqlite3 (1.3.10)
     streamio-ffmpeg (1.0.0)
-    taglib-ruby (0.7.0)
+    taglib-ruby (0.7.1)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -194,3 +194,6 @@ DEPENDENCIES
   therubyracer
   twitter-bootstrap-rails
   uglifier
+
+BUNDLED WITH
+   1.12.5
