@@ -23,7 +23,7 @@
                 <% end %>
               <% end %>
             </td>
-            <td><%= mixtape.creator %></td>
+            <td><%= anonymize(mixtape.creator) %></td>
             <td><%= seconds_to_time mixtape.duration %></td>
             <td class="buttons-container">
               <%= link_to "Listen", listen_mixtape_path(mixtape.id), :class => 'btn btn-default', :target => '_blank' %>

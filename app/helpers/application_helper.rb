@@ -12,4 +12,12 @@ module ApplicationHelper
   def seconds_to_time seconds
     "%d:%02d" % [seconds / 60, seconds % 60]
   end
+
+  def anonymize(name)
+    if contest_ended
+      name
+    else
+      "anonymous"
+    end
+  end
 end
