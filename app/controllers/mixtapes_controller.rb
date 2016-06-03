@@ -122,7 +122,7 @@ class MixtapesController < ApplicationController
       end
     end
 
-    send_file cache_path, :filename => "FogCreekTrello2015Mixes.zip", :disposition => 'attachment'
+    send_file cache_path, :filename => "FogCreekTrello2016Mixes.zip", :disposition => 'attachment'
   end
 
   def listen
