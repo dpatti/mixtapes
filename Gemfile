@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails'
 gem 'puma'
 
-gem 'rails_config'
+gem 'config'
 
 gem 'sqlite3'
 gem 'omniauth-google-oauth2'
