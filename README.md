@@ -1,23 +1,31 @@
 # Mixtape Competition Server
 
-## dev
+## Setting up a dev environment
 
-You need taglib:
+You need
 
+* taglib
+
+  * Debian/Ubuntu: `sudo apt-get install libtag1-dev`
+  * Fedora/RHEL: `sudo yum install taglib-devel`
+  * Homebrew: `brew install taglib`
+  * MacPorts: sudo port install taglib
+
+* A JavaScript runtime (node.js, for instance)
+
+* Dependencies installed `bundle install --jobs=4`
+
+* Database initialized `bundle exec rake db:migrate`
+
+* Assets precompiled `bundle exec rake assets:precompile`
+
+## Making it go
+
+```sh
+$ bundle exec rails s
 ```
-Debian/Ubuntu: sudo apt-get install libtag1-dev
-Fedora/RHEL: sudo yum install taglib-devel
-Brew: brew install taglib
-MacPorts: sudo port install taglib
-```
 
-And a javascript runtime (node.js, for instance).
-
-Then make it go:
-
-```
-$ rails s
-```
+## Configuration
 
 You can control which state the app is in by changing the dates in
 `config/settings/development.yml`:
