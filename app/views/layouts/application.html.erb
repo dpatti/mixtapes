@@ -20,14 +20,14 @@
               <%= navbar_link_to "Preview download", download_mixtape_path(current_user.mixtape.id) %>
               <%= navbar_link_to "Preview listen", listen_mixtape_path(current_user.mixtape.id) %>
             <% else %>
-              <%= navbar_link_to "Create Mixtape", new_mixtape_path %>
+              <%= navbar_link_to "Create mixtape", new_mixtape_path %>
             <% end %>
           <% end %>
         <% else %>
           <%= navbar_link_to 'View mixtapes', mixtapes_path %>
-          <%= navbar_link_to 'Stand out songs', songs_path %>
+          <%= navbar_link_to 'Stand-out songs', songs_path %>
           <% if current_user %>
-            <%= navbar_link_to 'My Guesses', guesses_path %>
+            <%= navbar_link_to 'My guesses', guesses_path %>
           <% end %>
         <% end %>
       </ul>
