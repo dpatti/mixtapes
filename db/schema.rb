@@ -17,24 +17,17 @@ ActiveRecord::Schema.define(version: 20150525185452) do
     t.integer  "user_id"
     t.integer  "mixtape_id"
     t.text     "comment"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "deleted",    default: false
   end
-
-  create_table "contests", force: :cascade do |t|
-    t.integer "year"
-    t.string  "season", limit: 255
-  end
-
-  add_index "contests", ["year", "season"], name: "index_contests_on_year_and_season", unique: true
 
   create_table "guesses", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "mixtape_id"
     t.integer  "user_guessed_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "last_reads", force: :cascade do |t|
@@ -48,40 +41,39 @@ ActiveRecord::Schema.define(version: 20150525185452) do
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "song_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "mixtapes", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name"
     t.binary   "cover"
-    t.string   "owner",      limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "owner"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "user_id"
-    t.integer  "contest_id"
   end
 
   create_table "songs", force: :cascade do |t|
-    t.string   "title",        limit: 255
-    t.string   "artist",       limit: 255
-    t.string   "album",        limit: 255
+    t.string   "title"
+    t.string   "artist"
+    t.string   "album"
     t.integer  "track_number"
     t.integer  "duration"
-    t.string   "file",         limit: 255
+    t.string   "file"
     t.binary   "cover_art"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "mixtape_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "provider",    limit: 255
-    t.string   "uid",         limit: 255
-    t.string   "name",        limit: 255
-    t.string   "email",       limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "name"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.datetime "accessed_at"
   end
 
