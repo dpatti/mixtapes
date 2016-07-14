@@ -1,3 +1,5 @@
+<% @title = "Editing \"#{@mixtape.name}\"" %>
+
 <div class="alert alert-info" role="alert">
   This mixtape will be automatically submitted as soon as the contest begins in
   <%= distance_of_time_in_words(Settings.contest.start, Time.now) %>. If you do
