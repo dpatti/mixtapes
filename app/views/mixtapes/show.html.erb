@@ -1,3 +1,5 @@
+<% @title = "#{@mixtape.name}" %>
+
 <h1 class='download'>
   <%= link_to "Listen", listen_mixtape_path(@mixtape.id), :class => 'btn btn-default', :target => '_blank' %>
   <%= link_to "Visualize", visualize_mixtape_path(@mixtape.id), :class => 'btn btn-default', :target => '_blank' %>

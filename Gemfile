@@ -24,3 +24,5 @@ gem 'coffee-rails'
 gem 'uglifier'
 
 gem 'jquery-rails'
+
+gem 'monadic'
