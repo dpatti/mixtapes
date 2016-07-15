@@ -126,6 +126,10 @@ class MixtapesController < ApplicationController
   end
 
   def listen
+    if params[:id] == "random"
+      id = Mixtape.with_songs.map(&:id).sample
+      return redirect_to listen_mixtape_path(id)
+    end
     consume('listen')
   end
 
@@ -140,11 +144,6 @@ class MixtapesController < ApplicationController
   end
 
   def consume(template)
-    if params[:id] == "random"
-      id = Mixtape.with_songs.map(&:id).sample
-      return redirect_to listen_mixtape_path(id)
-    end
-
     mixtape = Mixtape.includes(:songs).find(params[:id])
 
     if before_contest && !has_private_access_to(mixtape)
