@@ -105,7 +105,7 @@ class MixtapesController < ApplicationController
 
     @mixtape.cache_or_zip
 
-    send_file @mixtape.cache_path, :filename => @mixtape.filename, :disposition => 'attachment'
+    send_file @mixtape.cache_path, :filename => @mixtape.filename, :disposition => 'attachment', :type => :zip
   end
 
   def download_all
@@ -122,7 +122,7 @@ class MixtapesController < ApplicationController
       end
     end
 
-    send_file cache_path, :filename => "FriendsOfJack2017Mixes.zip", :disposition => 'attachment'
+    send_file cache_path, :filename => "FriendsOfJack2017Mixes.zip", :disposition => 'attachment', :type => :zip
   end
 
   def listen
