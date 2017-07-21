@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
 
     if Settings.use_xsendfile
       head :x_accel_redirect => "/#{ path }",
-           :content_type => "application/octet-stream",
+           :content_type => Mime::Type.lookup_by_extension(opts[:type]),
            :content_disposition => "attachment; filename=\"#{opts[:filename]}\""
     else
       super
