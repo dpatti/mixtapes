@@ -26,3 +26,4 @@ gem 'uglifier'
 gem 'jquery-rails'
 
 gem 'monadic'
+gem 'json', '~> 1.8.6'
