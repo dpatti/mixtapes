@@ -2,5 +2,5 @@
 contest:
   start: 2017-07-12T10:00:00.0
   rotation: 2017-07-17T08:00:00.0
-  end: 2017-08-18T08:00:00.0
+  end: 2017-08-31T08:00:00.0
 use_xsendfile: true
