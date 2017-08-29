@@ -58,8 +58,9 @@ class ApplicationController < ActionController::Base
     FileUtils.chmod(0664, path)
 
     if Settings.use_xsendfile
+      extension = File.extname(opts[:filename]).downcase[1..-1]
       head :x_accel_redirect => "/#{ path }",
-           :content_type => Mime::Type.lookup_by_extension(opts[:type]),
+           :content_type => Mime::Type.lookup_by_extension(extension),
            :content_disposition => "attachment; filename=\"#{opts[:filename]}\""
     else
       super

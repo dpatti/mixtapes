@@ -84,7 +84,7 @@ class SongsController < ApplicationController
 
   def listen
     song = Song.find(params[:id])
-    send_file song.file, :filename => song.filename, :type => :mpeg
+    send_file song.file, :filename => song.filename
   end
 
   def favorites
