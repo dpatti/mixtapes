@@ -4,6 +4,8 @@
 
 You need
 
+* rbenv
+
 * taglib
 
   * Debian/Ubuntu: `sudo apt-get install libtag1-dev`
