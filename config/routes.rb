@@ -16,6 +16,7 @@ Mixtapes::Application.routes.draw do
   resources :users, :only => [:new, :create]
 
   resource :guesses, :only => [:show, :update]
+  resource :votes, :only => [:show, :update]
 
   resources :mixtapes, :except => :edit do
     resources :songs, :only => [:create, :update, :destroy] do

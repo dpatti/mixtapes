@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :likes
   has_many :guesses
+  has_many :votes
 
   def gravatar
     Gravatar.new(email).url

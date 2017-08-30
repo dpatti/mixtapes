@@ -1,0 +1,14 @@
+<% @title = 'My votes' %>
+
+<h2>You gotta vote</h2>
+
+<p>Also don't forget to submit your guesses!</p>
+
+<% @votes.each do |vote| %>
+  <h4><%= vote.award.title %></h4>
+
+  I choose you,
+  <%= collection_select :vote, :mixtape_id, vote.eligible_mixtapes, :id, :name,
+    { :include_blank => true, :selected => vote.mixtape_id },
+    { :class => 'vote', :'data-award' => vote.award.id } %>
+<% end %>

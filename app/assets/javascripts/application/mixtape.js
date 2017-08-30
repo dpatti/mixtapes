@@ -398,4 +398,17 @@ $(function(){
       }
     });
   });
+
+  // Votes
+  $('select.vote').change(function(e){
+    $.ajax('/votes', {
+      method: 'patch',
+      data: {
+        vote: {
+          award_id: $(this).data('award'),
+          mixtape_id: $(this).val(),
+        }
+      }
+    });
+  });
 });
