@@ -49,8 +49,8 @@
     </div>
   </nav>
 
-  <% if voting_warning && !current_page?(voting_path) %>
-    <%= link_to voting_path, :class => 'full-flash' do %>
+  <% if voting_warning && !current_page?(votes_path) %>
+    <%= link_to votes_path, :class => 'full-flash' do %>
       <%= pluralize voting_warning, 'day' %> left to vote. Click to learn more.
     <% end %>
   <% end %>

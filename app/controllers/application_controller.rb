@@ -23,9 +23,8 @@ class ApplicationController < ActionController::Base
   private
 
   def voting_warning
-    # left = Settings.contest.end - Time.new
-    # left.between?(0, 14.days) ? (left / 1.day).to_i : nil
-    false
+    left = Settings.contest.end - Time.new
+    left.between?(0, 14.days) ? (left / 1.day).to_i : nil
   end
 
   def current_user
