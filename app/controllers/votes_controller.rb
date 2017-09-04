@@ -11,6 +11,7 @@ class VotesController < ApplicationController
 
   def update
     head :not_found and return unless current_user
+    head :forbidden and return unless contest_in_progress
 
     current_vote = current_user.votes.where(:award_id => params[:vote][:award_id]).first
     current_vote ||= current_user.votes.new(vote_params)

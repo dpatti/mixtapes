@@ -12,6 +12,7 @@ class GuessesController < ApplicationController
 
   def update
     head :not_found and return unless current_user
+    head :forbidden and return unless contest_in_progress
 
     # Everything is a put, because a missing guess is implied NULL for
     # user_guessed_id

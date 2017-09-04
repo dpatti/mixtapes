@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :current_user, :before_contest, :contest_started, :contest_ended, :voting_warning, :log_in
+  helper_method :current_user, :before_contest, :contest_started,
+    :contest_ended, :contest_in_progress, :voting_warning, :log_in
 
   before_filter :record_user_activity
 

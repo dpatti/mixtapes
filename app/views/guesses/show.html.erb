@@ -24,6 +24,7 @@ Thus, you do not have to select yourself, so as not to give your mix away.</p>
             {
               :class => 'guess',
               :'data-mixtape' => guess.mixtape.id,
+              :disabled => !contest_in_progress,
             }
           %>
         </td>

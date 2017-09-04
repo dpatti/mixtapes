@@ -10,5 +10,5 @@
   I choose you,
   <%= collection_select :vote, :mixtape_id, vote.eligible_mixtapes, :id, :name,
     { :include_blank => true, :selected => vote.mixtape_id },
-    { :class => 'vote', :'data-award' => vote.award.id } %>
+    { :class => 'vote', :'data-award' => vote.award.id, :disabled => '1' } %>
 <% end %>
