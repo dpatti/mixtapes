@@ -6,20 +6,25 @@ class MixtapesController < ApplicationController
 
   # Show all mixtapes
   def index
-    refuse_access and return if before_contest
+    @contest = Contest.find(params[:contest_id])
+    refuse_access and return if @contest.before?
 
-    @mixtapes = Mixtape.with_songs.all.each do |mixtape|
+    @mixtapes = @contest.mixtapes.all.each do |mixtape|
       if current_user
         mixtape.with_last_read_time_for(current_user)
       end
     end
 
-    @comments = Comment.latest(10)
+    # XXX: I tried doing this using the associations, i.e.,
+    # `@contest.comments.latest(10)`. For some reason, part of the default_scope
+    # for `Mixtape` was being applied and it was raising because the `songs`
+    # table join was referenced but it wasn't... joined. I don't know.
+    @comments = Comment.latest(10).where(mixtape: @mixtapes)
 
-    if daily_mix_day?
+    if @contest.daily_mix_day?
       # Build list of mixtapes, randomize and pick one. We concat nil at the end
       # so that when all mixtapes have had a day, we stop showing a current mix.
-      seeded_order = Mixtape.with_songs.shuffle(random: rotation_seed).push(nil)
+      seeded_order = @mixtapes.shuffle(random: @contest.rotation_seed).push(nil)
       *@previous, @highlight = seeded_order.take(rotation_day + 1)
       @previous.uniq!
     end
@@ -27,10 +32,10 @@ class MixtapesController < ApplicationController
 
   # Show details about a single mixtape
   def show
-    @mixtape = Mixtape.includes(:comments).find(params[:id])
+    @mixtape = Mixtape.find(params[:id])
     @comment = Comment.new
 
-    if before_contest
+    if @mixtape.contest.before?
       if has_private_access_to(@mixtape)
         render 'edit'
       else
@@ -99,7 +104,7 @@ class MixtapesController < ApplicationController
   def download
     @mixtape = Mixtape.find(params[:id])
 
-    if before_contest && !has_private_access_to(@mixtape)
+    if @mixtape.contest.before? && !has_private_access_to(@mixtape)
       refuse_access and return
     end
 
@@ -109,7 +114,8 @@ class MixtapesController < ApplicationController
   end
 
   def download_all
-    mixtapes = Mixtape.with_songs
+    contest = Contest.find(params[:contest_id])
+    mixtapes = contest.mixtapes.with_songs
     cache_path = File.join(Settings.cache_path, "all.zip")
     cache = File.stat(cache_path) rescue nil
 
@@ -126,15 +132,17 @@ class MixtapesController < ApplicationController
   end
 
   def listen
-    if params[:id] == "random"
-      id = Mixtape.with_songs.map(&:id).sample
-      return redirect_to listen_mixtape_path(id)
-    end
     consume('listen')
   end
 
   def visualize
     consume('visualizer')
+  end
+
+  def listen_random
+    contest = Contest.find(params[:contest_id])
+    id = contest.mixtapes.with_songs.map(&:id).sample
+    return redirect_to listen_mixtape_path(id)
   end
 
   private
@@ -146,7 +154,7 @@ class MixtapesController < ApplicationController
   def consume(template)
     mixtape = Mixtape.includes(:songs).find(params[:id])
 
-    if before_contest && !has_private_access_to(mixtape)
+    if mixtape.contest.before? && !has_private_access_to(mixtape)
       refuse_access and return
     end
 

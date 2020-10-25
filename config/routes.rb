@@ -1,33 +1,32 @@
 Mixtapes::Application.routes.draw do
-
   root :to => 'application#index'
-
   get '/home' => 'application#home'
-
   get '/auth/:provider/callback' => 'sessions#create'
   get '/signout' => 'sessions#destroy', :as => :signout
 
-  get '/songs' => 'songs#index'
-
-  get '/songs/favorites' => 'songs#favorites'
-
   resources :users, :only => [:new, :create]
 
-  resource :guesses, :only => [:show, :update]
-  resource :votes, :only => [:show, :update]
-
-  resources :mixtapes, :except => :edit do
-    resources :songs, :only => [:create, :update, :destroy] do
-      member do
-        put 'like'
-        get 'listen'
+  resources :contests, :only => [:index] do
+    resources :mixtapes, :only => [:index, :new, :create] do
+      collection do
+        get 'random', :action => 'listen_random'
+        get 'download', :action => 'download_all'
       end
     end
-    resources :comments, :only => [:create, :update, :destroy]
 
-    collection do
-      get 'download', :action => 'download_all'
+    resources :songs, :only => [:index] do
+      collection do
+        get 'favorites'
+      end
     end
+
+    resource :guesses, :only => [:show, :update]
+    resource :votes, :only => [:show, :update]
+  end
+
+  resources :mixtapes, :only => [:show, :update, :destroy] do
+    resources :songs, :only => [:create]
+    resources :comments, :only => [:create]
 
     member do
       get 'destroy', :as => 'destroy', :path => 'destroy', :action => 'destroy_confirm'
@@ -36,4 +35,13 @@ Mixtapes::Application.routes.draw do
       get 'visualize'
     end
   end
+
+  resources :songs, :only => [:update, :destroy] do
+    member do
+      put 'like'
+      get 'listen'
+    end
+  end
+
+  resources :comments, :only => [:update, :destroy]
 end

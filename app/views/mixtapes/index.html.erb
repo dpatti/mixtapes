@@ -1,4 +1,4 @@
-<% @title = "#{Settings.contest.start.year} mixtapes" %>
+<% @title = "#{@contest.name} mixtapes" %>
 
 <div class="row">
   <div class="col-md-8">
@@ -25,7 +25,7 @@
                 <% end %>
               <% end %>
             </td>
-            <td><%= anonymize(mixtape.creator) %></td>
+            <td><%= anonymize(mixtape.creator, context: mixtape.contest) %></td>
             <td><%= seconds_to_time mixtape.duration %></td>
             <td class="buttons-container">
               <%= link_to "Listen", listen_mixtape_path(mixtape.id), :class => 'btn btn-default', :target => '_blank' %>
@@ -38,8 +38,8 @@
   </div>
   <div class="col-md-4">
     <div class="buttons-container">
-      <%= link_to "Listen to random mix", listen_mixtape_path("random"), :class => 'btn btn-default' %>
-      <%= link_to "Download all", download_mixtapes_path, :class => 'btn btn-success' %>
+      <%= link_to "Listen to random mix", random_contest_mixtapes_path(@contest), :class => 'btn btn-default' %>
+      <%= link_to "Download all", download_contest_mixtapes_path(@contest), :class => 'btn btn-success' %>
     </div>
     <% @comments.each do |comment| %>
       <%= render partial: 'comment', locals: { comment: comment, mixtape: true, editable: false } %>

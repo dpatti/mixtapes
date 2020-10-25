@@ -21,6 +21,10 @@ class Song < ActiveRecord::Base
     on_mixtape.includes(:likes).where('duration < ?', 30.minutes.to_i)
   }
 
+  def contest
+    mixtape.contest
+  end
+
   def on_mixtapes_other_than(mixtape_id)
     where('mixtape_id != ?', mixtape_id)
   end

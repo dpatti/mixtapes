@@ -1,0 +1,20 @@
+<% if participant.contest.before? %>
+  <% if participant.logged_in? %>
+    <% if participant.has_mixtape? %>
+      <%= navbar_link_to "Edit my mixtape", mixtape_path(participant.mixtape) %>
+      <%= navbar_link_to "Delete my mixtape", destroy_mixtape_path(participant.mixtape) %>
+      <%= navbar_link_to "Preview download", download_mixtape_path(participant.mixtape) %>
+      <%= navbar_link_to "Preview listen", listen_mixtape_path(participant.mixtape) %>
+    <% else %>
+      <%= navbar_link_to "Create mixtape", new_contest_mixtape_path(participant.contest) %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= navbar_link_to 'View mixtapes', contest_mixtapes_path %>
+  <%= navbar_link_to 'Stand-out songs', contest_songs_path(participant.contest) %>
+  <% if current_user %>
+    <%= navbar_link_to 'My guesses', contest_guesses_path(participant.contest) %>
+    <%= navbar_link_to 'My votes', contest_votes_path(participant.contest) %>
+  <% end %>
+<% end %>
+

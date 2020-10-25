@@ -13,8 +13,8 @@ module ApplicationHelper
     "%d:%02d" % [seconds / 60, seconds % 60]
   end
 
-  def anonymize(name)
-    if contest_ended
+  def anonymize(name, context:)
+    if context.ended?
       name
     else
       "anonymous"

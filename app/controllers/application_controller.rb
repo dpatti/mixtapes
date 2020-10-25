@@ -1,14 +1,15 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :current_user, :before_contest, :contest_started,
-    :contest_ended, :contest_in_progress, :voting_warning, :log_in
+  helper_method :current_user, :current_contest, :voting_warning, :log_in
 
   before_filter :record_user_activity
 
   def index
-    if current_user && contest_started
-      redirect_to mixtapes_path
+    if current_user
+      redirect_to contests_path
     else
+      # Home gets the special no-subtitle title
+      @title = nil
       render "home"
     end
   end
@@ -23,6 +24,11 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def current_contest
+    # Maybe one day
+    nil
+  end
+
   def voting_warning
     left = Settings.contest.end - Time.new
     left.between?(0, 14.days) ? (left / 1.day).to_i : nil
@@ -34,22 +40,6 @@ class ApplicationController < ActionController::Base
     rescue ActiveRecord::RecordNotFound
       nil
     end if session[:user_id]
-  end
-
-  def before_contest
-    Time.new < Settings.contest.start
-  end
-
-  def contest_started
-    not before_contest
-  end
-
-  def contest_in_progress
-    Time.new.between?(Settings.contest.start, Settings.contest.end)
-  end
-
-  def contest_ended
-    Time.new > Settings.contest.end
   end
 
   def send_file(path, opts={})
@@ -65,39 +55,6 @@ class ApplicationController < ActionController::Base
     else
       super
     end
-  end
-
-  def rotation_seed
-    Random.new(Settings.contest.rotation.to_i)
-  end
-
-  def rotation_day
-    # We align this day with the monday of the first week, and then we fit it to
-    # a 5-day week where the weekends are not counted.
-    offset = Settings.contest.rotation.wday - 1
-    days = (Time.now - Settings.contest.rotation).to_i / 1.day + offset
-
-    index = (days / 7) * 5 + (days % 7) - offset
-
-    # We also have to take into account the exclusions defined in the settings.
-    # If any of them fall between the contest time period and have passed, we
-    # should decrement.
-    index -= Settings.daily_exclusions.select do |date|
-      date.to_time.between?(Settings.contest.start, Settings.contest.end) \
-        && date < Date.today
-    end.count
-
-    return index
-  end
-
-  def daily_mix_day?
-    [
-      Settings.contest.rotation < Time.now,
-      !contest_ended,
-      !Time.now.saturday?,
-      !Time.now.sunday?,
-      !Settings.daily_exclusions.include?(Date.today),
-    ].all?
   end
 
   def record_user_activity

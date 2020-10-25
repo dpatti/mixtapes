@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170829033329) do
+ActiveRecord::Schema.define(version: 20201101205625) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id"
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 20170829033329) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "deleted",    default: false
+  end
+
+  create_table "contests", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "year"
+    t.date     "start_date"
+    t.date     "rotation_date"
+    t.date     "end_date"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "guesses", force: :cascade do |t|
@@ -52,6 +62,7 @@ ActiveRecord::Schema.define(version: 20170829033329) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "contest_id"
   end
 
   create_table "songs", force: :cascade do |t|

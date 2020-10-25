@@ -4,14 +4,15 @@ class Mixtape < ActiveRecord::Base
   has_many :songs, -> { order('track_number, id') }
   has_many :comments, -> { order('created_at') }
   has_many :last_reads
+  belongs_to :contest
   belongs_to :user
-
-  default_scope -> { order('name') }
 
   # Only get Mixtapes that have at least one song
   scope :with_songs, -> {
     includes(:songs).where('songs.id is not null').references(:songs)
   }
+
+  default_scope -> { order('lower(name)').with_songs }
 
   def with_last_read_time_for(user)
     last = last_reads.where(:user_id => user.id).first
