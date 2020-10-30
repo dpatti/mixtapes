@@ -10,7 +10,7 @@ gem 'omniauth-google-oauth2', '~> 0.4.1'
 gem 'taglib-ruby', '~> 0.7.1'
 gem 'streamio-ffmpeg', '~> 2.0.0'
 gem 'quiet_assets', '~> 1.1.0'
-gem 'rubyzip', '~> 1.2.0'
+gem 'rubyzip', '~> 1.3.0'
 
 gem 'therubyracer', '~> 0.12.3'
 gem 'less-rails', '~> 2.8.0'
