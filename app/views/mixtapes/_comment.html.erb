@@ -11,9 +11,9 @@
     <%= time_ago_in_words comment.created_at %> ago
   <% end %>
   <div class="body"><%= markdown(comment.comment) %></div>
-  <% if comment.updated_at != comment.created_at %>
-    <%= content_tag 'i', :class => "time", :title => comment.updated_at do %>
-      Last edited <%= time_ago_in_words comment.updated_at %> ago
+  <% if comment.edited_at %>
+    <%= content_tag 'i', :class => "time", :title => comment.edited_at do %>
+      Last edited <%= time_ago_in_words comment.edited_at %> ago
     <% end %>
   <% end %>
   <% if editable && comment.editable_by?(current_user) %>
