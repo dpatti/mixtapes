@@ -53,7 +53,7 @@
   <%= render partial: 'comment', locals: { comment: comment, mixtape: false, editable: true } %>
 <% end %>
 
-<% if current_user %>
+<% if current_user && @mixtape.can_comment? %>
   <h3>Post Comment</h3>
   <%= form_for [@mixtape, @comment], :action => 'create' do |f| %>
     <p>

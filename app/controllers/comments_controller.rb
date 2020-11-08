@@ -1,9 +1,12 @@
 class CommentsController < ApplicationController
   def create
     refuse_access and return unless current_user
+    mixtape = Mixtape.find(params[:mixtape_id])
+    refuse_access and return unless mixtape.can_comment?
+
     @comment = Comment.new(comment_params) do |c|
       c.user_id = current_user.id
-      c.mixtape_id = params[:mixtape_id]
+      c.mixtape = mixtape
     end
 
     @comment.save

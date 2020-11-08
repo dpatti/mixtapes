@@ -20,13 +20,24 @@ class Mixtape < ActiveRecord::Base
   end
 
   def unread_count
-    @unread_count ||= comments.after(@last_read_time).count.tap do |n|
-      return nil if n <= 0
+    # XXX: Simply disabling unread counts since commenting is globally disabled
+    if true
+      nil
+    else
+      @unread_count ||= comments.after(@last_read_time).count.tap do |n|
+        return nil if n <= 0
+      end
     end
   end
 
   def last_unread
     @last_unread ||= comments.after(@last_read_time).first
+  end
+
+  def can_comment?
+    # XXX: Simply disabling commenting for now, but if we had another contest we
+    # could do something smarter.
+    false
   end
 
   def name
