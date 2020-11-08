@@ -12,8 +12,8 @@
       <a class="navbar-brand" href="/">Mixtapes</a>
       <ul class="nav navbar-nav pull-left">
         <%= navbar_link_to 'Contests', contests_path %>
-        <% if current_contest %>
-          <%= render partial: 'contest_navbar', locals: {participant: current_participant} %>
+        <% if contest_context %>
+          <%= render partial: 'contest_navbar', locals: {participant: current_user, contest: contest_context} %>
         <% end %>
       </ul>
 

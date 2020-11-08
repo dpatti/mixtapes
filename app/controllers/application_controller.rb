@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :current_user, :current_contest, :voting_warning, :log_in
+  helper_method :current_user, :current_contest, :contest_context, :voting_warning, :log_in
 
   before_filter :record_user_activity
 
@@ -25,8 +25,22 @@ class ApplicationController < ActionController::Base
   private
 
   def current_contest
-    # Maybe one day
+    # XXX: Maybe one day
     nil
+  end
+
+  def contest_context
+    # This is kind of silly? But it's more exhaustive than having to edit every
+    # controller action, even if it is a bit of an over-approximation
+    @contest_context ||= begin
+      if params[:contest_id]
+        Contest.find(params[:contest_id])
+      elsif params[:mixtape_id]
+        Mixtape.find(params[:mixtape_id]).contest
+      elsif params[:id]
+        Mixtape.find(params[:id]).contest
+      end
+    end
   end
 
   def voting_warning

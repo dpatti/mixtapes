@@ -1,5 +1,6 @@
 class Contest < ActiveRecord::Base
   has_many :mixtapes
+  has_many :songs, through: :mixtapes
   has_many :guesses, through: :mixtapes
   has_many :comments, through: :mixtapes
 

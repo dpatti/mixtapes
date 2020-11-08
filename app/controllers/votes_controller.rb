@@ -6,12 +6,15 @@ class VotesController < ApplicationController
     Award.all.each do |award|
       votes[award] ||= [current_user.votes.new(:award_id => award.id)]
     end
+    @contest = Contest.find(params[:contest_id])
     @votes = votes.values.map(&:first).sort_by { |g| g.award.id }
   end
 
   def update
+    contest = Contest.find(params[:contest_id])
+
     head :not_found and return unless current_user
-    head :forbidden and return unless contest_in_progress
+    head :forbidden and return unless contest.in_progress?
 
     current_vote = current_user.votes.where(:award_id => params[:vote][:award_id]).first
     current_vote ||= current_user.votes.new(vote_params)

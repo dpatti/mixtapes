@@ -2,16 +2,17 @@ require 'fileutils'
 
 class SongsController < ApplicationController
   def index
-    @songs = Song.standout
+    contest = Contest.find(params[:contest_id])
+    @songs = contest.songs.standout
               .select{|s| s.likes.size > 0}
               .sort_by{|s| [-s.likes.size, s.likes.last.created_at]}
-    @show_favorites = !contest_in_progress
+    @show_favorites = !contest.in_progress?
   end
 
   def create
     @mixtape = Mixtape.find(params[:mixtape_id])
     if contest_started or not current_user.owns? @mixtape
-      refuse_access and return 
+      refuse_access and return
     end
 
     # Create actual song record
@@ -88,11 +89,13 @@ class SongsController < ApplicationController
   end
 
   def favorites
+    contest = Contest.find(params[:contest_id])
+
     return head :not_found unless current_user
-    refuse_access and return if contest_in_progress
+    refuse_access and return if contest.in_progress?
 
     @title = "My Favorites"
-    @songs = Song.standout.select{|s| s.liked_by?(current_user) }.shuffle
+    @songs = contest.songs.standout.select{|s| s.liked_by?(current_user) }.shuffle
 
     render :layout => false, :template => "listen"
   end

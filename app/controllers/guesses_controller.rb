@@ -6,13 +6,16 @@ class GuessesController < ApplicationController
     Mixtape.with_songs.all.each do |mixtape|
       guesses[mixtape] ||= [current_user.guesses.new(:mixtape_id => mixtape.id)]
     end
+    @contest = Contest.find(params[:contest_id])
     @guesses = guesses.values.map(&:first).sort_by {|g| g.mixtape.name}
     @options = User.includes(:mixtape).all.select(&:active?).sort_by(&:name)
   end
 
   def update
+    contest = Contest.find(params[:contest_id])
+
     head :not_found and return unless current_user
-    head :forbidden and return unless contest_in_progress
+    head :forbidden and return unless @contest.in_progress?
 
     # Everything is a put, because a missing guess is implied NULL for
     # user_guessed_id

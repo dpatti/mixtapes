@@ -1,7 +1,7 @@
 <% @title = 'Stand-out songs' %>
 
 <% if @show_favorites %>
-  <%= link_to "Shuffle my favorites", songs_favorites_path, :class => 'btn btn-default', :target => '_blank' %>
+  <%= link_to "Shuffle my favorites", favorites_contest_songs_path, :class => 'btn btn-default', :target => '_blank' %>
 <% end %>
 
 <table id="songs" class="table">
