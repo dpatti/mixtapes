@@ -142,7 +142,7 @@ class MixtapesController < ApplicationController
   def listen_random
     contest = Contest.find(params[:contest_id])
     id = contest.mixtapes.with_songs.map(&:id).sample
-    return redirect_to listen_mixtape_path(id)
+    return redirect_to visualize_mixtape_path(id)
   end
 
   private

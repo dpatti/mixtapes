@@ -28,8 +28,7 @@
             <td><%= anonymize(mixtape.creator, context: mixtape.contest) %></td>
             <td><%= seconds_to_time mixtape.duration %></td>
             <td class="buttons-container">
-              <%= link_to "Listen", listen_mixtape_path(mixtape.id), :class => 'btn btn-default', :target => '_blank' %>
-              <%= link_to "Visualize", visualize_mixtape_path(mixtape.id), :class => 'btn btn-default', :target => '_blank' %>
+              <%= link_to "Listen", visualize_mixtape_path(mixtape.id), :class => 'btn btn-default', :target => '_blank' %>
             </td>
           <% end %>
         <% end %>
