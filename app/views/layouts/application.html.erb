@@ -9,9 +9,8 @@
 <body>
   <nav class="navbar navbar-default">
     <div class="navbar-inner">
-      <a class="navbar-brand" href="/">Friends of Jack Mixtapes</a>
+      <a class="navbar-brand" href="/">Mixtapes</a>
       <ul class="nav navbar-nav pull-left">
-        <%= navbar_link_to 'Home', home_path %>
         <%= navbar_link_to 'Contests', contests_path %>
         <% if current_contest %>
           <%= render partial: 'contest_navbar', locals: {participant: current_participant} %>

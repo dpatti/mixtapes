@@ -5,7 +5,9 @@ require 'string_similarity'
 require 'song_db'
 
 class Song < ActiveRecord::Base
-  ALBUM_ARTIST = "Friends of Jack Mixes"
+  # XXX: Uncommenting this to break it for now, this belongs on the contest
+  # model
+  # ALBUM_ARTIST = "Friends of Jack Mixes"
 
   belongs_to :mixtape, :touch => true
   has_many :likes
