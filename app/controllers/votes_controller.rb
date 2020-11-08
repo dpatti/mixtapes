@@ -2,11 +2,11 @@ class VotesController < ApplicationController
   def show
     head :not_found and return unless current_user
 
-    votes = current_user.votes.all.group_by(&:award)
+    @contest = Contest.find(params[:contest_id])
+    votes = @contest.votes.for(current_user).group_by(&:award)
     Award.all.each do |award|
       votes[award] ||= [current_user.votes.new(:award_id => award.id)]
     end
-    @contest = Contest.find(params[:contest_id])
     @votes = votes.values.map(&:first).sort_by { |g| g.award.id }
   end
 

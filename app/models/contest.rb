@@ -1,8 +1,10 @@
 class Contest < ActiveRecord::Base
-  has_many :mixtapes
+  has_many :mixtapes, -> { order('lower(mixtapes.name)') }
   has_many :songs, through: :mixtapes
   has_many :guesses, through: :mixtapes
+  has_many :votes, through: :mixtapes
   has_many :comments, through: :mixtapes
+  has_many :participants, through: :mixtapes, source: :user
 
   def before?
     Time.new < start_date

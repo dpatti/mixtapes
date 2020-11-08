@@ -9,7 +9,7 @@ class MixtapesController < ApplicationController
     @contest = Contest.find(params[:contest_id])
     refuse_access and return if @contest.before?
 
-    @mixtapes = @contest.mixtapes.all.each do |mixtape|
+    @mixtapes = @contest.mixtapes.with_songs.each do |mixtape|
       if current_user
         mixtape.with_last_read_time_for(current_user)
       end
@@ -19,6 +19,10 @@ class MixtapesController < ApplicationController
     # `@contest.comments.latest(10)`. For some reason, part of the default_scope
     # for `Mixtape` was being applied and it was raising because the `songs`
     # table join was referenced but it wasn't... joined. I don't know.
+    #
+    # I tried later after removing the `with_songs` from the default scope, and
+    # the alphabetical ordering scope of the mixtapes interfered with `latest`
+    # and gave me the wrong ordering. Everything is bad.
     @comments = Comment.latest(10).where(mixtape: @mixtapes)
 
     if @contest.daily_mix_day?

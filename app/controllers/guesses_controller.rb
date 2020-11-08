@@ -2,13 +2,13 @@ class GuessesController < ApplicationController
   def show
     head :not_found and return unless current_user
 
-    guesses = current_user.guesses.all.group_by(&:mixtape)
-    Mixtape.with_songs.all.each do |mixtape|
+    @contest = Contest.find(params[:contest_id])
+    guesses = @contest.guesses.for(current_user).group_by(&:mixtape)
+    @contest.mixtapes.with_songs.all.each do |mixtape|
       guesses[mixtape] ||= [current_user.guesses.new(:mixtape_id => mixtape.id)]
     end
-    @contest = Contest.find(params[:contest_id])
     @guesses = guesses.values.map(&:first).sort_by {|g| g.mixtape.name}
-    @options = User.includes(:mixtape).all.select(&:active?).sort_by(&:name)
+    @options = @contest.participants.all.select(&:active?).sort_by(&:name)
   end
 
   def update

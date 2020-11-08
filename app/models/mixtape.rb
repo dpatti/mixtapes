@@ -4,15 +4,18 @@ class Mixtape < ActiveRecord::Base
   has_many :songs, -> { order('track_number, id') }
   has_many :comments, -> { order('created_at') }
   has_many :last_reads
+  has_many :guesses
+  has_many :votes
   belongs_to :contest
   belongs_to :user
 
   # Only get Mixtapes that have at least one song
+  # XXX: I tried to put `with_songs` in the default scope and it broke a lot of
+  # association queries because songs was referenced in the where clause but
+  # never joined
   scope :with_songs, -> {
     includes(:songs).where('songs.id is not null').references(:songs)
   }
-
-  default_scope -> { order('lower(name)').with_songs }
 
   def with_last_read_time_for(user)
     last = last_reads.where(:user_id => user.id).first

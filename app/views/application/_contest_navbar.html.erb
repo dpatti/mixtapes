@@ -14,7 +14,9 @@
   <%= navbar_link_to 'Stand-out songs', contest_songs_path(contest) %>
   <% if participant %>
     <%= navbar_link_to 'My guesses', contest_guesses_path(contest) %>
-    <%= navbar_link_to 'My votes', contest_votes_path(contest) %>
+    <% if contest.voting_enabled %>
+      <%= navbar_link_to 'My votes', contest_votes_path(contest) %>
+    <% end %>
   <% end %>
 <% end %>
 
