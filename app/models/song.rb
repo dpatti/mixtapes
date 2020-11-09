@@ -5,10 +5,6 @@ require 'string_similarity'
 require 'song_db'
 
 class Song < ActiveRecord::Base
-  # XXX: Uncommenting this to break it for now, this belongs on the contest
-  # model
-  # ALBUM_ARTIST = "Friends of Jack Mixes"
-
   belongs_to :mixtape, :touch => true
   has_many :likes
 
@@ -130,6 +126,7 @@ class Song < ActiveRecord::Base
       tag.album = mixtape.name
       tag.track = track
       tag.year = 2017
+      album_artist = contest.name
 
       # Okay, do the stupid "Album Artist" so that all media players feel included
       if file.respond_to? :id3v2_tag
@@ -141,7 +138,7 @@ class Song < ActiveRecord::Base
 
           # Re-add it
           TagLib::ID3v2::TextIdentificationFrame.new(frame_id, TagLib::String::UTF8).tap do |frame|
-            frame.text = ALBUM_ARTIST
+            frame.text = album_artist
             id3v2_tag.add_frame(frame)
           end
         end
@@ -153,7 +150,7 @@ class Song < ActiveRecord::Base
         item_list_map = tag.item_list_map
         %w{aART soaa soar}.each do |frame_id|
           item_list_map.erase(frame_id)
-          item_list_map.insert(frame_id, TagLib::MP4::Item.from_string_list([ALBUM_ARTIST]))
+          item_list_map.insert(frame_id, TagLib::MP4::Item.from_string_list([album_artist]))
         end
 
         # Remove disk -- disc number
