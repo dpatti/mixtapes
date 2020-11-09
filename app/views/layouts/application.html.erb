@@ -9,9 +9,18 @@
 <body>
   <nav class="navbar navbar-default">
     <div class="navbar-inner">
-      <a class="navbar-brand" href="/">Mixtapes</a>
       <ul class="nav navbar-nav pull-left">
-        <%= navbar_link_to 'Contests', contests_path %>
+        <li class="dropdown">
+          <a href="#" class="navbar-brand dropdown-toggle" data-toggle="dropdown">
+            <%= @navbar_label %> <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <% @navbar_contests.each do |contest| %>
+              <li><%= link_to contest.name, contest_mixtapes_path(contest.id) %></li>
+            <% end %>
+          </ul>
+        </li>
+
         <% if contest_context %>
           <%= render partial: 'contest_navbar', locals: {participant: current_user, contest: contest_context} %>
         <% end %>

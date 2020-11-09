@@ -3,15 +3,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :current_contest, :contest_context, :voting_warning, :log_in
 
   before_filter :record_user_activity
+  before_filter :prepare_navbar
 
   def index
-    if current_user
-      redirect_to contests_path
-    else
-      # Home gets the special no-subtitle title
-      @title = nil
-      render "home"
-    end
+    # Home gets the special no-subtitle title
+    @title = nil
+    render "home"
   end
 
   def refuse_access
@@ -75,6 +72,11 @@ class ApplicationController < ActionController::Base
     if current_user
       current_user.touch :accessed_at
     end
+  end
+
+  def prepare_navbar
+    @navbar_label = contest_context&.name || "Mixtapes"
+    @navbar_contests = Contest.all
   end
 
   def log_in(user)
