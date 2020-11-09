@@ -26,16 +26,11 @@ class ApplicationController < ActionController::Base
     nil
   end
 
+  # Also overridden in other controllers
   def contest_context
-    # This is kind of silly? But it's more exhaustive than having to edit every
-    # controller action, even if it is a bit of an over-approximation
     @contest_context ||= begin
       if params[:contest_id]
         Contest.find(params[:contest_id])
-      elsif params[:mixtape_id]
-        Mixtape.find(params[:mixtape_id]).contest
-      elsif params[:id]
-        Mixtape.find(params[:id]).contest
       end
     end
   end

@@ -1,6 +1,8 @@
 require 'zip'
 
 class MixtapesController < ApplicationController
+  helper_method :contest_context
+
   # All modifications must be done *before* the due date. That includes any
   # POST, PATCH, or DELETE.
 
@@ -172,5 +174,15 @@ class MixtapesController < ApplicationController
 
   def has_private_access_to(mixtape)
     current_user && current_user.owns?(mixtape)
+  end
+
+  def contest_context
+    @contest_context ||= begin
+      if params[:mixtape_id]
+        Mixtape.find(params[:mixtape_id]).contest
+      elsif params[:id]
+        Mixtape.find(params[:id]).contest
+      end
+    end || super
   end
 end

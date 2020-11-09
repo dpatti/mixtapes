@@ -1,6 +1,8 @@
 require 'fileutils'
 
 class SongsController < ApplicationController
+  helper_method :contest_context
+
   def index
     contest = Contest.find(params[:contest_id])
     @songs = contest.songs.standout
