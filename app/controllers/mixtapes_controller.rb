@@ -119,24 +119,6 @@ class MixtapesController < ApplicationController
     send_file @mixtape.cache_path, :filename => @mixtape.filename, :disposition => 'attachment', :type => :zip
   end
 
-  def download_all
-    contest = Contest.find(params[:contest_id])
-    mixtapes = contest.mixtapes.with_songs
-    cache_path = File.join(Settings.cache_path, "all.zip")
-    cache = File.stat(cache_path) rescue nil
-
-    if !cache || cache.mtime < mixtapes.map(&:updated_at).max || cache.size < 100
-      File.delete(cache_path) rescue nil
-      Zip::File.open(cache_path, Zip::File::CREATE) do |zip|
-        mixtapes.each do |m|
-          m.add_songs(zip)
-        end
-      end
-    end
-
-    send_file cache_path, :filename => "FriendsOfJack2017Mixes.zip", :disposition => 'attachment'
-  end
-
   def listen
     consume('listen')
   end

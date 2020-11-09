@@ -54,4 +54,12 @@ class Contest < ActiveRecord::Base
       !Settings.daily_exclusions.include?(Date.today),
     ].all?
   end
+
+  def cache_path
+    File.join(Settings.cache_path, "contest.#{ id }.zip")
+  end
+
+  def filename
+    "#{ name }.zip"
+  end
 end

@@ -38,7 +38,7 @@
   <div class="col-md-4">
     <div class="buttons-container">
       <%= link_to "Listen to random mix", random_contest_mixtapes_path(@contest), :class => 'btn btn-default' %>
-      <%= link_to "Download all", download_contest_mixtapes_path(@contest), :class => 'btn btn-success' %>
+      <%= link_to "Download all", download_contest_path(@contest), :class => 'btn btn-success' %>
     </div>
     <% @comments.each do |comment| %>
       <%= render partial: 'comment', locals: { comment: comment, mixtape: true, editable: false } %>

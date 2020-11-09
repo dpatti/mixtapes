@@ -10,7 +10,6 @@ Mixtapes::Application.routes.draw do
     resources :mixtapes, :only => [:index, :new, :create] do
       collection do
         get 'random', :action => 'listen_random'
-        get 'download', :action => 'download_all'
       end
     end
 
@@ -22,6 +21,10 @@ Mixtapes::Application.routes.draw do
 
     resource :guesses, :only => [:show, :update]
     resource :votes, :only => [:show, :update]
+
+    member do
+      get 'download'
+    end
   end
 
   resources :mixtapes, :only => [:show, :update, :destroy] do

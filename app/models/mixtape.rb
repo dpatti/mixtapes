@@ -84,7 +84,7 @@ class Mixtape < ActiveRecord::Base
   end
 
   def cache_path
-    File.join(Settings.cache_path, "#{ id }.zip")
+    File.join(Settings.cache_path, "mixtape.#{ id }.zip")
   end
 
   def prepare_zip
