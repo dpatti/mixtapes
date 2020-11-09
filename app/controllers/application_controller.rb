@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
 
     if Settings.use_xsendfile
       extension = File.extname(opts[:filename]).downcase[1..-1]
-      head :x_accel_redirect => "/#{ path }",
+      head :x_accel_redirect => path,
            :content_type => Mime::Type.lookup_by_extension(extension),
            :content_disposition => "attachment; filename=\"#{opts[:filename]}\""
     else

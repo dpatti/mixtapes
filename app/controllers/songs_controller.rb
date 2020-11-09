@@ -99,7 +99,7 @@ class SongsController < ApplicationController
     @title = "My Favorites"
     @songs = contest.songs.standout.select{|s| s.liked_by?(current_user) }.shuffle
 
-    render :layout => false, :template => "listen"
+    render :layout => false, :template => "visualizer"
   end
 
   private
