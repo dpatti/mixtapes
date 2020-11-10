@@ -22,7 +22,7 @@
         </li>
 
         <% if contest_context %>
-          <%= render partial: 'contest_navbar', locals: {participant: current_user, contest: contest_context} %>
+          <%= render partial: 'contest_navbar', locals: {scene: Scene.new(current_user, contest_context)} %>
         <% end %>
       </ul>
 

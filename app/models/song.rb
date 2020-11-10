@@ -6,6 +6,7 @@ require 'song_db'
 
 class Song < ActiveRecord::Base
   belongs_to :mixtape, :touch => true
+  has_one :contest, :through => :mixtape
   has_many :likes
 
   validates_presence_of :title, :artist, :file, :track_number
@@ -89,6 +90,11 @@ class Song < ActiveRecord::Base
   end
 
   def warning
+    # Disable this part for performance. There are too many queries.
+    if true
+      return []
+    end
+
     @warning ||= similar_songs.map do |song|
       '"%s" by %s on %smixtape "%s"' % [
         song.title, song.artist,

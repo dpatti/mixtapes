@@ -1,6 +1,9 @@
 $(function(){
+  const mixtapeId = document.location.pathname.match(/\/mixtapes\/([0-9]+)/)[1];
+
   const paths = {
-    createSong: mixtapeId => `/mixtape/${mixtapeId}/songs`,
+    updateMixtape: mixtapeId => `/mixtapes/${mixtapeId}`,
+    createSong: mixtapeId => `/mixtapes/${mixtapeId}/songs`,
     updateSong: songId => `/songs/${songId}`,
     destroySong: songId => `/songs/${songId}`,
     likeSong: songId => `/songs/${songId}/like`,
@@ -34,7 +37,7 @@ $(function(){
   };
 
   $("#name").change(function(){
-    $.ajax(document.location.pathname, {
+    $.ajax(paths.updateMixtape(mixtapeId), {
       type: 'patch',
       data: { mixtape: { name: $(this).val() }},
     });
@@ -111,7 +114,6 @@ $(function(){
       .removeClass('progress-bar-success');
 
     return $.ajax({
-      // TODO: mixtapeId
       url: paths.createSong(mixtapeId),
       type: 'POST',
       data: data,

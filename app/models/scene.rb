@@ -1,4 +1,4 @@
-class Participant
+class Scene
   attr_accessor :user, :contest
 
   def initialize(user, contest)
@@ -16,5 +16,9 @@ class Participant
 
   def mixtape
     @mixtape ||= user.mixtape_for(contest)
+  end
+
+  def pre_contest?
+    contest.before?
   end
 end

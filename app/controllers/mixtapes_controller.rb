@@ -57,33 +57,15 @@ class MixtapesController < ApplicationController
     end
   end
 
-  # Unused: Show the form to create a new mixtape
   def new
-    # Debug: just do the create for now
-    redirect_to Mixtape.create_for(current_user)
-
-    # refuse_access
-  end
-
-  # POST: Create the actual mixtape
-  def create
-    refuse_access and return if contest_started
-
-    @mixtape = Mixtape.new(mixtape_params)
-
-    if @mixtape.save
-      flash[:info] = "Mixtape created successfully"
-      session[:mixtape] = @mixtape.id
-      redirect_to @mixtape
-    else
-      render 'new'
-    end
+    contest = Contest.find(params[:contest_id])
+    redirect_to Mixtape.create_for(current_user, contest)
   end
 
   # PATCH: Modify mixtape
   def update
     @mixtape = Mixtape.find(params[:id])
-    if contest_started or !has_private_access_to(@mixtape)
+    if @mixtape.contest.started? or !has_private_access_to(@mixtape)
       refuse_access and return
     end
     @mixtape.update_attributes(mixtape_params)
@@ -93,7 +75,7 @@ class MixtapesController < ApplicationController
   # Prompt for deletion
   def destroy_confirm
     @mixtape = Mixtape.find(params[:id])
-    if contest_started or !has_private_access_to(@mixtape)
+    if @mixtape.contest.started? or !has_private_access_to(@mixtape)
       refuse_access and return
     end
   end
@@ -101,7 +83,7 @@ class MixtapesController < ApplicationController
   # DELETE: Remove mixtape
   def destroy
     @mixtape = Mixtape.find(params[:id])
-    if contest_started or !has_private_access_to(@mixtape)
+    if @mixtape.contest.started? or !has_private_access_to(@mixtape)
       refuse_access and return
     end
     @mixtape.songs.each(&:destroy)

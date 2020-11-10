@@ -100,11 +100,12 @@ class Mixtape < ActiveRecord::Base
     end
   end
 
-  def self.create_for(user)
+  def self.create_for(user, contest)
     raise "No user supplied" unless user
 
     create do |mixtape|
       mixtape.user_id = user.id
+      mixtape.contest_id = contest.id
     end
   end
 end

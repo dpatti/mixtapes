@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
     mixtape.user_id == id
   end
 
+  def mixtape_for(contest)
+    Mixtape.where(user_id: id, contest_id: contest.id).first
+  end
+
   def likes?(song)
     likes.any? {|l| l.song_id == song.id}
   end

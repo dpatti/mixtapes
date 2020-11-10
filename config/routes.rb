@@ -15,7 +15,7 @@ Mixtapes::Application.routes.draw do
   end
 
   resources :contests, :only => [:index] do
-    resources :mixtapes, :only => [:index, :new, :create] do
+    resources :mixtapes, :only => [:index, :new] do
       collection do
         get 'random', :action => 'listen_random'
       end
