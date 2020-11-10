@@ -15,9 +15,8 @@ class UsersController < ApplicationController
   def mixtapes
     refuse_access and return unless current_user
 
+    @title = "My Mixtapes"
     @mixtapes = current_user.mixtapes.with_songs
-
-    render 'mixtapes/mine'
   end
 
   def favorites
@@ -27,6 +26,13 @@ class UsersController < ApplicationController
     @songs = current_user.likes.includes(:song).map(&:song)
 
     render :layout => false, :template => "visualizer"
+  end
+
+  def comments
+    refuse_access and return unless current_user
+
+    @title = "My Comments"
+    @comments = current_user.comments.includes(:mixtape)
   end
 
 private

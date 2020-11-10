@@ -10,6 +10,7 @@ Mixtapes::Application.routes.draw do
     collection do
       get 'mixtapes'
       get 'favorites'
+      get 'comments'
     end
   end
 
