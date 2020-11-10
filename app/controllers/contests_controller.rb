@@ -1,6 +1,6 @@
 class ContestsController < ApplicationController
   def index
-    @contests = Contest.all
+    @contests = Contest.order(:start_date)
   end
 
   def download

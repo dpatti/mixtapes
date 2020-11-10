@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
 
   def prepare_navbar
     @navbar_label = contest_context&.name || "Mixtapes"
-    @navbar_contests = Contest.all
+    @navbar_contests = Contest.order(:start_date)
   end
 
   def log_in(user)
