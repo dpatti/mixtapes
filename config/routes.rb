@@ -6,6 +6,13 @@ Mixtapes::Application.routes.draw do
 
   resources :users, :only => [:new, :create]
 
+  resource :user do
+    collection do
+      get 'mixtapes'
+      get 'favorites'
+    end
+  end
+
   resources :contests, :only => [:index] do
     resources :mixtapes, :only => [:index, :new, :create] do
       collection do

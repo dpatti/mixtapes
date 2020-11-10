@@ -28,13 +28,18 @@
 
       <ul class="nav navbar-nav pull-right">
         <% if current_user %>
-          <%= content_tag 'li' do %>
-            <%= content_tag 'p', :class => 'navbar-text' do %>
-              <%= tag 'img', :src => current_user.gravatar %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <%= tag 'img', :class => "gravatar", :src => current_user.gravatar %>
               <%= current_user.name %>
-            <% end %>
-          <% end %>
-          <%= navbar_link_to 'Logout', signout_path %>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <%= navbar_link_to 'My Mixes', mixtapes_user_path %>
+              <%= navbar_link_to 'My Favorite Songs', favorites_user_path %>
+              <%= navbar_link_to 'Logout', signout_path %>
+            </ul>
+          </li>
         <% else %>
           <%= navbar_link_to "Sign in with Google", "/auth/google_oauth2" %>
         <% end %>

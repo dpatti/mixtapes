@@ -17,6 +17,8 @@ class MixtapesController < ApplicationController
       end
     end
 
+    @title = "#{@contest.name} mixtapes"
+
     # XXX: I tried doing this using the associations, i.e.,
     # `@contest.comments.latest(10)`. For some reason, part of the default_scope
     # for `Mixtape` was being applied and it was raising because the `songs`

@@ -1,7 +1,7 @@
 require 'gravatar'
 
 class User < ActiveRecord::Base
-  has_one :mixtape
+  has_many :mixtapes
   has_many :comments
   has_many :likes
   has_many :guesses
@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   end
 
   def active?
-    if mixtape && !mixtape.songs.empty?
+    if mixtapes.any? {|mixtape| !mixtape.songs.empty? }
       return true
     end
 
