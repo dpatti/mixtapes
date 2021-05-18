@@ -15,7 +15,7 @@ gem 'rubyzip', '~> 1.2'
 gem 'therubyracer', '~> 0.12'
 gem 'less-rails', '~> 2.8'
 gem 'twitter-bootstrap-rails', '~> 3.2'
-gem 'redcarpet', '~> 3.3'
+gem 'redcarpet', '~> 3.5'
 gem 'pry', '~> 0.10'
 
 gem 'sass-rails', '~> 5.0'
