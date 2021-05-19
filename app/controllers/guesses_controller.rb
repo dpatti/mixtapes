@@ -2,17 +2,20 @@ class GuessesController < ApplicationController
   def show
     head :not_found and return unless current_user
 
-    guesses = current_user.guesses.all.group_by(&:mixtape)
-    Mixtape.with_songs.all.each do |mixtape|
+    @contest = Contest.find(params[:contest_id])
+    guesses = @contest.guesses.for(current_user).group_by(&:mixtape)
+    @contest.mixtapes.with_songs.all.each do |mixtape|
       guesses[mixtape] ||= [current_user.guesses.new(:mixtape_id => mixtape.id)]
     end
     @guesses = guesses.values.map(&:first).sort_by {|g| g.mixtape.name}
-    @options = User.includes(:mixtape).all.select(&:active?).sort_by(&:name)
+    @options = @contest.participants.all.select(&:active?).sort_by(&:name)
   end
 
   def update
+    contest = Contest.find(params[:contest_id])
+
     head :not_found and return unless current_user
-    head :forbidden and return unless contest_in_progress
+    head :forbidden and return unless @contest.in_progress?
 
     # Everything is a put, because a missing guess is implied NULL for
     # user_guessed_id

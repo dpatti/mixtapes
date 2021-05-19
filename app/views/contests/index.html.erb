@@ -1,0 +1,7 @@
+<% @title = 'Contests' %>
+
+<ul>
+  <% @contests.each do |contest| %>
+    <li><%= link_to contest.name, contest_mixtapes_path(contest.id) %></li>
+  <% end %>
+</ul>

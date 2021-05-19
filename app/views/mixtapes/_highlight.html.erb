@@ -20,7 +20,7 @@
     <div>
       <%= link_to 'View mixtape', mixtape_path(@highlight) %>
       &middot;
-      <%= link_to 'Listen online', listen_mixtape_path(@highlight) %>
+      <%= link_to 'Listen online', visualize_mixtape_path(@highlight) %>
       &middot;
       <%= link_to mixtape_comments(@highlight) do %>
         <%= pluralize @highlight.comments.count, 'comment' %> (<%= @highlight.comments.today.count %> new today)

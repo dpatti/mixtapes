@@ -14,6 +14,10 @@ class Comment < ActiveRecord::Base
 
   validate :has_comment
 
+  def contest
+    mixtape.contest
+  end
+
   def destroy
     self.deleted = true
     save

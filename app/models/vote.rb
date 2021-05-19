@@ -4,6 +4,8 @@ class Vote < ActiveRecord::Base
 
   validates_uniqueness_of :award_id, :scope => :user_id
 
+  scope :for, -> user { where(user_id: user.id) }
+
   def self.for_user(user, award:)
     self.user = user
     self.award = award

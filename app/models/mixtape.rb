@@ -4,11 +4,15 @@ class Mixtape < ActiveRecord::Base
   has_many :songs, -> { order('track_number, id') }
   has_many :comments, -> { order('created_at') }
   has_many :last_reads
+  has_many :guesses
+  has_many :votes
+  belongs_to :contest
   belongs_to :user
 
-  default_scope -> { order('name') }
-
   # Only get Mixtapes that have at least one song
+  # XXX: I tried to put `with_songs` in the default scope and it broke a lot of
+  # association queries because songs was referenced in the where clause but
+  # never joined
   scope :with_songs, -> {
     includes(:songs).where('songs.id is not null').references(:songs)
   }
@@ -19,13 +23,24 @@ class Mixtape < ActiveRecord::Base
   end
 
   def unread_count
-    @unread_count ||= comments.after(@last_read_time).count.tap do |n|
-      return nil if n <= 0
+    # XXX: Simply disabling unread counts since commenting is globally disabled
+    if true
+      nil
+    else
+      @unread_count ||= comments.after(@last_read_time).count.tap do |n|
+        return nil if n <= 0
+      end
     end
   end
 
   def last_unread
     @last_unread ||= comments.after(@last_read_time).first
+  end
+
+  def can_comment?
+    # XXX: Simply disabling commenting for now, but if we had another contest we
+    # could do something smarter.
+    false
   end
 
   def name
@@ -69,7 +84,7 @@ class Mixtape < ActiveRecord::Base
   end
 
   def cache_path
-    File.join(Settings.cache_path, "#{ id }.zip")
+    File.join(Settings.cache_path, "mixtape.#{ id }.zip")
   end
 
   def prepare_zip
@@ -85,11 +100,12 @@ class Mixtape < ActiveRecord::Base
     end
   end
 
-  def self.create_for(user)
+  def self.create_for(user, contest)
     raise "No user supplied" unless user
 
     create do |mixtape|
       mixtape.user_id = user.id
+      mixtape.contest_id = contest.id
     end
   end
 end

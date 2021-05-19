@@ -5,9 +5,8 @@ require 'string_similarity'
 require 'song_db'
 
 class Song < ActiveRecord::Base
-  ALBUM_ARTIST = "Friends of Jack Mixes"
-
   belongs_to :mixtape, :touch => true
+  has_one :contest, :through => :mixtape
   has_many :likes
 
   validates_presence_of :title, :artist, :file, :track_number
@@ -20,6 +19,10 @@ class Song < ActiveRecord::Base
   scope :standout, -> {
     on_mixtape.includes(:likes).where('duration < ?', 30.minutes.to_i)
   }
+
+  def contest
+    mixtape.contest
+  end
 
   def on_mixtapes_other_than(mixtape_id)
     where('mixtape_id != ?', mixtape_id)
@@ -87,6 +90,11 @@ class Song < ActiveRecord::Base
   end
 
   def warning
+    # Disable this part for performance. There are too many queries.
+    if true
+      return []
+    end
+
     @warning ||= similar_songs.map do |song|
       '"%s" by %s on %smixtape "%s"' % [
         song.title, song.artist,
@@ -124,6 +132,7 @@ class Song < ActiveRecord::Base
       tag.album = mixtape.name
       tag.track = track
       tag.year = 2017
+      album_artist = contest.name
 
       # Okay, do the stupid "Album Artist" so that all media players feel included
       if file.respond_to? :id3v2_tag
@@ -135,7 +144,7 @@ class Song < ActiveRecord::Base
 
           # Re-add it
           TagLib::ID3v2::TextIdentificationFrame.new(frame_id, TagLib::String::UTF8).tap do |frame|
-            frame.text = ALBUM_ARTIST
+            frame.text = album_artist
             id3v2_tag.add_frame(frame)
           end
         end
@@ -147,7 +156,7 @@ class Song < ActiveRecord::Base
         item_list_map = tag.item_list_map
         %w{aART soaa soar}.each do |frame_id|
           item_list_map.erase(frame_id)
-          item_list_map.insert(frame_id, TagLib::MP4::Item.from_string_list([ALBUM_ARTIST]))
+          item_list_map.insert(frame_id, TagLib::MP4::Item.from_string_list([album_artist]))
         end
 
         # Remove disk -- disc number

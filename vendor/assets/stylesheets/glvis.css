@@ -44,6 +44,8 @@ body {
   float:left;
   left: 0;
   bottom: 40px;
+  max-height: 75%;
+  overflow-y: auto;
 }
 
 .playlist li {

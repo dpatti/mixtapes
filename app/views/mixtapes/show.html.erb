@@ -1,8 +1,7 @@
 <% @title = "#{@mixtape.name}" %>
 
 <h1 class='download'>
-  <%= link_to "Listen", listen_mixtape_path(@mixtape.id), :class => 'btn btn-default', :target => '_blank' %>
-  <%= link_to "Visualize", visualize_mixtape_path(@mixtape.id), :class => 'btn btn-default', :target => '_blank' %>
+  <%= link_to "Listen", visualize_mixtape_path(@mixtape.id), :class => 'btn btn-default', :target => '_blank' %>
   <%= link_to "Download", download_mixtape_path, :class => 'btn btn-default' %>
 </h1>
 
@@ -53,7 +52,7 @@
   <%= render partial: 'comment', locals: { comment: comment, mixtape: false, editable: true } %>
 <% end %>
 
-<% if current_user %>
+<% if current_user && @mixtape.can_comment? %>
   <h3>Post Comment</h3>
   <%= form_for [@mixtape, @comment], :action => 'create' do |f| %>
     <p>

@@ -1,8 +1,14 @@
 require 'redcarpet'
 
 module CommentHelper
+  class SelectiveRenderer < Redcarpet::Render::HTML
+    def header(text, level)
+      "#{"#" * level}#{text}"
+    end
+  end
+
   def renderer
-    Redcarpet::Render::HTML.new(
+    SelectiveRenderer.new(
       escape_html: true,
       hard_wrap: true,
       link_attributes: { target: '_blank' }

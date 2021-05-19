@@ -1,0 +1,3 @@
+<% @comments.each do |comment| %>
+  <%= render partial: 'mixtapes/comment', locals: { comment: comment, mixtape: true, editable: false } %>
+<% end %>

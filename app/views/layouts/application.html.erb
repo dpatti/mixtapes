@@ -9,39 +9,38 @@
 <body>
   <nav class="navbar navbar-default">
     <div class="navbar-inner">
-      <a class="navbar-brand" href="/">Friends of Jack Mixtapes 2017</a>
       <ul class="nav navbar-nav pull-left">
-        <%= navbar_link_to 'Home', home_path %>
-        <% if before_contest %>
-          <% if current_user %>
-            <% if current_user.mixtape %>
-              <%= navbar_link_to "Edit my mixtape", mixtape_path(current_user.mixtape.id) %>
-              <%= navbar_link_to "Delete my mixtape", destroy_mixtape_path(current_user.mixtape.id) %>
-              <%= navbar_link_to "Preview download", download_mixtape_path(current_user.mixtape.id) %>
-              <%= navbar_link_to "Preview listen", listen_mixtape_path(current_user.mixtape.id) %>
-            <% else %>
-              <%= navbar_link_to "Create mixtape", new_mixtape_path %>
+        <li class="dropdown">
+          <a href="#" class="navbar-brand dropdown-toggle" data-toggle="dropdown">
+            <%= @navbar_label %> <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <% @navbar_contests.each do |contest| %>
+              <li><%= link_to contest.name, contest_mixtapes_path(contest.id) %></li>
             <% end %>
-          <% end %>
-        <% else %>
-          <%= navbar_link_to 'View mixtapes', mixtapes_path %>
-          <%= navbar_link_to 'Stand-out songs', songs_path %>
-          <% if current_user %>
-            <%= navbar_link_to 'My guesses', guesses_path %>
-            <%= navbar_link_to 'My votes', votes_path %>
-          <% end %>
+          </ul>
+        </li>
+
+        <% if contest_context %>
+          <%= render partial: 'contest_navbar', locals: {scene: Scene.new(current_user, contest_context)} %>
         <% end %>
       </ul>
 
       <ul class="nav navbar-nav pull-right">
         <% if current_user %>
-          <%= content_tag 'li' do %>
-            <%= content_tag 'p', :class => 'navbar-text' do %>
-              <%= tag 'img', :src => current_user.gravatar %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <%= tag 'img', :class => "gravatar", :src => current_user.gravatar %>
               <%= current_user.name %>
-            <% end %>
-          <% end %>
-          <%= navbar_link_to 'Logout', signout_path %>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <%= navbar_link_to 'My Mixes', mixtapes_user_path %>
+              <%= navbar_link_to 'My Favorite Songs', favorites_user_path %>
+              <%= navbar_link_to 'My Comments', comments_user_path %>
+              <%= navbar_link_to 'Logout', signout_path %>
+            </ul>
+          </li>
         <% else %>
           <%= navbar_link_to "Sign in with Google", "/auth/google_oauth2" %>
         <% end %>

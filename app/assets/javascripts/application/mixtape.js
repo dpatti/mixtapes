@@ -1,4 +1,21 @@
 $(function(){
+  const mixtapeId = document.location.pathname.match(/\/mixtapes\/([0-9]+)/)[1];
+
+  const paths = {
+    updateMixtape: mixtapeId => `/mixtapes/${mixtapeId}`,
+    createSong: mixtapeId => `/mixtapes/${mixtapeId}/songs`,
+    updateSong: songId => `/songs/${songId}`,
+    destroySong: songId => `/songs/${songId}`,
+    likeSong: songId => `/songs/${songId}/like`,
+    listenSong: songId => `/songs/${songId}/listen`,
+
+    updateComment: commentId => `/comments/${commentId}`,
+    destroyComment: commentId => `/comments/${commentId}`,
+
+    updateGuess: () => `/guesses`,
+    updateVote: () => `/votes`,
+  };
+
   var time = function(s) {
     return ~~(s / 60) + ":" + ("0" + ~~(s % 60)).slice(-2);
   };
@@ -20,7 +37,7 @@ $(function(){
   };
 
   $("#name").change(function(){
-    $.ajax(document.location.pathname, {
+    $.ajax(paths.updateMixtape(mixtapeId), {
       type: 'patch',
       data: { mixtape: { name: $(this).val() }},
     });
@@ -41,7 +58,7 @@ $(function(){
   var updateSong = function(id, attrs) {
     if (!id) return;
 
-    return $.ajax(document.location.pathname + '/songs/' + id, {
+    return $.ajax(paths.updateSong(id), {
       type: 'patch',
       data: {
         song: attrs,
@@ -97,7 +114,7 @@ $(function(){
       .removeClass('progress-bar-success');
 
     return $.ajax({
-      url: document.location.pathname + '/songs',
+      url: paths.createSong(mixtapeId),
       type: 'POST',
       data: data,
       cache: false,
@@ -210,7 +227,7 @@ $(function(){
         id = row.data('song-id');
 
     if (confirm("Are you sure you want to remove this song from your mixtape?")) {
-      $.ajax(document.location.pathname + '/songs/' + id, {
+      $.ajax(paths.destroySong(id), {
         type: 'delete',
       })
       .done(function(mixtape){
@@ -276,7 +293,7 @@ $(function(){
       )
       .on('submit', function(e){
         e.preventDefault();
-        $.ajax($(this).attr('action') + '/' + commentId, {
+        $.ajax(paths.updateComment(commentId), {
           data: new FormData(this),
           type: 'patch',
           cache: false,
@@ -296,9 +313,9 @@ $(function(){
   $('.delete-comment').click(function(e){
     e.preventDefault();
     if (confirm("Are you sure you want to delete this comment?")) {
-      var url = $('#new_comment').attr('action') + '/' + $(this).closest('.comment').data('comment-id');
+      var commentId = $(this).closest('.comment').data('comment-id');
 
-      $.ajax(url, {
+      $.ajax(paths.destroyComment(commentId), {
         type: 'delete'
       })
       .always(function(){
@@ -326,10 +343,9 @@ $(function(){
   $('.like').click(function(e){
     var $this = $(this),
         like = $this.is('.btn-success'),
-        songId = $this.data('song-id'),
-        url = document.location.pathname + '/songs/' + songId + '/like';
+        songId = $this.data('song-id');
 
-    $.ajax(url, {
+    $.ajax(paths.likeSong(songId), {
       type: 'put',
       data: {
         value: !like || undefined,
@@ -342,8 +358,8 @@ $(function(){
   // Quickplay
   var player = new Audio();
   $('.play').click(function(e){
-    var songId = $(this).data('song-id'),
-        url = document.location.pathname + '/songs/' + songId + '/listen';
+    var songId = $(this).data('song-id');
+        url = paths.listenSong(songId);
 
     if (!player.paused) {
       player.pause();
@@ -388,7 +404,7 @@ $(function(){
 
   // Guesses
   $('select.guess').change(function(e){
-    $.ajax('/guesses', {
+    $.ajax(paths.updateGuess(), {
       method: 'patch',
       data: {
         guess: {
@@ -401,7 +417,7 @@ $(function(){
 
   // Votes
   $('select.vote').change(function(e){
-    $.ajax('/votes', {
+    $.ajax(paths.updateVote(), {
       method: 'patch',
       data: {
         vote: {

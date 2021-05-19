@@ -7,6 +7,8 @@ class Guess < ActiveRecord::Base
 
   default_scope -> { includes(:mixtape) }
 
+  scope :for, -> user { where(user_id: user.id) }
+
   def self.non_self
     all.reject { |g| g.user_id == g.mixtape&.user&.id }
   end

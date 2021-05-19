@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :cookie_params
+  before_filter :cookie_params, only: [:new, :create]
 
   def new
     @user = User.new_from_omniauth(@params)
@@ -10,6 +10,29 @@ class UsersController < ApplicationController
     user.save!
     cookies.delete(:auth)
     log_in(user)
+  end
+
+  def mixtapes
+    refuse_access and return unless current_user
+
+    @title = "My Mixtapes"
+    @mixtapes = current_user.mixtapes.with_songs
+  end
+
+  def favorites
+    refuse_access and return unless current_user
+
+    @title = "My Favorites"
+    @songs = current_user.likes.includes(:song).map(&:song)
+
+    render :layout => false, :template => "visualizer"
+  end
+
+  def comments
+    refuse_access and return unless current_user
+
+    @title = "My Comments"
+    @comments = current_user.comments.includes(:mixtape)
   end
 
 private

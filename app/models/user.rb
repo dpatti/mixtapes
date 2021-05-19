@@ -1,7 +1,7 @@
 require 'gravatar'
 
 class User < ActiveRecord::Base
-  has_one :mixtape
+  has_many :mixtapes
   has_many :comments
   has_many :likes
   has_many :guesses
@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
     mixtape.user_id == id
   end
 
+  def mixtape_for(contest)
+    Mixtape.where(user_id: id, contest_id: contest.id).first
+  end
+
   def likes?(song)
     likes.any? {|l| l.song_id == song.id}
   end
@@ -34,7 +38,7 @@ class User < ActiveRecord::Base
   end
 
   def active?
-    if mixtape && !mixtape.songs.empty?
+    if mixtapes.any? {|mixtape| !mixtape.songs.empty? }
       return true
     end
 

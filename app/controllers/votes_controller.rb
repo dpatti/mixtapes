@@ -2,7 +2,8 @@ class VotesController < ApplicationController
   def show
     head :not_found and return unless current_user
 
-    votes = current_user.votes.all.group_by(&:award)
+    @contest = Contest.find(params[:contest_id])
+    votes = @contest.votes.for(current_user).group_by(&:award)
     Award.all.each do |award|
       votes[award] ||= [current_user.votes.new(:award_id => award.id)]
     end
@@ -10,8 +11,10 @@ class VotesController < ApplicationController
   end
 
   def update
+    contest = Contest.find(params[:contest_id])
+
     head :not_found and return unless current_user
-    head :forbidden and return unless contest_in_progress
+    head :forbidden and return unless contest.in_progress?
 
     current_vote = current_user.votes.where(:award_id => params[:vote][:award_id]).first
     current_vote ||= current_user.votes.new(vote_params)
